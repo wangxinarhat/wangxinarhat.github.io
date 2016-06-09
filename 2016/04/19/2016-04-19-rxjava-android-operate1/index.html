@@ -1,0 +1,894 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="rxjava,android," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="最近学习了RxJava在android中的使用，关于RxJava是啥，为什么要用RxJava，好在哪，这里就不叙述了，如果想要了解请移步官方文档、大神文章。 这里只讲解一下RxJava中的操作符在项目中具体的使用场景。因为学习了有20个操作符，可能一篇文章过于臃肿，所以打算写成系列文章，本文中所有操作符的使用，都写在了一个demo中，已上传至github
+
+场景一：RxJava基本使用配合Ret">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RxJava操作符在android中的使用场景详解（一）">
+<meta property="og:url" content="http://yoursite.com/2016/04/19/2016-04-19-rxjava-android-operate1/index.html">
+<meta property="og:site_name" content="wangxinarhat's blog">
+<meta property="og:description" content="最近学习了RxJava在android中的使用，关于RxJava是啥，为什么要用RxJava，好在哪，这里就不叙述了，如果想要了解请移步官方文档、大神文章。 这里只讲解一下RxJava中的操作符在项目中具体的使用场景。因为学习了有20个操作符，可能一篇文章过于臃肿，所以打算写成系列文章，本文中所有操作符的使用，都写在了一个demo中，已上传至github
+
+场景一：RxJava基本使用配合Ret">
+<meta property="og:image" content="http://yoursite.com/img/rx/rx-zip.jpg">
+<meta property="og:image" content="http://yoursite.com/img/rx/rx-combine.gif">
+<meta property="og:updated_time" content="2016-05-03T12:09:14.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="RxJava操作符在android中的使用场景详解（一）">
+<meta name="twitter:description" content="最近学习了RxJava在android中的使用，关于RxJava是啥，为什么要用RxJava，好在哪，这里就不叙述了，如果想要了解请移步官方文档、大神文章。 这里只讲解一下RxJava中的操作符在项目中具体的使用场景。因为学习了有20个操作符，可能一篇文章过于臃肿，所以打算写成系列文章，本文中所有操作符的使用，都写在了一个demo中，已上传至github
+
+场景一：RxJava基本使用配合Ret">
+<meta name="twitter:image" content="http://yoursite.com/img/rx/rx-zip.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2016/04/19/2016-04-19-rxjava-android-operate1/"/>
+
+  <title> RxJava操作符在android中的使用场景详解（一） | wangxinarhat's blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">wangxinarhat's blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">王鑫的博客</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                RxJava操作符在android中的使用场景详解（一）
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-04-19T22:00:00+08:00" content="2016-04-19">
+              2016-04-19
+            </time>
+          </span>
+
+          
+
+          
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>最近学习了RxJava在android中的使用，关于RxJava是啥，为什么要用RxJava，好在哪，这里就不叙述了，如果想要了解请移步<a href="http://reactivex.io/" target="_blank" rel="external">官方文档</a>、<a href="http://gank.io/post/560e15be2dca930e00da1083" target="_blank" rel="external">大神文章</a>。 <br><br>这里只讲解一下RxJava中的操作符在项目中具体的使用场景。<br><br>因为学习了有20个操作符，可能一篇文章过于臃肿，所以打算写成系列文章，本文中所有操作符的使用，都写在了一个demo中，已上传至<a href="https://github.com/wangxinarhat/RxAndroidSamples" target="_blank" rel="external">github</a></p>
+</blockquote>
+<h2 id="场景一：RxJava基本使用"><a href="#场景一：RxJava基本使用" class="headerlink" title="场景一：RxJava基本使用"></a>场景一：RxJava基本使用</h2><p>配合Retrofit请求网络数据，如果你对Retrofit不熟悉就先看<a href="http://square.github.io/retrofit/" target="_blank" rel="external">Retrofit官网</a>，实现步骤如下：</p>
+<ol>
+<li>先是build.gradle的配置<br> <pre><code><br> compile ‘io.reactivex:rxandroid:1.1.0’<br> compile ‘io.reactivex:rxjava:1.1.0’<br> compile ‘com.squareup.retrofit2:retrofit:2.0.0-beta3’<br> compile ‘com.squareup.retrofit2:adapter-rxjava:2.0.0-beta3’<br> compile ‘com.squareup.retrofit2:converter-gson:2.0.0-beta3’5<br> compile ‘com.jakewharton:butterknife:7.0.1’<br> </code></pre><br> <br>也就是说本文是基于RxJava1.1.0和Retrofit 2.0.0-beta3来进行的。添加rxandroid是因为rxjava中的线程问题。</li>
+<li>基本网络请求使用准备<br> <br>我们使用<a href="http://zhuangbi.info/search?q=param测试连接，返回的是json格式，代码就不贴了。接下来我们要创建一个接口取名为ZhuangbiApi，代码如下：" target="_blank" rel="external">http://zhuangbi.info/search?q=param测试连接，返回的是json格式，代码就不贴了。接下来我们要创建一个接口取名为ZhuangbiApi，代码如下：</a><br> <pre><code><br> public interface ZhuangbiApi {<pre><code>@GET(&quot;search&quot;)
+Observable&lt;List&lt;ImageInfoBean&gt;&gt; search(@Query(&quot;q&quot;) String query);
+</code></pre> }<br> </code></pre><br> <br>Retrofit、Gson、RxJava结合使用，建立网络请求类：<br> <pre><code><br>  public static ZhuangbiApi getZhuangbiApi() {<pre><code>    if (zhuangbiApi == null) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .client(okHttpClient)
+                .baseUrl(&quot;http://zhuangbi.info/&quot;)
+                .addConverterFactory(gsonConverterFactory)
+                .addCallAdapterFactory(rxJavaCallAdapterFactory)
+                .build();
+        zhuangbiApi = retrofit.create(ZhuangbiApi.class);
+    }
+    return zhuangbiApi;
+}
+</code></pre> </code></pre></li>
+<li><p>具体使用<br> <br>将要查询的关键字传进去，使用上面建立的网络请求类请求数据，并在订阅者的回调方法中，进行网络请求结果的处理<br> <pre><code><br>  private void search(String key) {    </code></pre></p>
+<pre><code>subscription = Network.getZhuangbiApi()
+        .search(key)
+        .subscribeOn(Schedulers.io())
+        .observeOn(AndroidSchedulers.mainThread())
+        .subscribe(getObserver());
+}        
+</code></pre><p> private Observer&lt;? super List<imageinfobean>&gt; getObserver() {</imageinfobean></p>
+<pre><code>if (null == observer) {
+    observer = new Observer&lt;List&lt;ImageInfoBean&gt;&gt;() {
+        @Override
+        public void onCompleted() {
+
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            swipeRefreshLayout.setRefreshing(false);
+            Toast.makeText(getActivity(), R.string.loading_failed, Toast.LENGTH_SHORT).show();
+        }
+</code></pre></li>
+</ol>
+<pre><code>            @Override
+            public void onNext(List&lt;ImageInfoBean&gt; images) {
+
+                swipeRefreshLayout.setRefreshing(false);
+                adapter.setImages(images);
+            }
+        };
+    }
+
+    return observer;
+}    
+&lt;/pre&gt;&lt;/code&gt;  
+</code></pre><ol>
+<li>详解<br><br>search方法中传入的key是要查询的关键词，getObserver()是获取订阅者对象，并在其回调方法中根据返回结果，做相应处理：<ul>
+<li>其中onNext方法返回了数据，这样我们能够在onNext里面处理数据相关的逻辑；</li>
+<li>onError方法中处理错误，同时也可以停止ProgressDialog等；</li>
+<li>onComplated只调用一次结束本次请求操作，也可以停止ProgressDialog；</li>
+</ul>
+</li>
+</ol>
+<h2 id="场景二：Map操作符的使用（变换）"><a href="#场景二：Map操作符的使用（变换）" class="headerlink" title="场景二：Map操作符的使用（变换）"></a>场景二：Map操作符的使用（变换）</h2><p>对Observable发射的每一项数据应用一个函数，执行变换为指定类型的操作，然后再发射。</p>
+<p>有些服务端的接口设计，会在返回的数据外层包裹一些额外信息，这些信息对于调试很有用，但本地显示是用不到的。使用 map() 可以把外层的格式剥掉，只留下我们只关心的部分，具体实现步骤如下：</p>
+<ol>
+<li><p>网络请求使用准备<br> <br>我们使用<a href="http://gank.io/api/测试连接" target="_blank" rel="external">http://gank.io/api/测试连接</a><br> <br>接下来我们要创建一个接口取名为GankApi ，代码如下：</p>
+<p> <pre><code><br> public interface GankApi {</code></pre></p>
+<pre><code>@GET(&quot;data/福利/{number}/{page}&quot;)
+Observable&lt;BeautyResult&gt; getBeauties(@Path(&quot;number&quot;) int number, @Path(&quot;page&quot;) int page);
+</code></pre><p> }    </p>
+<p> <br> <br>Retrofit、Gson、RxJava结合使用，建立网络请求类：<br> <pre><code><br>  public static GankApi getGankApi() {</code></pre></p>
+<pre><code>    if (gankApi == null) {
+        Retrofit retrofit = new Retrofit.Builder()
+                .client(okHttpClient)
+                .baseUrl(&quot;http://gank.io/api/&quot;)
+                .addConverterFactory(gsonConverterFactory)
+                .addCallAdapterFactory(rxJavaCallAdapterFactory)
+                .build();
+        gankApi = retrofit.create(GankApi.class);
+    }
+    return gankApi;
+}
+</code></pre><p> </p>
+</li>
+<li>数据转换<br> <br>返回数据就不贴了，有兴趣可以请求接口看一下。<br> <br>接口返回的数据包含了一些额外的信息，但是我们只需要返回数据中的list部分，所以创建一个类，来实现数据转换的功能，代码如下：<br> <pre><code><br> public class BeautyResult2Beautise implements Func1<beautyresult, list<imageinfobean="">&gt; {</beautyresult,></code></pre></li>
+</ol>
+<pre><code>    public static BeautyResult2Beautise newInstance() {
+        return new BeautyResult2Beautise();
+    }
+
+
+    /**
+     * 将接口返回的BeautyResult数据中的list部分提取出来，返回集合List&lt;ImageInfoBean&gt;
+     * @param beautyResult
+     * @return
+     */
+    @Override
+    public List&lt;ImageInfoBean&gt; call(BeautyResult beautyResult) {
+
+        List&lt;ImageInfoBean&gt; imageInfoBeanList = new ArrayList&lt;&gt;(beautyResult.results.size());
+
+        for (ImageInfoBean bean : beautyResult.results) {
+            ImageInfoBean imageInfoBean = new ImageInfoBean();
+
+            imageInfoBean.description = bean.desc;
+
+            imageInfoBean.image_url = bean.url;
+
+            imageInfoBeanList.add(imageInfoBean);
+
+        }
+
+        return imageInfoBeanList;
+    }
+}    
+&lt;/pre&gt;&lt;/code&gt;
+</code></pre><ol>
+<li><p>操作符的使用<br> <br>加载数据<br> <pre><code><br> /**</code></pre></p>
+<pre><code> * 加载数据的方法
+ * @param page
+ */
+private void loadPage(int page) {
+    mSwipeRefreshLayout.setRefreshing(true);
+    unsubscribe();
+    subscription = Network.getGankApi()
+            .getBeauties(8, page)
+            .map(BeautyResult2Beautise.newInstance())
+            .subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(getObserver());
+}
+</code></pre><p> <br> <br>订阅者<br> <pre><code><br> /**</code></pre></p>
+<pre><code> * 获取订阅者
+ * @return
+ */
+private Observer&lt;? super List&lt;ImageInfoBean&gt;&gt; getObserver() {
+
+    if (null == observer) {
+        observer = new Observer&lt;List&lt;ImageInfoBean&gt;&gt;() {
+            @Override
+            public void onCompleted() {
+                mSwipeRefreshLayout.setRefreshing(false);
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                mSwipeRefreshLayout.setRefreshing(false);
+
+                Toast.makeText(getActivity(), R.string.loading_failed, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNext(List&lt;ImageInfoBean&gt; images) {
+                adapter.setImages(images);
+            }
+        };
+    }
+</code></pre></li>
+</ol>
+<pre><code>        return observer;
+    }    
+&lt;/pre&gt;&lt;/code&gt;
+</code></pre><ol>
+<li>详解<br> <br>Map操作符对Observable发射的每一项数据应用一个函数，执行变换操作，然后返回一个发射这些结果的Observable。<br> 本例中，接口返回的数据格式是：<br> <pre><code><br> public class BeautyResult {</code></pre></li>
+</ol>
+<pre><code>    public boolean error;
+
+    public List&lt;ImageInfoBean&gt; results;
+
+
+}
+&lt;/pre&gt;&lt;/code&gt;
+&lt;br/&gt;但是我们只关心list部分的数据，所以进行转换操作，这样订阅者回调方法中拿到的数据直接进行使用就好了
+</code></pre><h2 id="场景三：Zip操作符的使用（结合）"><a href="#场景三：Zip操作符的使用（结合）" class="headerlink" title="场景三：Zip操作符的使用（结合）"></a>场景三：Zip操作符的使用（结合）</h2><p>通过一个函数将多个Observables的发射物结合到一起，基于这个函数的结果为每个结合体发射单个数据项，具体实现步骤如下：</p>
+<ol>
+<li><p>网络请求装备<br><br>网络请求Api，以及请求类，还是使用场景一、二中的创建好的。</p>
+</li>
+<li><p>请求数据，并结合，代码如下：<br><pre><code><br> /**</code></pre></p>
+<pre><code> * 请求两个接口，对返回的数据进行结合
+ */
+private void load() {
+
+    swipeRefreshLayout.setRefreshing(true);
+    subscription = Observable.zip(Network.getGankApi().getBeauties(188, 1).map(BeautyResult2Beautise.newInstance()),
+            Network.getZhuangbiApi().search(&quot;装逼&quot;),
+            new Func2&lt;List&lt;ImageInfoBean&gt;, List&lt;ImageInfoBean&gt;, List&lt;ImageInfoBean&gt;&gt;() {
+                @Override
+                public List&lt;ImageInfoBean&gt; call(List&lt;ImageInfoBean&gt; imageInfoBeen, List&lt;ImageInfoBean&gt; imageInfoBeen2) {
+
+                    int num = imageInfoBeen.size() &lt; imageInfoBeen2.size() ? imageInfoBeen.size() : imageInfoBeen2.size();
+                    List&lt;ImageInfoBean&gt; list = new ArrayList&lt;&gt;();
+                    for (int i = 0; i &lt; num; i++) {
+
+                        list.add(imageInfoBeen.get(i));
+                        list.add(imageInfoBeen2.get(i));
+
+                    }
+
+                    return list;
+                }
+            }).subscribeOn(Schedulers.io())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(getObserver());
+}    
+</code></pre><p>    </p>
+</li>
+<li><p>详解<br><br>请求GankApi中的数据使用map操作符进行转换，取出自己想要的list数据，然后结合ZhuangbiApi中的数据，形成新的数据集合，填充到view。</p>
+<p><br>Zip操作符使用函数按顺序结合多个Observables发射的数据项，然后它发射这个函数返回的结果，它只发射与数据项最少的那个Observable一样多的数据。</p>
+<p><br>一般app中同一个界面有时会需要同时访问不同接口，然后将结果糅合后转为统一的格式后输出（例如将第三方广告 API 的广告夹杂进自家平台返回的数据 List 中）。这种并行的异步处理比较麻烦，不过用了 zip() 之后就会简单明了。<br><br>上一个效果图：<br><img src="/img/rx/rx-zip.jpg" alt="img"><br><br>可以看出，recyclerView中使用了一个数据集合，但左侧的一列展示的是GankApi中的数据，右侧一列展示的是ZhuangbiApi 中的数据。</p>
+</li>
+</ol>
+<h2 id="场景四：CombineLatest操作符的使用（结合）"><a href="#场景四：CombineLatest操作符的使用（结合）" class="headerlink" title="场景四：CombineLatest操作符的使用（结合）"></a>场景四：CombineLatest操作符的使用（结合）</h2><p>结合多个Observable发射的最近数据项，当原始Observables的任何一个发射了一条数据时，CombineLatest使用一个函数结合它们最近发射的数据，然后发射这个函数的返回值，具体实现步骤如下：</p>
+<ol>
+<li>使用场景，用一个简单明了的图片来表示吧<br><br><img src="/img/rx/rx-combine.gif" alt="img"></li>
+<li><p>上图简单演示了CombineLatest的使用场景，看代码吧：<br><pre><code><br> /**</code></pre></p>
+<pre><code> * 将3个EditText的事件进行结合
+ */
+private void combineLatestEvent() {
+
+    usernameObservable = RxTextView.textChanges(mUsername).skip(1);
+    emailObservable = RxTextView.textChanges(mEmail).skip(1);
+    passwordObservable = RxTextView.textChanges(mPassword).skip(1);
+
+    subscription = Observable.combineLatest(usernameObservable, emailObservable, passwordObservable,
+            new Func3&lt;CharSequence, CharSequence, CharSequence, Boolean&gt;() {
+                @Override
+                public Boolean call(CharSequence userName, CharSequence email, CharSequence password) {
+
+                    boolean isUserNameValid = !TextUtils.isEmpty(userName) &amp;&amp; (userName.toString().length() &gt; 2 &amp;&amp; userName.toString().length() &lt; 9);
+
+                    if (!isUserNameValid) {
+                        mUsername.setError(&quot;用户名无效&quot;);
+                    }
+</code></pre></li>
+</ol>
+<pre><code>                        boolean isEmailValid = !TextUtils.isEmpty(email) &amp;&amp; Patterns.EMAIL_ADDRESS.matcher(email).matches();
+
+                        if (!isEmailValid) {
+                            mEmail.setError(&quot;邮箱无效&quot;);
+                        }
+
+                        boolean isPasswordValid = !TextUtils.isEmpty(password) &amp;&amp; (password.toString().length() &gt; 6 &amp;&amp; password.toString().length() &lt; 11);
+
+                        if (!isPasswordValid) {
+                            mPassword.setError(&quot;密码无效&quot;);
+                        }
+
+
+                        return isUserNameValid &amp;&amp; isEmailValid &amp;&amp; isPasswordValid;
+                    }
+                })
+                .subscribe(getObserver());
+    }
+
+
+/**
+     * 获取订阅者
+     * @return
+     */
+    private Observer&lt;Boolean&gt; getObserver() {
+        return new Observer&lt;Boolean&gt;() {
+            @Override
+            public void onCompleted() {
+
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onNext(Boolean aBoolean) {
+                //更改注册按钮是否可用的状态
+                mButton.setEnabled(aBoolean);
+            }
+        };
+    }
+
+&lt;/pre&gt;&lt;/code&gt;   
+</code></pre><ol>
+<li><p>详解<br><br>CombineLatest操作符行为类似于zip，但是只有当原始的Observable中的每一个都发射了一条数据时zip才发射数据。</p>
+<p><br>CombineLatest则在原始的Observable中任意一个发射了数据时发射一条数据。</p>
+<p><br>当原始Observables的任何一个发射了一条数据时，CombineLatest使用一个函数结合它们最近发射的数据，然后发射这个函数的返回值。</p>
+<p><br>本例中，含用户名、邮箱、密码、注册按钮的注册页面的场景非常常见，当然可以使用普通的处理方式能够达成，注册按钮的是否可用更改的效果，以及输入是否合法的及时提示。</p>
+<p><br>但是使用RxJava的方式，代码明显简洁、易懂。</p>
+</li>
+</ol>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p><br>虽然，上面四个使用场景主要介绍四个操作符的使用，但其实demo中穿插了不少其他操作符的使用，想要详细了解的话，代码在<a href="https://github.com/wangxinarhat/RxAndroidSamples" target="_blank" rel="external">这里</a>。</p>
+<p><br>暂时先写到这里，后面会把其他自己学会的的操作符，写成系列文章。如有兴趣，请关注我的<a href="https://github.com/wangxinarhat" target="_blank" rel="external">github</a>。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/rxjava/" rel="tag">#rxjava</a>
+          
+            <a href="/tags/android/" rel="tag">#android</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/03/18/2016-03-18-meterial-design-search-view/" rel="next" title="Material Design风格SearchView实现">
+                <i class="fa fa-chevron-left"></i> Material Design风格SearchView实现
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/05/01/2016-05-01-rxjava-android-operate2/" rel="prev" title="RxJava操作符在android中的使用场景详解（二）">
+                RxJava操作符在android中的使用场景详解（二） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="wangxinarhat" />
+          <p class="site-author-name" itemprop="name">wangxinarhat</p>
+          <p class="site-description motion-element" itemprop="description">The World As I See It</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">5</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#场景一：RxJava基本使用"><span class="nav-number">1.</span> <span class="nav-text">场景一：RxJava基本使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#场景二：Map操作符的使用（变换）"><span class="nav-number">2.</span> <span class="nav-text">场景二：Map操作符的使用（变换）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#场景三：Zip操作符的使用（结合）"><span class="nav-number">3.</span> <span class="nav-text">场景三：Zip操作符的使用（结合）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#场景四：CombineLatest操作符的使用（结合）"><span class="nav-number">4.</span> <span class="nav-text">场景四：CombineLatest操作符的使用（结合）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#小结"><span class="nav-number">5.</span> <span class="nav-text">小结</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">wangxinarhat</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>

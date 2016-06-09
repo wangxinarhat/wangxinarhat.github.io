@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="Toolbar,SearchView,google play,知乎," />
 
 
 
@@ -84,19 +84,18 @@
 
 
 
-<meta name="description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick">
+<meta name="description" content="项目里要做一个对列表内容的筛选，想到了知乎以及google play的效果，确定了是用Toolbar、SearchView、RecyclerView实现Toolbar不用多说，如有不懂我也上传到了githubRecycler我之前也写过Demo，同样上传到了github难搞的是SearchView，毕竟现在都流行Material Design了嘛，自带的那个效果实在不敢恭维，网上搜了下，已有大神">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hello World">
-<meta property="og:url" content="http://yoursite.com/2016/06/09/hello-world/index.html">
+<meta property="og:title" content="Material Design风格SearchView实现">
+<meta property="og:url" content="http://yoursite.com/2016/03/18/2016-03-18-meterial-design-search-view/index.html">
 <meta property="og:site_name" content="wangxinarhat's blog">
-<meta property="og:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick">
-<meta property="og:updated_time" content="2016-06-09T02:01:35.923Z">
+<meta property="og:description" content="项目里要做一个对列表内容的筛选，想到了知乎以及google play的效果，确定了是用Toolbar、SearchView、RecyclerView实现Toolbar不用多说，如有不懂我也上传到了githubRecycler我之前也写过Demo，同样上传到了github难搞的是SearchView，毕竟现在都流行Material Design了嘛，自带的那个效果实在不敢恭维，网上搜了下，已有大神">
+<meta property="og:image" content="http://yoursite.com/img/ui/search-view1.gif">
+<meta property="og:updated_time" content="2016-05-04T04:50:20.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hello World">
-<meta name="twitter:description" content="Welcome to Hexo! This is your very first post. Check documentation for more info. If you get any problems when using Hexo, you can find the answer in troubleshooting or you can ask me on GitHub.
-Quick">
+<meta name="twitter:title" content="Material Design风格SearchView实现">
+<meta name="twitter:description" content="项目里要做一个对列表内容的筛选，想到了知乎以及google play的效果，确定了是用Toolbar、SearchView、RecyclerView实现Toolbar不用多说，如有不懂我也上传到了githubRecycler我之前也写过Demo，同样上传到了github难搞的是SearchView，毕竟现在都流行Material Design了嘛，自带的那个效果实在不敢恭维，网上搜了下，已有大神">
+<meta name="twitter:image" content="http://yoursite.com/img/ui/search-view1.gif">
 
 
 
@@ -117,9 +116,9 @@ Quick">
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2016/06/09/hello-world/"/>
+  <link rel="canonical" href="http://yoursite.com/2016/03/18/2016-03-18-meterial-design-search-view/"/>
 
-  <title> Hello World | wangxinarhat's blog </title>
+  <title> Material Design风格SearchView实现 | wangxinarhat's blog </title>
 </head>
 
 <body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
@@ -269,7 +268,7 @@ Quick">
             
             
               
-                Hello World
+                Material Design风格SearchView实现
               
             
           </h1>
@@ -281,8 +280,8 @@ Quick">
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">发表于</span>
-            <time itemprop="dateCreated" datetime="2016-06-09T10:01:35+08:00" content="2016-06-09">
-              2016-06-09
+            <time itemprop="dateCreated" datetime="2016-03-18T23:00:00+08:00" content="2016-03-18">
+              2016-03-18
             </time>
           </span>
 
@@ -309,15 +308,148 @@ Quick">
       
 
       
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
+        <blockquote>
+<p>项目里要做一个对列表内容的筛选，想到了知乎以及google play的效果，确定了是用Toolbar、SearchView、RecyclerView实现<br><br><em>Toolbar</em>不用多说，如有不懂我也上传到了<a href="https://github.com/wangxinarhat/MaterialDesignComprehensiveSamples.git" target="_blank" rel="external">github</a><br><br><em>Recycler</em>我之前也写过Demo，同样上传到了<a href="https://github.com/wangxinarhat/MaterialDesignComprehensiveSamples.git" target="_blank" rel="external">github</a><br><br>难搞的是<em>SearchView</em>，毕竟现在都流行<em>Material Design</em>了嘛，自带的那个效果实在不敢恭维，网上搜了下，已有大神实现了MaterialDesign效果的SearchView，所以拿来用咯</p>
+</blockquote>
+<h2 id="效果"><a href="#效果" class="headerlink" title="效果"></a>效果</h2><p><img src="/img/ui/search-view1.gif" alt="img"></p>
+<h2 id="代码-已上传至github"><a href="#代码-已上传至github" class="headerlink" title="代码(已上传至github)"></a>代码(<a href="https://github.com/wangxinarhat/RecyclerViewFilterDemo.git" target="_blank" rel="external">已上传至github</a>)</h2><ol>
+<li><p>初始化操作<br> <pre><code><br> @Override<br> protected void onCreate(Bundle savedInstanceState) {</code></pre></p>
+<pre><code>super.onCreate(savedInstanceState);
+setContentView(R.layout.activity_main);
+
+ButterKnife.bind(this);
+
+initView();
+</code></pre><p> }</p>
+</li>
+</ol>
+<pre><code>private void initView() {
+
+    initToolBar();
+    initRecyclerView();
+    initSearchView();
+
+}
+
+
+/**
+ * init Toolbar
+ */
+private void initToolBar() {
+    setSupportActionBar(toolbar);
+    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    getSupportActionBar().setHomeButtonEnabled(true);
+    getSupportActionBar().setDisplayShowTitleEnabled(false);
+}
+
+
+/**
+ * init RecyclerView
+ */
+private void initRecyclerView() {
+
+    LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+    recyclerView.setLayoutManager(layoutManager);
+
+    mPeopleList = new ArrayList&lt;&gt;();
+
+    String[] peopleName = {&quot;Kaka&quot;, &quot;Modric&quot;, &quot;Rooney&quot;, &quot;Ibla&quot;, &quot;Bale&quot;, &quot;死神&quot;, &quot;Maurice Moss&quot;, &quot;Roy Trenneman&quot;, &quot;林夕&quot;, &quot;sina&quot;, &quot;google&quot;, &quot;ecust&quot;};
+    String[] peopleDes = {&quot;The best player&quot;, &quot;莫德里奇是最好的后腰&quot;, &quot;鲁尼踢得不好&quot;, &quot;伊贝拉是谁？&quot;, &quot;贝尔跑得真快&quot;, &quot;Aaron&quot;, &quot;Oh, four, I mean five, I mean fire!&quot;, &quot;哈哈&quot;, &quot;是个艺术家&quot;, &quot;weibo&quot;, &quot;android&quot;, &quot;china&quot;};
+
+    for (int i = 0; i &lt; peopleName.length; i++) {
+        mPeopleList.add(new People(peopleName[i], peopleDes[i]));
+    }
+
+    mAdapter = new SearchPeopleAdapter(mPeopleList);
+    recyclerView.setAdapter(mAdapter);
+    HeaderAdapter headerAdapter = new HeaderAdapter(mAdapter);
+
+    recyclerView.setAdapter(headerAdapter);
+    recyclerView.addOnItemTouchListener(new RecyclerOnItemClickListener(this, recyclerView, this));
+
+
+}
+
+/**
+ * init SearchView
+ */
+private void initSearchView() {
+
+    searchView.setVoiceSearch(false);
+    searchView.setCursorDrawable(R.drawable.custom_cursor);
+    searchView.setEllipsize(true);
+    searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
+        @Override
+        public boolean onQueryTextSubmit(String query) {
+
+            return true;
+        }
+
+        @Override
+        public boolean onQueryTextChange(String newText) {
+            final List&lt;People&gt; filteredModelList = filter(mPeopleList, newText);
+
+            //reset
+            mAdapter.setFilter(filteredModelList);
+            mAdapter.animateTo(filteredModelList);
+            recyclerView.scrollToPosition(0);
+            return true;
+        }
+    });
+
+    searchView.setOnSearchViewListener(new MaterialSearchView.SearchViewListener() {
+        @Override
+        public void onSearchViewShown() {
+        }
+
+        @Override
+        public void onSearchViewClosed() {
+            mAdapter.setFilter(mPeopleList);
+        }
+    });
+
+}
+
+
+ /**
+ * 搜索按钮
+ *
+ * @param menu
+ * @return
+ */
+@Override
+public boolean onCreateOptionsMenu(Menu menu) {
+
+    getMenuInflater().inflate(R.menu.menu_search, menu);
+    MenuItem item = menu.findItem(R.id.action_search);
+    searchView.setMenuItem(item);
+
+    return true;
+}
+&lt;/pre&gt;&lt;/code&gt;
+</code></pre><ol>
+<li><p>筛选逻辑</p>
+<p> <pre><code><br> /**</code></pre></p>
+<ul>
+<li>筛选逻辑</li>
+<li>@param peoples</li>
+<li>@param query</li>
+<li><p>@return<br>*/<br>private List<people> filter(List<people> peoples, String query) {<br> query = query.toLowerCase();</people></people></p>
+<p> final List<people> filteredModelList = new ArrayList&lt;&gt;();<br> for (People people : peoples) {</people></p>
+<pre><code>final String nameEn = people.getName().toLowerCase();
+final String desEn = people.getDescription().toLowerCase();
+final String name = people.getName();
+final String des = people.getDescription();
+
+if (name.contains(query) || des.contains(query) || nameEn.contains(query) || desEn.contains(query)) {
+
+    filteredModelList.add(people);
+}
+</code></pre><p> }<br> return filteredModelList;<br>}<br></p>
+</li>
+</ul>
+</li>
+</ol>
 
       
     </div>
@@ -337,18 +469,30 @@ Quick">
 
     <footer class="post-footer">
       
+        <div class="post-tags">
+          
+            <a href="/tags/Toolbar/" rel="tag">#Toolbar</a>
+          
+            <a href="/tags/SearchView/" rel="tag">#SearchView</a>
+          
+            <a href="/tags/google-play/" rel="tag">#google play</a>
+          
+            <a href="/tags/知乎/" rel="tag">#知乎</a>
+          
+        </div>
+      
 
       
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/05/08/2016-05-08-leicester-city-champion/" rel="next" title="莱斯特城，书写足球世界最美童话">
-                <i class="fa fa-chevron-left"></i> 莱斯特城，书写足球世界最美童话
-              </a>
-            
           </div>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/04/19/2016-04-19-rxjava-android-operate1/" rel="prev" title="RxJava操作符在android中的使用场景详解（一）">
+                RxJava操作符在android中的使用场景详解（一） <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -455,7 +599,7 @@ Quick">
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Quick-Start"><span class="nav-number">1.</span> <span class="nav-text">Quick Start</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Create-a-new-post"><span class="nav-number">1.1.</span> <span class="nav-text">Create a new post</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Run-server"><span class="nav-number">1.2.</span> <span class="nav-text">Run server</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Generate-static-files"><span class="nav-number">1.3.</span> <span class="nav-text">Generate static files</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Deploy-to-remote-sites"><span class="nav-number">1.4.</span> <span class="nav-text">Deploy to remote sites</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#效果"><span class="nav-number">1.</span> <span class="nav-text">效果</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#代码-已上传至github"><span class="nav-number">2.</span> <span class="nav-text">代码(已上传至github)</span></a></li></ol></div>
             
           </div>
         </section>
