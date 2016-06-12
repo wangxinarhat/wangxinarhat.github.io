@@ -5,7 +5,7 @@
   
 
 
-<html class="theme-next pisces use-motion">
+<html class="theme-next mist use-motion">
 <head>
   <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
@@ -94,22 +94,22 @@
 <meta property="og:description" content="最近学习了RxJava在android中的使用，关于RxJava是啥，为什么要用RxJava，好在哪，这里就不叙述了，如果想要了解请移步官方文档、大神文章。 这里只讲解一下RxJava中的操作符在项目中具体的使用场景。因为学习了有20个操作符，可能一篇文章过于臃肿，所以打算写成系列文章，本文中所有操作符的使用，都写在了一个demo中，已上传至github
 
 场景一：RxJava基本使用配合Ret">
-<meta property="og:image" content="http://yoursite.com/img/rx/rx-zip.jpg">
-<meta property="og:image" content="http://yoursite.com/img/rx/rx-combine.gif">
-<meta property="og:updated_time" content="2016-05-03T12:09:14.000Z">
+<meta property="og:image" content="http://yoursite.com/images/rx/rx-zip.jpg">
+<meta property="og:image" content="http://yoursite.com/images/rx/rx-combine.gif">
+<meta property="og:updated_time" content="2016-06-12T06:03:06.723Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="RxJava操作符在android中的使用场景详解（一）">
 <meta name="twitter:description" content="最近学习了RxJava在android中的使用，关于RxJava是啥，为什么要用RxJava，好在哪，这里就不叙述了，如果想要了解请移步官方文档、大神文章。 这里只讲解一下RxJava中的操作符在项目中具体的使用场景。因为学习了有20个操作符，可能一篇文章过于臃肿，所以打算写成系列文章，本文中所有操作符的使用，都写在了一个demo中，已上传至github
 
 场景一：RxJava基本使用配合Ret">
-<meta name="twitter:image" content="http://yoursite.com/img/rx/rx-zip.jpg">
+<meta name="twitter:image" content="http://yoursite.com/images/rx/rx-zip.jpg">
 
 
 
 <script type="text/javascript" id="hexo.configuration">
   var NexT = window.NexT || {};
   var CONFIG = {
-    scheme: 'Pisces',
+    scheme: 'Mist',
     sidebar: {"position":"right","display":"post"},
     fancybox: true,
     motion: true,
@@ -523,12 +523,12 @@ private void load() {
 </li>
 <li><p>详解<br><br>请求GankApi中的数据使用map操作符进行转换，取出自己想要的list数据，然后结合ZhuangbiApi中的数据，形成新的数据集合，填充到view。</p>
 <p><br>Zip操作符使用函数按顺序结合多个Observables发射的数据项，然后它发射这个函数返回的结果，它只发射与数据项最少的那个Observable一样多的数据。</p>
-<p><br>一般app中同一个界面有时会需要同时访问不同接口，然后将结果糅合后转为统一的格式后输出（例如将第三方广告 API 的广告夹杂进自家平台返回的数据 List 中）。这种并行的异步处理比较麻烦，不过用了 zip() 之后就会简单明了。<br><br>上一个效果图：<br><img src="/img/rx/rx-zip.jpg" alt="img"><br><br>可以看出，recyclerView中使用了一个数据集合，但左侧的一列展示的是GankApi中的数据，右侧一列展示的是ZhuangbiApi 中的数据。</p>
+<p><br>一般app中同一个界面有时会需要同时访问不同接口，然后将结果糅合后转为统一的格式后输出（例如将第三方广告 API 的广告夹杂进自家平台返回的数据 List 中）。这种并行的异步处理比较麻烦，不过用了 zip() 之后就会简单明了。<br><br>上一个效果图：<br><img src="/images/rx/rx-zip.jpg" alt="img"><br><br>可以看出，recyclerView中使用了一个数据集合，但左侧的一列展示的是GankApi中的数据，右侧一列展示的是ZhuangbiApi 中的数据。</p>
 </li>
 </ol>
 <h2 id="场景四：CombineLatest操作符的使用（结合）"><a href="#场景四：CombineLatest操作符的使用（结合）" class="headerlink" title="场景四：CombineLatest操作符的使用（结合）"></a>场景四：CombineLatest操作符的使用（结合）</h2><p>结合多个Observable发射的最近数据项，当原始Observables的任何一个发射了一条数据时，CombineLatest使用一个函数结合它们最近发射的数据，然后发射这个函数的返回值，具体实现步骤如下：</p>
 <ol>
-<li>使用场景，用一个简单明了的图片来表示吧<br><br><img src="/img/rx/rx-combine.gif" alt="img"></li>
+<li>使用场景，用一个简单明了的图片来表示吧<br><br><img src="/images/rx/rx-combine.gif" alt="img"></li>
 <li><p>上图简单演示了CombineLatest的使用场景，看代码吧：<br><pre><code><br> /**</code></pre></p>
 <pre><code> * 将3个EditText的事件进行结合
  */
@@ -614,7 +614,7 @@ private void combineLatestEvent() {
         
 <div id="wechat_subscriber" style="display: block； padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
     <img id="wechat_subscriber_qcode" src="/images/weixin-public.jpg" alt="wangxinarhat wechat" style="width: 200px; max-width: 100%;"/>
-    <div>subscribe to my blog by scanning my public wechat account</div>
+    <div>扫一扫上面的微信公众号，订阅我的博客</div>
 </div>
 
       
@@ -749,7 +749,7 @@ private void combineLatestEvent() {
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-count">3</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -758,7 +758,7 @@ private void combineLatestEvent() {
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-count">6</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -815,7 +815,7 @@ private void combineLatestEvent() {
 
         
         
-          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+          <div class="links-of-blogroll motion-element links-of-blogroll-block">
             <div class="links-of-blogroll-title">
               <i class="fa  fa-fw fa-globe"></i>
               Links
@@ -884,7 +884,7 @@ private void combineLatestEvent() {
 <div class="theme-info">
   主题 -
   <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
-    NexT.Pisces
+    NexT.Mist
   </a>
 </div>
 
@@ -949,13 +949,6 @@ private void combineLatestEvent() {
 
   
   
-
-
-  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
-
-  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
-
-
 
   
   <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>

@@ -5,7 +5,7 @@
   
 
 
-<html class="theme-next pisces use-motion">
+<html class="theme-next mist use-motion">
 <head>
   <meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
@@ -128,11 +128,11 @@ public class DataCache {
    */
   public List readData() {
       ...">
-<meta property="og:image" content="http://yoursite.com/img/rx/rx-behavior-subject.gif">
-<meta property="og:image" content="http://yoursite.com/img/rx/rx-retry-when.gif">
-<meta property="og:image" content="http://yoursite.com/img/rx/rx-debounce.gif">
-<meta property="og:image" content="http://yoursite.com/img/rx/rx-buffer.gif">
-<meta property="og:updated_time" content="2016-05-04T12:14:56.000Z">
+<meta property="og:image" content="http://yoursite.com/images/rx/rx-behavior-subject.gif">
+<meta property="og:image" content="http://yoursite.com/images/rx/rx-retry-when.gif">
+<meta property="og:image" content="http://yoursite.com/images/rx/rx-debounce.gif">
+<meta property="og:image" content="http://yoursite.com/images/rx/rx-buffer.gif">
+<meta property="og:updated_time" content="2016-06-12T06:03:06.739Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="RxJava操作符在android中的使用场景详解（二）">
 <meta name="twitter:description" content="最近比较忙，也没想好这个文章该怎么写下去。可能会比较水，不过做事不能虎头蛇尾，所以继续吧。
@@ -155,14 +155,14 @@ public class DataCache {
    */
   public List readData() {
       ...">
-<meta name="twitter:image" content="http://yoursite.com/img/rx/rx-behavior-subject.gif">
+<meta name="twitter:image" content="http://yoursite.com/images/rx/rx-behavior-subject.gif">
 
 
 
 <script type="text/javascript" id="hexo.configuration">
   var NexT = window.NexT || {};
   var CONFIG = {
-    scheme: 'Pisces',
+    scheme: 'Mist',
     sidebar: {"position":"right","display":"post"},
     fancybox: true,
     motion: true,
@@ -376,7 +376,7 @@ public class DataCache {
 <p>制作缓存</p>
 </blockquote>
 <ol>
-<li><p>效果图<br> <br><img src="/img/rx/rx-behavior-subject.gif" alt="img"></p>
+<li><p>效果图<br> <br><img src="/images/rx/rx-behavior-subject.gif" alt="img"></p>
 </li>
 <li><p>代码</p>
 <ul>
@@ -570,7 +570,7 @@ private Observer<list<imageinfobean>> getObserver() {
 <p>有的 token 并非一次性的，而是可以多次使用，直到它超时或被销毁（多数 token 都是这样的）。<br><br>这样的 token 处理起来比较麻烦：需要把它保存起来，并且在发现它失效的时候要能够自动重新获取新的 token 并继续访问之前由于 token 失效而失败的请求。<br><br>如果项目中有多处的接口请求都需要这样的自动修复机制，使用传统的 Callback 形式需要写出非常复杂的代码。<br><br>而使用 RxJava ，可以用 retryWhen() 来轻松地处理这样的问题。</p>
 </blockquote>
 <ol>
-<li><p>效果图<br> <br><img src="/img/rx/rx-retry-when.gif" alt="img"></p>
+<li><p>效果图<br> <br><img src="/images/rx/rx-retry-when.gif" alt="img"></p>
 </li>
 <li><p>Token API准备<br> <br>由于找不到足够简单的用于示例的 token API，以下API是代码伪造的</p>
 <p> <pre><code><br> /**</code></pre></p>
@@ -746,7 +746,7 @@ public class DataInfo {
 <p>实时搜索，如果在EditText中监听到字符改变就发起请求数据，明显不合适。<br><br>有了Debounce操作符，仅在过了指定的一段时间还没发射数据时才发射一个数据，Debounce操作符会过滤掉发射速率过快的数据项，优化网络请求</p>
 </blockquote>
 <ol>
-<li>效果图<br><br><img src="/img/rx/rx-debounce.gif" alt="img"></li>
+<li>效果图<br><br><img src="/images/rx/rx-debounce.gif" alt="img"></li>
 <li><p>代码<br> <br>配合jakewharton大神的rxbinding使用，获取可观察对象</p>
 <pre><code>
 @Override
@@ -810,7 +810,7 @@ private void log(String logMsg) {
 <p>定期收集Observable的数据放进一个数据包裹，然后发射这些数据包裹，而不是一次发射一个值。<br><br><br>这个操作符，我暂时还没有比较好的使用场景，不过既然是可以定期收集数据，那么应该可以做指定时间内点击次数等之类的统计。</p>
 </blockquote>
 <ol>
-<li>效果图<br><br><img src="/img/rx/rx-buffer.gif" alt="img"></li>
+<li>效果图<br><br><img src="/images/rx/rx-buffer.gif" alt="img"></li>
 <li><p>代码<br> <br>还是使用jakewharton大神的rxbinding，注册点击事件获取可观察对象     </p>
 <pre><code>
 @Override
@@ -845,7 +845,7 @@ public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         
 <div id="wechat_subscriber" style="display: block； padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
     <img id="wechat_subscriber_qcode" src="/images/weixin-public.jpg" alt="wangxinarhat wechat" style="width: 200px; max-width: 100%;"/>
-    <div>subscribe to my blog by scanning my public wechat account</div>
+    <div>扫一扫上面的微信公众号，订阅我的博客</div>
 </div>
 
       
@@ -980,7 +980,7 @@ public void onActivityCreated(@Nullable Bundle savedInstanceState) {
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-count">3</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -989,7 +989,7 @@ public void onActivityCreated(@Nullable Bundle savedInstanceState) {
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-count">6</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -1046,7 +1046,7 @@ public void onActivityCreated(@Nullable Bundle savedInstanceState) {
 
         
         
-          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+          <div class="links-of-blogroll motion-element links-of-blogroll-block">
             <div class="links-of-blogroll-title">
               <i class="fa  fa-fw fa-globe"></i>
               Links
@@ -1115,7 +1115,7 @@ public void onActivityCreated(@Nullable Bundle savedInstanceState) {
 <div class="theme-info">
   主题 -
   <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
-    NexT.Pisces
+    NexT.Mist
   </a>
 </div>
 
@@ -1180,13 +1180,6 @@ public void onActivityCreated(@Nullable Bundle savedInstanceState) {
 
   
   
-
-
-  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
-
-  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
-
-
 
   
   <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
