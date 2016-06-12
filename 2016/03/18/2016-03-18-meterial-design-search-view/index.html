@@ -91,7 +91,7 @@
 <meta property="og:site_name" content="wangxinarhat's blog">
 <meta property="og:description" content="项目里要做一个对列表内容的筛选，想到了知乎以及google play的效果，确定了是用Toolbar、SearchView、RecyclerView实现Toolbar不用多说，如有不懂我也上传到了githubRecycler我之前也写过Demo，同样上传到了github难搞的是SearchView，毕竟现在都流行Material Design了嘛，自带的那个效果实在不敢恭维，网上搜了下，已有大神">
 <meta property="og:image" content="http://yoursite.com/images/ui/search-view1.gif">
-<meta property="og:updated_time" content="2016-06-12T06:43:45.139Z">
+<meta property="og:updated_time" content="2016-06-12T07:31:55.559Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Material Design风格SearchView实现">
 <meta name="twitter:description" content="项目里要做一个对列表内容的筛选，想到了知乎以及google play的效果，确定了是用Toolbar、SearchView、RecyclerView实现Toolbar不用多说，如有不懂我也上传到了githubRecycler我之前也写过Demo，同样上传到了github难搞的是SearchView，毕竟现在都流行Material Design了嘛，自带的那个效果实在不敢恭维，网上搜了下，已有大神">
@@ -347,31 +347,26 @@
 
       
         <blockquote>
-<p>项目里要做一个对列表内容的筛选，想到了知乎以及google play的效果，确定了是用Toolbar、SearchView、RecyclerView实现<br><br><em>Toolbar</em>不用多说，如有不懂我也上传到了<a href="https://github.com/wangxinarhat/MaterialDesignComprehensiveSamples.git" target="_blank" rel="external">github</a><br><br><em>Recycler</em>我之前也写过Demo，同样上传到了<a href="https://github.com/wangxinarhat/MaterialDesignComprehensiveSamples.git" target="_blank" rel="external">github</a><br><br>难搞的是<em>SearchView</em>，毕竟现在都流行<em>Material Design</em>了嘛，自带的那个效果实在不敢恭维，网上搜了下，已有大神实现了MaterialDesign效果的SearchView，所以拿来用咯</p>
+<p>项目里要做一个对列表内容的筛选，想到了知乎以及google play的效果，确定了是用Toolbar、SearchView、RecyclerView实现<br><br><em>Toolbar</em>不用多说，如有不懂我也上传到了<a href="https://github.com/wangxinarhat/MaterialDesignSamples.git" target="_blank" rel="external">github</a><br><br><em>Recycler</em>我之前也写过Demo，同样上传到了<a href="https://github.com/wangxinarhat/MaterialDesignSamples.git" target="_blank" rel="external">github</a><br><br>难搞的是<em>SearchView</em>，毕竟现在都流行<em>Material Design</em>了嘛，自带的那个效果实在不敢恭维，网上搜了下，已有大神实现了MaterialDesign效果的SearchView，所以拿来用咯</p>
 </blockquote>
 <h2 id="效果"><a href="#效果" class="headerlink" title="效果"></a>效果</h2><p><img src="/images/ui/search-view1.gif" alt="img"></p>
 <a id="more"></a>
 <h2 id="代码-已上传至github"><a href="#代码-已上传至github" class="headerlink" title="代码(已上传至github)"></a>代码(<a href="https://github.com/wangxinarhat/RecyclerViewFilterDemo.git" target="_blank" rel="external">已上传至github</a>)</h2><ol>
-<li><p>初始化操作<br> <pre><code><br> @Override<br> protected void onCreate(Bundle savedInstanceState) {</code></pre></p>
+<li><p>初始化操作</p>
+<p> @Override<br> protected void onCreate(Bundle savedInstanceState) {</p>
 <pre><code>super.onCreate(savedInstanceState);
-setContentView(R.layout.activity_main);
-
-ButterKnife.bind(this);
-
+setContentView(R.layout.activity_main);    
+ButterKnife.bind(this);    
 initView();
+</code></pre><p> }   </p>
+<p> private void initView() {    </p>
+<pre><code>initToolBar();
+initRecyclerView();
+initSearchView();    
 </code></pre><p> }</p>
 </li>
 </ol>
-<pre><code>private void initView() {
-
-    initToolBar();
-    initRecyclerView();
-    initSearchView();
-
-}
-
-
-/**
+<pre><code>/**
  * init Toolbar
  */
 private void initToolBar() {
@@ -404,23 +399,19 @@ private void initRecyclerView() {
     HeaderAdapter headerAdapter = new HeaderAdapter(mAdapter);
 
     recyclerView.setAdapter(headerAdapter);
-    recyclerView.addOnItemTouchListener(new RecyclerOnItemClickListener(this, recyclerView, this));
-
-
+    recyclerView.addOnItemTouchListener(new RecyclerOnItemClickListener(this, recyclerView, this));   
 }
 
 /**
  * init SearchView
  */
-private void initSearchView() {
-
+private void initSearchView() {    
     searchView.setVoiceSearch(false);
     searchView.setCursorDrawable(R.drawable.custom_cursor);
     searchView.setEllipsize(true);
     searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
         @Override
-        public boolean onQueryTextSubmit(String query) {
-
+        public boolean onQueryTextSubmit(String query) {    
             return true;
         }
 
@@ -465,10 +456,9 @@ public boolean onCreateOptionsMenu(Menu menu) {
 
     return true;
 }
-&lt;/pre&gt;&lt;/code&gt;
 </code></pre><ol>
 <li><p>筛选逻辑</p>
-<p> <pre><code><br> /**</code></pre></p>
+<p> /**</p>
 <ul>
 <li>筛选逻辑</li>
 <li>@param peoples</li>
@@ -484,7 +474,7 @@ if (name.contains(query) || des.contains(query) || nameEn.contains(query) || des
 
     filteredModelList.add(people);
 }
-</code></pre><p> }<br> return filteredModelList;<br>}<br></p>
+</code></pre><p> }<br> return filteredModelList;<br>}</p>
 </li>
 </ul>
 </li>
@@ -515,7 +505,7 @@ if (name.contains(query) || des.contains(query) || nameEn.contains(query) || des
     <div id="QR" style="display: none;">
       
         <div id="wechat" style="display: inline-block">
-          <img id="wechat_qr" src="/images/reward/weixinpay.jpg" alt="wangxinarhat WeChat Pay"/>
+          <img id="wechat_qr" src="/images/reward/weixinpay.png" alt="wangxinarhat WeChat Pay"/>
           <p>微信打赏</p>
         </div>
       
@@ -550,6 +540,10 @@ if (name.contains(query) || des.contains(query) || nameEn.contains(query) || des
       
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
+            
+              <a href="/2015/06/19/2015-06-19-git-study-branch/" rel="next" title="Git分支 - 新建 合并">
+                <i class="fa fa-chevron-left"></i> Git分支 - 新建 合并
+              </a>
             
           </div>
 
@@ -632,7 +626,7 @@ if (name.contains(query) || des.contains(query) || nameEn.contains(query) || des
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">4</span>
+              <span class="site-state-item-count">6</span>
               <span class="site-state-item-name">日志</span>
             </a>
           </div>
@@ -640,7 +634,7 @@ if (name.contains(query) || des.contains(query) || nameEn.contains(query) || des
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-count">7</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -649,7 +643,7 @@ if (name.contains(query) || des.contains(query) || nameEn.contains(query) || des
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-count">15</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -690,7 +684,7 @@ if (name.contains(query) || des.contains(query) || nameEn.contains(query) || des
               </span>
             
               <span class="links-of-author-item">
-                <a href="hhttps://www.zhihu.com/people/wangxinarhat" target="_blank" title="知乎">
+                <a href="https://www.zhihu.com/people/wangxinarhat" target="_blank" title="知乎">
                   
                     <i class="fa fa-fw fa-globe"></i>
                   
