@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
   <title>wangxinarhat&#39;s blog</title>
-  <subtitle>王鑫的博客</subtitle>
+  <subtitle>王鑫</subtitle>
   <link href="/atom.xml" rel="self"/>
   
-  <link href="http://yoursite.com/"/>
+  <link href="http://wangxinarhat.com/"/>
   <updated>2016-06-12T06:45:28.879Z</updated>
-  <id>http://yoursite.com/</id>
+  <id>http://wangxinarhat.com/</id>
   
   <author>
     <name>wangxinarhat</name>
@@ -17,8 +17,8 @@
   
   <entry>
     <title>莱斯特城，书写足球世界最美童话</title>
-    <link href="http://yoursite.com/2016/05/08/2016-05-08-leicester-city-champion/"/>
-    <id>http://yoursite.com/2016/05/08/2016-05-08-leicester-city-champion/</id>
+    <link href="http://wangxinarhat.com/2016/05/08/2016-05-08-leicester-city-champion/"/>
+    <id>http://wangxinarhat.com/2016/05/08/2016-05-08-leicester-city-champion/</id>
     <published>2016-05-08T10:00:00.000Z</published>
     <updated>2016-06-12T06:45:28.879Z</updated>
     
@@ -60,25 +60,25 @@
     
     </summary>
     
-      <category term="football" scheme="http://yoursite.com/categories/football/"/>
+      <category term="football" scheme="http://wangxinarhat.com/categories/football/"/>
     
-      <category term="life" scheme="http://yoursite.com/categories/football/life/"/>
+      <category term="life" scheme="http://wangxinarhat.com/categories/football/life/"/>
     
     
-      <category term="Leicester" scheme="http://yoursite.com/tags/Leicester/"/>
+      <category term="Leicester" scheme="http://wangxinarhat.com/tags/Leicester/"/>
     
-      <category term="football" scheme="http://yoursite.com/tags/football/"/>
+      <category term="football" scheme="http://wangxinarhat.com/tags/football/"/>
     
-      <category term="champion" scheme="http://yoursite.com/tags/champion/"/>
+      <category term="champion" scheme="http://wangxinarhat.com/tags/champion/"/>
     
-      <category term="miracle" scheme="http://yoursite.com/tags/miracle/"/>
+      <category term="miracle" scheme="http://wangxinarhat.com/tags/miracle/"/>
     
   </entry>
   
   <entry>
     <title>RxJava操作符在android中的使用场景详解（二）</title>
-    <link href="http://yoursite.com/2016/05/01/2016-05-01-rxjava-android-operate2/"/>
-    <id>http://yoursite.com/2016/05/01/2016-05-01-rxjava-android-operate2/</id>
+    <link href="http://wangxinarhat.com/2016/05/01/2016-05-01-rxjava-android-operate2/"/>
+    <id>http://wangxinarhat.com/2016/05/01/2016-05-01-rxjava-android-operate2/</id>
     <published>2016-05-01T10:00:00.000Z</published>
     <updated>2016-06-12T06:45:12.487Z</updated>
     
@@ -569,25 +569,25 @@ public void onActivityCreated(@Nullable Bundle savedInstanceState) {
     
     </summary>
     
-      <category term="Rxjava" scheme="http://yoursite.com/categories/Rxjava/"/>
+      <category term="Rxjava" scheme="http://wangxinarhat.com/categories/Rxjava/"/>
     
-      <category term="Android" scheme="http://yoursite.com/categories/Rxjava/Android/"/>
+      <category term="Android" scheme="http://wangxinarhat.com/categories/Rxjava/Android/"/>
     
     
-      <category term="rxjava" scheme="http://yoursite.com/tags/rxjava/"/>
+      <category term="rxjava" scheme="http://wangxinarhat.com/tags/rxjava/"/>
     
-      <category term="android" scheme="http://yoursite.com/tags/android/"/>
+      <category term="android" scheme="http://wangxinarhat.com/tags/android/"/>
     
-      <category term="Retrofit" scheme="http://yoursite.com/tags/Retrofit/"/>
+      <category term="Retrofit" scheme="http://wangxinarhat.com/tags/Retrofit/"/>
     
-      <category term="rxbind" scheme="http://yoursite.com/tags/rxbind/"/>
+      <category term="rxbind" scheme="http://wangxinarhat.com/tags/rxbind/"/>
     
   </entry>
   
   <entry>
     <title>RxJava操作符在android中的使用场景详解（一）</title>
-    <link href="http://yoursite.com/2016/04/19/2016-04-19-rxjava-android-operate1/"/>
-    <id>http://yoursite.com/2016/04/19/2016-04-19-rxjava-android-operate1/</id>
+    <link href="http://wangxinarhat.com/2016/04/19/2016-04-19-rxjava-android-operate1/"/>
+    <id>http://wangxinarhat.com/2016/04/19/2016-04-19-rxjava-android-operate1/</id>
     <published>2016-04-19T14:00:00.000Z</published>
     <updated>2016-06-12T06:45:12.471Z</updated>
     
@@ -908,27 +908,27 @@ Observable&amp;lt;List&amp;lt;ImageInfoBean&amp;gt;&amp;gt; search(@Query(&amp;q
     
     </summary>
     
-      <category term="Rxjava" scheme="http://yoursite.com/categories/Rxjava/"/>
+      <category term="Rxjava" scheme="http://wangxinarhat.com/categories/Rxjava/"/>
     
-      <category term="Android" scheme="http://yoursite.com/categories/Rxjava/Android/"/>
+      <category term="Android" scheme="http://wangxinarhat.com/categories/Rxjava/Android/"/>
     
     
-      <category term="rxjava" scheme="http://yoursite.com/tags/rxjava/"/>
+      <category term="rxjava" scheme="http://wangxinarhat.com/tags/rxjava/"/>
     
-      <category term="android" scheme="http://yoursite.com/tags/android/"/>
+      <category term="android" scheme="http://wangxinarhat.com/tags/android/"/>
     
-      <category term="Retrofit" scheme="http://yoursite.com/tags/Retrofit/"/>
+      <category term="Retrofit" scheme="http://wangxinarhat.com/tags/Retrofit/"/>
     
-      <category term="rxbind" scheme="http://yoursite.com/tags/rxbind/"/>
+      <category term="rxbind" scheme="http://wangxinarhat.com/tags/rxbind/"/>
     
   </entry>
   
   <entry>
     <title>Material Design风格SearchView实现</title>
-    <link href="http://yoursite.com/2016/03/18/2016-03-18-meterial-design-search-view/"/>
-    <id>http://yoursite.com/2016/03/18/2016-03-18-meterial-design-search-view/</id>
+    <link href="http://wangxinarhat.com/2016/03/18/2016-03-18-meterial-design-search-view/"/>
+    <id>http://wangxinarhat.com/2016/03/18/2016-03-18-meterial-design-search-view/</id>
     <published>2016-03-18T15:00:00.000Z</published>
-    <updated>2016-06-12T07:31:55.559Z</updated>
+    <updated>2016-06-12T08:46:56.631Z</updated>
     
     <content type="html">&lt;blockquote&gt;
 &lt;p&gt;项目里要做一个对列表内容的筛选，想到了知乎以及google play的效果，确定了是用Toolbar、SearchView、RecyclerView实现&lt;br&gt;&lt;br&gt;&lt;em&gt;Toolbar&lt;/em&gt;不用多说，如有不懂我也上传到了&lt;a href=&quot;https://github.com/wangxinarhat/MaterialDesignSamples.git&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;github&lt;/a&gt;&lt;br&gt;&lt;br&gt;&lt;em&gt;Recycler&lt;/em&gt;我之前也写过Demo，同样上传到了&lt;a href=&quot;https://github.com/wangxinarhat/MaterialDesignSamples.git&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;github&lt;/a&gt;&lt;br&gt;&lt;br&gt;难搞的是&lt;em&gt;SearchView&lt;/em&gt;，毕竟现在都流行&lt;em&gt;Material Design&lt;/em&gt;了嘛，自带的那个效果实在不敢恭维，网上搜了下，已有大神实现了MaterialDesign效果的SearchView，所以拿来用咯&lt;/p&gt;
@@ -936,95 +936,39 @@ Observable&amp;lt;List&amp;lt;ImageInfoBean&amp;gt;&amp;gt; search(@Query(&amp;q
 &lt;h2 id=&quot;效果&quot;&gt;&lt;a href=&quot;#效果&quot; class=&quot;headerlink&quot; title=&quot;效果&quot;&gt;&lt;/a&gt;效果&lt;/h2&gt;&lt;p&gt;&lt;img src=&quot;/images/ui/search-view1.gif&quot; alt=&quot;img&quot;&gt;&lt;/p&gt;
 &lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
 &lt;h2 id=&quot;代码-已上传至github&quot;&gt;&lt;a href=&quot;#代码-已上传至github&quot; class=&quot;headerlink&quot; title=&quot;代码(已上传至github)&quot;&gt;&lt;/a&gt;代码(&lt;a href=&quot;https://github.com/wangxinarhat/RecyclerViewFilterDemo.git&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;已上传至github&lt;/a&gt;)&lt;/h2&gt;&lt;ol&gt;
-&lt;li&gt;&lt;p&gt;初始化操作&lt;/p&gt;
-&lt;p&gt; @Override&lt;br&gt; protected void onCreate(Bundle savedInstanceState) {&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;super.onCreate(savedInstanceState);
-setContentView(R.layout.activity_main);    
-ButterKnife.bind(this);    
-initView();
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt; }   &lt;/p&gt;
-&lt;p&gt; private void initView() {    &lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;initToolBar();
-initRecyclerView();
-initSearchView();    
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt; }&lt;/p&gt;
+&lt;li&gt;&lt;p&gt;初始化操作&lt;br&gt;&lt;pre&gt;&lt;code&gt;&lt;br&gt;@Override&lt;br&gt;protected void onCreate(Bundle savedInstanceState) {&lt;br&gt; super.onCreate(savedInstanceState);&lt;br&gt; setContentView(R.layout.activity_main);&lt;br&gt; ButterKnife.bind(this);&lt;br&gt; initView();&lt;br&gt;}&lt;br&gt;private void initView() {&lt;br&gt; initToolBar();&lt;br&gt; initRecyclerView();&lt;br&gt; initSearchView();&lt;br&gt;}&lt;br&gt;&lt;/code&gt;&lt;/pre&gt;&lt;br&gt;&lt;pre&gt;&lt;code&gt;&lt;br&gt;/**&lt;/code&gt;&lt;/pre&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;init Toolbar&lt;br&gt;&lt;em&gt;/&lt;br&gt;private void initToolBar() {&lt;br&gt;setSupportActionBar(toolbar);&lt;br&gt;getSupportActionBar().setDisplayHomeAsUpEnabled(true);&lt;br&gt;getSupportActionBar().setHomeButtonEnabled(true);&lt;br&gt;getSupportActionBar().setDisplayShowTitleEnabled(false);&lt;br&gt;}&lt;br&gt;/*&lt;/em&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;init RecyclerView&lt;br&gt;*/&lt;br&gt;private void initRecyclerView() {&lt;/p&gt;
+&lt;p&gt;LinearLayoutManager layoutManager = new LinearLayoutManager(this);&lt;br&gt;recyclerView.setLayoutManager(layoutManager);&lt;/p&gt;
+&lt;p&gt;mPeopleList = new ArrayList&amp;lt;&amp;gt;();&lt;/p&gt;
+&lt;p&gt;String[] peopleName = {“Kaka”, “Modric”, “Rooney”, “Ibla”, “Bale”, “死神”, “Maurice Moss”, “Roy Trenneman”, “林夕”, “sina”, “google”, “ecust”};&lt;br&gt;String[] peopleDes = {“The best player”, “莫德里奇是最好的后腰”, “鲁尼踢得不好”, “伊贝拉是谁？”, “贝尔跑得真快”, “Aaron”, “Oh, four, I mean five, I mean fire!”, “哈哈”, “是个艺术家”, “weibo”, “android”, “china”};&lt;/p&gt;
+&lt;p&gt;for (int i = 0; i &amp;lt; peopleName.length; i++) {&lt;br&gt;   mPeopleList.add(new People(peopleName[i], peopleDes[i]));&lt;br&gt;}&lt;/p&gt;
+&lt;p&gt;mAdapter = new SearchPeopleAdapter(mPeopleList);&lt;br&gt;recyclerView.setAdapter(mAdapter);&lt;br&gt;HeaderAdapter headerAdapter = new HeaderAdapter(mAdapter);&lt;/p&gt;
+&lt;p&gt;recyclerView.setAdapter(headerAdapter);&lt;br&gt;recyclerView.addOnItemTouchListener(new RecyclerOnItemClickListener(this, recyclerView, this));&lt;br&gt;}&lt;br&gt;&lt;br&gt;&lt;pre&gt;&lt;code&gt;&lt;br&gt;/**&lt;/code&gt;&lt;/pre&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;init SearchView&lt;br&gt;*/&lt;br&gt;private void initSearchView() {&lt;br&gt;searchView.setVoiceSearch(false);&lt;br&gt;searchView.setCursorDrawable(R.drawable.custom_cursor);&lt;br&gt;searchView.setEllipsize(true);&lt;br&gt;searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {&lt;br&gt;   @Override&lt;br&gt;   public boolean onQueryTextSubmit(String query) {    &lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;return true;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;   }&lt;/p&gt;
+&lt;p&gt;   @Override&lt;br&gt;   public boolean onQueryTextChange(String newText) {&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;final List&amp;lt;People&amp;gt; filteredModelList = filter(mPeopleList, newText);
+
+//reset
+mAdapter.setFilter(filteredModelList);
+mAdapter.animateTo(filteredModelList);
+recyclerView.scrollToPosition(0);
+return true;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;   }&lt;br&gt;});&lt;/p&gt;
+&lt;p&gt;searchView.setOnSearchViewListener(new MaterialSearchView.SearchViewListener() {&lt;br&gt;   @Override&lt;br&gt;   public void onSearchViewShown() {&lt;br&gt;   }&lt;/p&gt;
+&lt;p&gt;   @Override&lt;br&gt;   public void onSearchViewClosed() {&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;mAdapter.setFilter(mPeopleList);
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;   }&lt;br&gt;});&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
 &lt;/li&gt;
 &lt;/ol&gt;
-&lt;pre&gt;&lt;code&gt;/**
- * init Toolbar
- */
-private void initToolBar() {
-    setSupportActionBar(toolbar);
-    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    getSupportActionBar().setHomeButtonEnabled(true);
-    getSupportActionBar().setDisplayShowTitleEnabled(false);
-}
-
-
-/**
- * init RecyclerView
- */
-private void initRecyclerView() {
-
-    LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-    recyclerView.setLayoutManager(layoutManager);
-
-    mPeopleList = new ArrayList&amp;lt;&amp;gt;();
-
-    String[] peopleName = {&amp;quot;Kaka&amp;quot;, &amp;quot;Modric&amp;quot;, &amp;quot;Rooney&amp;quot;, &amp;quot;Ibla&amp;quot;, &amp;quot;Bale&amp;quot;, &amp;quot;死神&amp;quot;, &amp;quot;Maurice Moss&amp;quot;, &amp;quot;Roy Trenneman&amp;quot;, &amp;quot;林夕&amp;quot;, &amp;quot;sina&amp;quot;, &amp;quot;google&amp;quot;, &amp;quot;ecust&amp;quot;};
-    String[] peopleDes = {&amp;quot;The best player&amp;quot;, &amp;quot;莫德里奇是最好的后腰&amp;quot;, &amp;quot;鲁尼踢得不好&amp;quot;, &amp;quot;伊贝拉是谁？&amp;quot;, &amp;quot;贝尔跑得真快&amp;quot;, &amp;quot;Aaron&amp;quot;, &amp;quot;Oh, four, I mean five, I mean fire!&amp;quot;, &amp;quot;哈哈&amp;quot;, &amp;quot;是个艺术家&amp;quot;, &amp;quot;weibo&amp;quot;, &amp;quot;android&amp;quot;, &amp;quot;china&amp;quot;};
-
-    for (int i = 0; i &amp;lt; peopleName.length; i++) {
-        mPeopleList.add(new People(peopleName[i], peopleDes[i]));
-    }
-
-    mAdapter = new SearchPeopleAdapter(mPeopleList);
-    recyclerView.setAdapter(mAdapter);
-    HeaderAdapter headerAdapter = new HeaderAdapter(mAdapter);
-
-    recyclerView.setAdapter(headerAdapter);
-    recyclerView.addOnItemTouchListener(new RecyclerOnItemClickListener(this, recyclerView, this));   
-}
-
-/**
- * init SearchView
- */
-private void initSearchView() {    
-    searchView.setVoiceSearch(false);
-    searchView.setCursorDrawable(R.drawable.custom_cursor);
-    searchView.setEllipsize(true);
-    searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
-        @Override
-        public boolean onQueryTextSubmit(String query) {    
-            return true;
-        }
-
-        @Override
-        public boolean onQueryTextChange(String newText) {
-            final List&amp;lt;People&amp;gt; filteredModelList = filter(mPeopleList, newText);
-
-            //reset
-            mAdapter.setFilter(filteredModelList);
-            mAdapter.animateTo(filteredModelList);
-            recyclerView.scrollToPosition(0);
-            return true;
-        }
-    });
-
-    searchView.setOnSearchViewListener(new MaterialSearchView.SearchViewListener() {
-        @Override
-        public void onSearchViewShown() {
-        }
-
-        @Override
-        public void onSearchViewClosed() {
-            mAdapter.setFilter(mPeopleList);
-        }
-    });
-
-}
-
-
+&lt;p&gt;}&lt;br&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;
  /**
  * 搜索按钮
  *
@@ -1040,29 +984,35 @@ public boolean onCreateOptionsMenu(Menu menu) {
 
     return true;
 }
-&lt;/code&gt;&lt;/pre&gt;&lt;ol&gt;
-&lt;li&gt;&lt;p&gt;筛选逻辑&lt;/p&gt;
-&lt;p&gt; /**&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;筛选逻辑&lt;/li&gt;
-&lt;li&gt;@param peoples&lt;/li&gt;
-&lt;li&gt;@param query&lt;/li&gt;
-&lt;li&gt;&lt;p&gt;@return&lt;br&gt;*/&lt;br&gt;private List&lt;people&gt; filter(List&lt;people&gt; peoples, String query) {&lt;br&gt; query = query.toLowerCase();&lt;/people&gt;&lt;/people&gt;&lt;/p&gt;
-&lt;p&gt; final List&lt;people&gt; filteredModelList = new ArrayList&amp;lt;&amp;gt;();&lt;br&gt; for (People people : peoples) {&lt;/people&gt;&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;final String nameEn = people.getName().toLowerCase();
-final String desEn = people.getDescription().toLowerCase();
-final String name = people.getName();
-final String des = people.getDescription();
+&lt;/code&gt;&lt;/pre&gt;
+2. 筛选逻辑
+&lt;pre&gt;&lt;code&gt;
+    /**
+     * 筛选逻辑
+     * @param peoples
+     * @param query
+     * @return
+     */
+    private List&lt;people&gt; filter(List&lt;people&gt; peoples, String query) {
+        query = query.toLowerCase();
 
-if (name.contains(query) || des.contains(query) || nameEn.contains(query) || desEn.contains(query)) {
+        final List&lt;people&gt; filteredModelList = new ArrayList&lt;&gt;();
+        for (People people : peoples) {
 
-    filteredModelList.add(people);
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt; }&lt;br&gt; return filteredModelList;&lt;br&gt;}&lt;/p&gt;
-&lt;/li&gt;
-&lt;/ul&gt;
-&lt;/li&gt;
-&lt;/ol&gt;
+            final String nameEn = people.getName().toLowerCase();
+            final String desEn = people.getDescription().toLowerCase();
+            final String name = people.getName();
+            final String des = people.getDescription();
+
+            if (name.contains(query) || des.contains(query) || nameEn.contains(query) || desEn.contains(query)) {
+
+                filteredModelList.add(people);
+            }
+        }
+        return filteredModelList;
+    }
+&lt;/people&gt;&lt;/people&gt;&lt;/people&gt;&lt;/code&gt;&lt;/pre&gt;
+
 </content>
     
     <summary type="html">
@@ -1074,25 +1024,25 @@ if (name.contains(query) || des.contains(query) || nameEn.contains(query) || des
     
     </summary>
     
-      <category term="Material Design" scheme="http://yoursite.com/categories/Material-Design/"/>
+      <category term="Material Design" scheme="http://wangxinarhat.com/categories/Material-Design/"/>
     
-      <category term="Android" scheme="http://yoursite.com/categories/Material-Design/Android/"/>
+      <category term="Android" scheme="http://wangxinarhat.com/categories/Material-Design/Android/"/>
     
     
-      <category term="Toolbar" scheme="http://yoursite.com/tags/Toolbar/"/>
+      <category term="Toolbar" scheme="http://wangxinarhat.com/tags/Toolbar/"/>
     
-      <category term="SearchView" scheme="http://yoursite.com/tags/SearchView/"/>
+      <category term="SearchView" scheme="http://wangxinarhat.com/tags/SearchView/"/>
     
-      <category term="google play" scheme="http://yoursite.com/tags/google-play/"/>
+      <category term="google play" scheme="http://wangxinarhat.com/tags/google-play/"/>
     
-      <category term="知乎" scheme="http://yoursite.com/tags/%E7%9F%A5%E4%B9%8E/"/>
+      <category term="知乎" scheme="http://wangxinarhat.com/tags/%E7%9F%A5%E4%B9%8E/"/>
     
   </entry>
   
   <entry>
     <title>Git分支 - 新建 合并</title>
-    <link href="http://yoursite.com/2015/06/19/2015-06-19-git-study-branch/"/>
-    <id>http://yoursite.com/2015/06/19/2015-06-19-git-study-branch/</id>
+    <link href="http://wangxinarhat.com/2015/06/19/2015-06-19-git-study-branch/"/>
+    <id>http://wangxinarhat.com/2015/06/19/2015-06-19-git-study-branch/</id>
     <published>2015-06-19T15:00:00.000Z</published>
     <updated>2016-06-12T08:09:58.983Z</updated>
     
@@ -1249,19 +1199,19 @@ index.html |    1 +
     
     </summary>
     
-      <category term="Git" scheme="http://yoursite.com/categories/Git/"/>
+      <category term="Git" scheme="http://wangxinarhat.com/categories/Git/"/>
     
     
-      <category term="Git" scheme="http://yoursite.com/tags/Git/"/>
+      <category term="Git" scheme="http://wangxinarhat.com/tags/Git/"/>
     
-      <category term="Branch" scheme="http://yoursite.com/tags/Branch/"/>
+      <category term="Branch" scheme="http://wangxinarhat.com/tags/Branch/"/>
     
   </entry>
   
   <entry>
     <title>Git 基础 - 获取 Git 仓库</title>
-    <link href="http://yoursite.com/2015/06/18/2015-06-18-git-study-base/"/>
-    <id>http://yoursite.com/2015/06/18/2015-06-18-git-study-base/</id>
+    <link href="http://wangxinarhat.com/2015/06/18/2015-06-18-git-study-base/"/>
+    <id>http://wangxinarhat.com/2015/06/18/2015-06-18-git-study-base/</id>
     <published>2015-06-18T15:00:00.000Z</published>
     <updated>2016-06-12T07:56:20.887Z</updated>
     
@@ -1448,12 +1398,12 @@ Changes to be committed:
     
     </summary>
     
-      <category term="Git" scheme="http://yoursite.com/categories/Git/"/>
+      <category term="Git" scheme="http://wangxinarhat.com/categories/Git/"/>
     
     
-      <category term="Git" scheme="http://yoursite.com/tags/Git/"/>
+      <category term="Git" scheme="http://wangxinarhat.com/tags/Git/"/>
     
-      <category term="Base" scheme="http://yoursite.com/tags/Base/"/>
+      <category term="Base" scheme="http://wangxinarhat.com/tags/Base/"/>
     
   </entry>
   

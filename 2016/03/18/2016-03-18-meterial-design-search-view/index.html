@@ -89,15 +89,15 @@
 <meta name="description" content="项目里要做一个对列表内容的筛选，想到了知乎以及google play的效果，确定了是用Toolbar、SearchView、RecyclerView实现Toolbar不用多说，如有不懂我也上传到了githubRecycler我之前也写过Demo，同样上传到了github难搞的是SearchView，毕竟现在都流行Material Design了嘛，自带的那个效果实在不敢恭维，网上搜了下，已有大神">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Material Design风格SearchView实现">
-<meta property="og:url" content="http://yoursite.com/2016/03/18/2016-03-18-meterial-design-search-view/index.html">
+<meta property="og:url" content="http://wangxinarhat.com/2016/03/18/2016-03-18-meterial-design-search-view/index.html">
 <meta property="og:site_name" content="wangxinarhat's blog">
 <meta property="og:description" content="项目里要做一个对列表内容的筛选，想到了知乎以及google play的效果，确定了是用Toolbar、SearchView、RecyclerView实现Toolbar不用多说，如有不懂我也上传到了githubRecycler我之前也写过Demo，同样上传到了github难搞的是SearchView，毕竟现在都流行Material Design了嘛，自带的那个效果实在不敢恭维，网上搜了下，已有大神">
-<meta property="og:image" content="http://yoursite.com/images/ui/search-view1.gif">
-<meta property="og:updated_time" content="2016-06-12T07:31:55.559Z">
+<meta property="og:image" content="http://wangxinarhat.com/images/ui/search-view1.gif">
+<meta property="og:updated_time" content="2016-06-12T08:46:56.631Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Material Design风格SearchView实现">
 <meta name="twitter:description" content="项目里要做一个对列表内容的筛选，想到了知乎以及google play的效果，确定了是用Toolbar、SearchView、RecyclerView实现Toolbar不用多说，如有不懂我也上传到了githubRecycler我之前也写过Demo，同样上传到了github难搞的是SearchView，毕竟现在都流行Material Design了嘛，自带的那个效果实在不敢恭维，网上搜了下，已有大神">
-<meta name="twitter:image" content="http://yoursite.com/images/ui/search-view1.gif">
+<meta name="twitter:image" content="http://wangxinarhat.com/images/ui/search-view1.gif">
 
 
 
@@ -118,12 +118,12 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2016/03/18/2016-03-18-meterial-design-search-view/"/>
+  <link rel="canonical" href="http://wangxinarhat.com/2016/03/18/2016-03-18-meterial-design-search-view/"/>
 
   <title> Material Design风格SearchView实现 | wangxinarhat's blog </title>
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
 
   
 
@@ -155,7 +155,7 @@
       <span class="logo-line-after"><i></i></span>
     </a>
   </div>
-  <p class="site-subtitle">王鑫的博客</p>
+  <p class="site-subtitle">王鑫</p>
 </div>
 
 <div class="site-nav-toggle">
@@ -178,7 +178,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
             
-            首页
+            Home
           </a>
         </li>
       
@@ -188,7 +188,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
             
-            分类
+            Categories
           </a>
         </li>
       
@@ -198,7 +198,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
             
-            关于
+            About
           </a>
         </li>
       
@@ -208,7 +208,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
             
-            归档
+            Archives
           </a>
         </li>
       
@@ -218,7 +218,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
             
-            标签
+            Tags
           </a>
         </li>
       
@@ -228,7 +228,7 @@
             
               <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
             
-            公益404
+            Commonweal
           </a>
         </li>
       
@@ -281,7 +281,7 @@
             <span class="post-meta-item-icon">
               <i class="fa fa-calendar-o"></i>
             </span>
-            <span class="post-meta-item-text">发表于</span>
+            <span class="post-meta-item-text">Posted on</span>
             <time itemprop="dateCreated" datetime="2016-03-18T23:00:00+08:00" content="2016-03-18">
               2016-03-18
             </time>
@@ -293,7 +293,7 @@
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
-              <span class="post-meta-item-text">分类于</span>
+              <span class="post-meta-item-text">In</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
                   <a href="/categories/Material-Design/" itemprop="url" rel="index">
@@ -303,7 +303,7 @@
 
                 
                 
-                  ， 
+                  , 
                 
 
               
@@ -354,95 +354,39 @@
 <h2 id="效果"><a href="#效果" class="headerlink" title="效果"></a>效果</h2><p><img src="/images/ui/search-view1.gif" alt="img"></p>
 <a id="more"></a>
 <h2 id="代码-已上传至github"><a href="#代码-已上传至github" class="headerlink" title="代码(已上传至github)"></a>代码(<a href="https://github.com/wangxinarhat/RecyclerViewFilterDemo.git" target="_blank" rel="external">已上传至github</a>)</h2><ol>
-<li><p>初始化操作</p>
-<p> @Override<br> protected void onCreate(Bundle savedInstanceState) {</p>
-<pre><code>super.onCreate(savedInstanceState);
-setContentView(R.layout.activity_main);    
-ButterKnife.bind(this);    
-initView();
-</code></pre><p> }   </p>
-<p> private void initView() {    </p>
-<pre><code>initToolBar();
-initRecyclerView();
-initSearchView();    
-</code></pre><p> }</p>
+<li><p>初始化操作<br><pre><code><br>@Override<br>protected void onCreate(Bundle savedInstanceState) {<br> super.onCreate(savedInstanceState);<br> setContentView(R.layout.activity_main);<br> ButterKnife.bind(this);<br> initView();<br>}<br>private void initView() {<br> initToolBar();<br> initRecyclerView();<br> initSearchView();<br>}<br></code></pre><br><pre><code><br>/**</code></pre></p>
+<ul>
+<li>init Toolbar<br><em>/<br>private void initToolBar() {<br>setSupportActionBar(toolbar);<br>getSupportActionBar().setDisplayHomeAsUpEnabled(true);<br>getSupportActionBar().setHomeButtonEnabled(true);<br>getSupportActionBar().setDisplayShowTitleEnabled(false);<br>}<br>/*</em></li>
+<li><p>init RecyclerView<br>*/<br>private void initRecyclerView() {</p>
+<p>LinearLayoutManager layoutManager = new LinearLayoutManager(this);<br>recyclerView.setLayoutManager(layoutManager);</p>
+<p>mPeopleList = new ArrayList&lt;&gt;();</p>
+<p>String[] peopleName = {“Kaka”, “Modric”, “Rooney”, “Ibla”, “Bale”, “死神”, “Maurice Moss”, “Roy Trenneman”, “林夕”, “sina”, “google”, “ecust”};<br>String[] peopleDes = {“The best player”, “莫德里奇是最好的后腰”, “鲁尼踢得不好”, “伊贝拉是谁？”, “贝尔跑得真快”, “Aaron”, “Oh, four, I mean five, I mean fire!”, “哈哈”, “是个艺术家”, “weibo”, “android”, “china”};</p>
+<p>for (int i = 0; i &lt; peopleName.length; i++) {<br>   mPeopleList.add(new People(peopleName[i], peopleDes[i]));<br>}</p>
+<p>mAdapter = new SearchPeopleAdapter(mPeopleList);<br>recyclerView.setAdapter(mAdapter);<br>HeaderAdapter headerAdapter = new HeaderAdapter(mAdapter);</p>
+<p>recyclerView.setAdapter(headerAdapter);<br>recyclerView.addOnItemTouchListener(new RecyclerOnItemClickListener(this, recyclerView, this));<br>}<br><br><pre><code><br>/**</code></pre></p>
+</li>
+<li><p>init SearchView<br>*/<br>private void initSearchView() {<br>searchView.setVoiceSearch(false);<br>searchView.setCursorDrawable(R.drawable.custom_cursor);<br>searchView.setEllipsize(true);<br>searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {<br>   @Override<br>   public boolean onQueryTextSubmit(String query) {    </p>
+<pre><code>return true;
+</code></pre><p>   }</p>
+<p>   @Override<br>   public boolean onQueryTextChange(String newText) {</p>
+<pre><code>final List&lt;People&gt; filteredModelList = filter(mPeopleList, newText);
+
+//reset
+mAdapter.setFilter(filteredModelList);
+mAdapter.animateTo(filteredModelList);
+recyclerView.scrollToPosition(0);
+return true;
+</code></pre><p>   }<br>});</p>
+<p>searchView.setOnSearchViewListener(new MaterialSearchView.SearchViewListener() {<br>   @Override<br>   public void onSearchViewShown() {<br>   }</p>
+<p>   @Override<br>   public void onSearchViewClosed() {</p>
+<pre><code>mAdapter.setFilter(mPeopleList);
+</code></pre><p>   }<br>});</p>
+</li>
+</ul>
 </li>
 </ol>
-<pre><code>/**
- * init Toolbar
- */
-private void initToolBar() {
-    setSupportActionBar(toolbar);
-    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-    getSupportActionBar().setHomeButtonEnabled(true);
-    getSupportActionBar().setDisplayShowTitleEnabled(false);
-}
-
-
-/**
- * init RecyclerView
- */
-private void initRecyclerView() {
-
-    LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-    recyclerView.setLayoutManager(layoutManager);
-
-    mPeopleList = new ArrayList&lt;&gt;();
-
-    String[] peopleName = {&quot;Kaka&quot;, &quot;Modric&quot;, &quot;Rooney&quot;, &quot;Ibla&quot;, &quot;Bale&quot;, &quot;死神&quot;, &quot;Maurice Moss&quot;, &quot;Roy Trenneman&quot;, &quot;林夕&quot;, &quot;sina&quot;, &quot;google&quot;, &quot;ecust&quot;};
-    String[] peopleDes = {&quot;The best player&quot;, &quot;莫德里奇是最好的后腰&quot;, &quot;鲁尼踢得不好&quot;, &quot;伊贝拉是谁？&quot;, &quot;贝尔跑得真快&quot;, &quot;Aaron&quot;, &quot;Oh, four, I mean five, I mean fire!&quot;, &quot;哈哈&quot;, &quot;是个艺术家&quot;, &quot;weibo&quot;, &quot;android&quot;, &quot;china&quot;};
-
-    for (int i = 0; i &lt; peopleName.length; i++) {
-        mPeopleList.add(new People(peopleName[i], peopleDes[i]));
-    }
-
-    mAdapter = new SearchPeopleAdapter(mPeopleList);
-    recyclerView.setAdapter(mAdapter);
-    HeaderAdapter headerAdapter = new HeaderAdapter(mAdapter);
-
-    recyclerView.setAdapter(headerAdapter);
-    recyclerView.addOnItemTouchListener(new RecyclerOnItemClickListener(this, recyclerView, this));   
-}
-
-/**
- * init SearchView
- */
-private void initSearchView() {    
-    searchView.setVoiceSearch(false);
-    searchView.setCursorDrawable(R.drawable.custom_cursor);
-    searchView.setEllipsize(true);
-    searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {
-        @Override
-        public boolean onQueryTextSubmit(String query) {    
-            return true;
-        }
-
-        @Override
-        public boolean onQueryTextChange(String newText) {
-            final List&lt;People&gt; filteredModelList = filter(mPeopleList, newText);
-
-            //reset
-            mAdapter.setFilter(filteredModelList);
-            mAdapter.animateTo(filteredModelList);
-            recyclerView.scrollToPosition(0);
-            return true;
-        }
-    });
-
-    searchView.setOnSearchViewListener(new MaterialSearchView.SearchViewListener() {
-        @Override
-        public void onSearchViewShown() {
-        }
-
-        @Override
-        public void onSearchViewClosed() {
-            mAdapter.setFilter(mPeopleList);
-        }
-    });
-
-}
-
-
+<p>}<br></p>
+<pre><code>
  /**
  * 搜索按钮
  *
@@ -458,29 +402,35 @@ public boolean onCreateOptionsMenu(Menu menu) {
 
     return true;
 }
-</code></pre><ol>
-<li><p>筛选逻辑</p>
-<p> /**</p>
-<ul>
-<li>筛选逻辑</li>
-<li>@param peoples</li>
-<li>@param query</li>
-<li><p>@return<br>*/<br>private List<people> filter(List<people> peoples, String query) {<br> query = query.toLowerCase();</people></people></p>
-<p> final List<people> filteredModelList = new ArrayList&lt;&gt;();<br> for (People people : peoples) {</people></p>
-<pre><code>final String nameEn = people.getName().toLowerCase();
-final String desEn = people.getDescription().toLowerCase();
-final String name = people.getName();
-final String des = people.getDescription();
+</code></pre>
+2. 筛选逻辑
+<pre><code>
+    /**
+     * 筛选逻辑
+     * @param peoples
+     * @param query
+     * @return
+     */
+    private List<people> filter(List<people> peoples, String query) {
+        query = query.toLowerCase();
 
-if (name.contains(query) || des.contains(query) || nameEn.contains(query) || desEn.contains(query)) {
+        final List<people> filteredModelList = new ArrayList<>();
+        for (People people : peoples) {
 
-    filteredModelList.add(people);
-}
-</code></pre><p> }<br> return filteredModelList;<br>}</p>
-</li>
-</ul>
-</li>
-</ol>
+            final String nameEn = people.getName().toLowerCase();
+            final String desEn = people.getDescription().toLowerCase();
+            final String name = people.getName();
+            final String des = people.getDescription();
+
+            if (name.contains(query) || des.contains(query) || nameEn.contains(query) || desEn.contains(query)) {
+
+                filteredModelList.add(people);
+            }
+        }
+        return filteredModelList;
+    }
+</people></people></people></code></pre>
+
 
       
     </div>
@@ -583,7 +533,7 @@ if (name.contains(query) || des.contains(query) || nameEn.contains(query) || des
   <div class="comments" id="comments">
     
       <div class="ds-thread" data-thread-key="2016/03/18/2016-03-18-meterial-design-search-view/"
-           data-title="Material Design风格SearchView实现" data-url="http://yoursite.com/2016/03/18/2016-03-18-meterial-design-search-view/">
+           data-title="Material Design风格SearchView实现" data-url="http://wangxinarhat.com/2016/03/18/2016-03-18-meterial-design-search-view/">
       </div>
     
   </div>
@@ -609,10 +559,10 @@ if (name.contains(query) || des.contains(query) || nameEn.contains(query) || des
       
         <ul class="sidebar-nav motion-element">
           <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目录
+            Table of Contents
           </li>
           <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
+            Overview
           </li>
         </ul>
       
@@ -629,7 +579,7 @@ if (name.contains(query) || des.contains(query) || nameEn.contains(query) || des
           <div class="site-state-item site-state-posts">
             <a href="/archives">
               <span class="site-state-item-count">6</span>
-              <span class="site-state-item-name">日志</span>
+              <span class="site-state-item-name">posts</span>
             </a>
           </div>
 
@@ -637,7 +587,7 @@ if (name.contains(query) || des.contains(query) || nameEn.contains(query) || des
             <div class="site-state-item site-state-categories">
               <a href="/categories">
                 <span class="site-state-item-count">7</span>
-                <span class="site-state-item-name">分类</span>
+                <span class="site-state-item-name">categories</span>
               </a>
             </div>
           
@@ -646,7 +596,7 @@ if (name.contains(query) || des.contains(query) || nameEn.contains(query) || des
             <div class="site-state-item site-state-tags">
               <a href="/tags">
                 <span class="site-state-item-count">15</span>
-                <span class="site-state-item-name">标签</span>
+                <span class="site-state-item-name">tags</span>
               </a>
             </div>
           
@@ -705,6 +655,12 @@ if (name.contains(query) || des.contains(query) || nameEn.contains(query) || des
         </div>
 
         
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="http://creativecommons.org/licenses/by/4.0" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by.svg" alt="Creative Commons" />
+            </a>
+          </div>
         
 
         
@@ -772,11 +728,11 @@ if (name.contains(query) || des.contains(query) || nameEn.contains(query) || des
 </div>
 
 <div class="powered-by">
-  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
 </div>
 
 <div class="theme-info">
-  主题 -
+  Theme -
   <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
     NexT.Pisces
   </a>
