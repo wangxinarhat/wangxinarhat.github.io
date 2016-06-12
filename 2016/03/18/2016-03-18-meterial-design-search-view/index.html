@@ -93,7 +93,7 @@
 <meta property="og:site_name" content="wangxinarhat's blog">
 <meta property="og:description" content="项目里要做一个对列表内容的筛选，想到了知乎以及google play的效果，确定了是用Toolbar、SearchView、RecyclerView实现Toolbar不用多说，如有不懂我也上传到了githubRecycler我之前也写过Demo，同样上传到了github难搞的是SearchView，毕竟现在都流行Material Design了嘛，自带的那个效果实在不敢恭维，网上搜了下，已有大神">
 <meta property="og:image" content="http://wangxinarhat.com/images/ui/search-view1.gif">
-<meta property="og:updated_time" content="2016-06-12T08:46:56.631Z">
+<meta property="og:updated_time" content="2016-06-12T11:26:40.247Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Material Design风格SearchView实现">
 <meta name="twitter:description" content="项目里要做一个对列表内容的筛选，想到了知乎以及google play的效果，确定了是用Toolbar、SearchView、RecyclerView实现Toolbar不用多说，如有不懂我也上传到了githubRecycler我之前也写过Demo，同样上传到了github难搞的是SearchView，毕竟现在都流行Material Design了嘛，自带的那个效果实在不敢恭维，网上搜了下，已有大神">
@@ -353,84 +353,30 @@
 </blockquote>
 <h2 id="效果"><a href="#效果" class="headerlink" title="效果"></a>效果</h2><p><img src="/images/ui/search-view1.gif" alt="img"></p>
 <a id="more"></a>
-<h2 id="代码-已上传至github"><a href="#代码-已上传至github" class="headerlink" title="代码(已上传至github)"></a>代码(<a href="https://github.com/wangxinarhat/RecyclerViewFilterDemo.git" target="_blank" rel="external">已上传至github</a>)</h2><ol>
-<li><p>初始化操作<br><pre><code><br>@Override<br>protected void onCreate(Bundle savedInstanceState) {<br> super.onCreate(savedInstanceState);<br> setContentView(R.layout.activity_main);<br> ButterKnife.bind(this);<br> initView();<br>}<br>private void initView() {<br> initToolBar();<br> initRecyclerView();<br> initSearchView();<br>}<br></code></pre><br><pre><code><br>/**</code></pre></p>
-<ul>
-<li>init Toolbar<br><em>/<br>private void initToolBar() {<br>setSupportActionBar(toolbar);<br>getSupportActionBar().setDisplayHomeAsUpEnabled(true);<br>getSupportActionBar().setHomeButtonEnabled(true);<br>getSupportActionBar().setDisplayShowTitleEnabled(false);<br>}<br>/*</em></li>
-<li><p>init RecyclerView<br>*/<br>private void initRecyclerView() {</p>
-<p>LinearLayoutManager layoutManager = new LinearLayoutManager(this);<br>recyclerView.setLayoutManager(layoutManager);</p>
-<p>mPeopleList = new ArrayList&lt;&gt;();</p>
-<p>String[] peopleName = {“Kaka”, “Modric”, “Rooney”, “Ibla”, “Bale”, “死神”, “Maurice Moss”, “Roy Trenneman”, “林夕”, “sina”, “google”, “ecust”};<br>String[] peopleDes = {“The best player”, “莫德里奇是最好的后腰”, “鲁尼踢得不好”, “伊贝拉是谁？”, “贝尔跑得真快”, “Aaron”, “Oh, four, I mean five, I mean fire!”, “哈哈”, “是个艺术家”, “weibo”, “android”, “china”};</p>
-<p>for (int i = 0; i &lt; peopleName.length; i++) {<br>   mPeopleList.add(new People(peopleName[i], peopleDes[i]));<br>}</p>
-<p>mAdapter = new SearchPeopleAdapter(mPeopleList);<br>recyclerView.setAdapter(mAdapter);<br>HeaderAdapter headerAdapter = new HeaderAdapter(mAdapter);</p>
-<p>recyclerView.setAdapter(headerAdapter);<br>recyclerView.addOnItemTouchListener(new RecyclerOnItemClickListener(this, recyclerView, this));<br>}<br><br><pre><code><br>/**</code></pre></p>
-</li>
-<li><p>init SearchView<br>*/<br>private void initSearchView() {<br>searchView.setVoiceSearch(false);<br>searchView.setCursorDrawable(R.drawable.custom_cursor);<br>searchView.setEllipsize(true);<br>searchView.setOnQueryTextListener(new MaterialSearchView.OnQueryTextListener() {<br>   @Override<br>   public boolean onQueryTextSubmit(String query) {    </p>
-<pre><code>return true;
-</code></pre><p>   }</p>
-<p>   @Override<br>   public boolean onQueryTextChange(String newText) {</p>
-<pre><code>final List&lt;People&gt; filteredModelList = filter(mPeopleList, newText);
-
-//reset
-mAdapter.setFilter(filteredModelList);
-mAdapter.animateTo(filteredModelList);
-recyclerView.scrollToPosition(0);
-return true;
-</code></pre><p>   }<br>});</p>
-<p>searchView.setOnSearchViewListener(new MaterialSearchView.SearchViewListener() {<br>   @Override<br>   public void onSearchViewShown() {<br>   }</p>
-<p>   @Override<br>   public void onSearchViewClosed() {</p>
-<pre><code>mAdapter.setFilter(mPeopleList);
-</code></pre><p>   }<br>});</p>
+<h2 id="代码-已上传至github"><a href="#代码-已上传至github" class="headerlink" title="代码(已上传至github)"></a>代码(<a href="https://github.com/wangxinarhat/RecyclerViewFilterDemo.git" target="_blank" rel="external">已上传至github</a>)</h2><ul>
+<li>初始化<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">    setContentView(R.layout.activity_main);    </span><br><span class="line">    ButterKnife.bind(<span class="keyword">this</span>);    </span><br><span class="line">    initView();</span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">initView</span><span class="params">()</span> </span>&#123;    </span><br><span class="line">    initToolBar();</span><br><span class="line">    initRecyclerView();</span><br><span class="line">    initSearchView();    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
 </ul>
+<ul>
+<li><p>ToolBar初始化</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">initToolBar</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    setSupportActionBar(toolbar);</span><br><span class="line">    getSupportActionBar().setDisplayHomeAsUpEnabled(<span class="keyword">true</span>);</span><br><span class="line">    getSupportActionBar().setHomeButtonEnabled(<span class="keyword">true</span>);</span><br><span class="line">    getSupportActionBar().setDisplayShowTitleEnabled(<span class="keyword">false</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </li>
-</ol>
-<p>}<br></p>
-<pre><code>
- /**
- * 搜索按钮
- *
- * @param menu
- * @return
- */
-@Override
-public boolean onCreateOptionsMenu(Menu menu) {
-
-    getMenuInflater().inflate(R.menu.menu_search, menu);
-    MenuItem item = menu.findItem(R.id.action_search);
-    searchView.setMenuItem(item);
-
-    return true;
-}
-</code></pre>
-2. 筛选逻辑
-<pre><code>
-    /**
-     * 筛选逻辑
-     * @param peoples
-     * @param query
-     * @return
-     */
-    private List<people> filter(List<people> peoples, String query) {
-        query = query.toLowerCase();
-
-        final List<people> filteredModelList = new ArrayList<>();
-        for (People people : peoples) {
-
-            final String nameEn = people.getName().toLowerCase();
-            final String desEn = people.getDescription().toLowerCase();
-            final String name = people.getName();
-            final String des = people.getDescription();
-
-            if (name.contains(query) || des.contains(query) || nameEn.contains(query) || desEn.contains(query)) {
-
-                filteredModelList.add(people);
-            }
-        }
-        return filteredModelList;
-    }
-</people></people></people></code></pre>
-
+<li><p>RecyclerView初始化</p>
+</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">initRecyclerView</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    LinearLayoutManager layoutManager = <span class="keyword">new</span> LinearLayoutManager(<span class="keyword">this</span>);</span><br><span class="line">    recyclerView.setLayoutManager(layoutManager);</span><br><span class="line"></span><br><span class="line">    mPeopleList = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line"></span><br><span class="line">    String[] peopleName = &#123;<span class="string">"Kaka"</span>, <span class="string">"Modric"</span>, <span class="string">"Rooney"</span>, <span class="string">"Ibla"</span>, <span class="string">"Bale"</span>, <span class="string">"死神"</span>, <span class="string">"Maurice Moss"</span>, <span class="string">"Roy Trenneman"</span>, <span class="string">"林夕"</span>, <span class="string">"sina"</span>, <span class="string">"google"</span>, <span class="string">"ecust"</span>&#125;;</span><br><span class="line">    String[] peopleDes = &#123;<span class="string">"The best player"</span>, <span class="string">"莫德里奇是最好的后腰"</span>, <span class="string">"鲁尼踢得不好"</span>, <span class="string">"伊贝拉是谁？"</span>, <span class="string">"贝尔跑得真快"</span>, <span class="string">"Aaron"</span>, <span class="string">"Oh, four, I mean five, I mean fire!"</span>, <span class="string">"哈哈"</span>, <span class="string">"是个艺术家"</span>, <span class="string">"weibo"</span>, <span class="string">"android"</span>, <span class="string">"china"</span>&#125;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; peopleName.length; i++) &#123;</span><br><span class="line">        mPeopleList.add(<span class="keyword">new</span> People(peopleName[i], peopleDes[i]));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    mAdapter = <span class="keyword">new</span> SearchPeopleAdapter(mPeopleList);</span><br><span class="line">    recyclerView.setAdapter(mAdapter);</span><br><span class="line">    HeaderAdapter headerAdapter = <span class="keyword">new</span> HeaderAdapter(mAdapter);</span><br><span class="line"></span><br><span class="line">    recyclerView.setAdapter(headerAdapter);</span><br><span class="line">    recyclerView.addOnItemTouchListener(<span class="keyword">new</span> RecyclerOnItemClickListener(<span class="keyword">this</span>, recyclerView, <span class="keyword">this</span>));   </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>SearchView初始化</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">initSearchView</span><span class="params">()</span> </span>&#123;    </span><br><span class="line">    searchView.setVoiceSearch(<span class="keyword">false</span>);</span><br><span class="line">    searchView.setCursorDrawable(R.drawable.custom_cursor);</span><br><span class="line">    searchView.setEllipsize(<span class="keyword">true</span>);</span><br><span class="line">    searchView.setOnQueryTextListener(<span class="keyword">new</span> MaterialSearchView.OnQueryTextListener() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onQueryTextSubmit</span><span class="params">(String query)</span> </span>&#123;    </span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onQueryTextChange</span><span class="params">(String newText)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">final</span> List&lt;People&gt; filteredModelList = filter(mPeopleList, newText);</span><br><span class="line"></span><br><span class="line">            <span class="comment">//reset</span></span><br><span class="line">            mAdapter.setFilter(filteredModelList);</span><br><span class="line">            mAdapter.animateTo(filteredModelList);</span><br><span class="line">            recyclerView.scrollToPosition(<span class="number">0</span>);</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    searchView.setOnSearchViewListener(<span class="keyword">new</span> MaterialSearchView.SearchViewListener() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onSearchViewShown</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onSearchViewClosed</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            mAdapter.setFilter(mPeopleList);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>搜索按钮</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">onCreateOptionsMenu</span><span class="params">(Menu menu)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    getMenuInflater().inflate(R.menu.menu_search, menu);</span><br><span class="line">    MenuItem item = menu.findItem(R.id.action_search);</span><br><span class="line">    searchView.setMenuItem(item);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>筛选逻辑</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> List&lt;People&gt; <span class="title">filter</span><span class="params">(List&lt;People&gt; peoples, String query)</span> </span>&#123;</span><br><span class="line">    query = query.toLowerCase();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">final</span> List&lt;People&gt; filteredModelList = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">    <span class="keyword">for</span> (People people : peoples) &#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">final</span> String nameEn = people.getName().toLowerCase();</span><br><span class="line">        <span class="keyword">final</span> String desEn = people.getDescription().toLowerCase();</span><br><span class="line">        <span class="keyword">final</span> String name = people.getName();</span><br><span class="line">        <span class="keyword">final</span> String des = people.getDescription();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (name.contains(query) || des.contains(query) || nameEn.contains(query) || desEn.contains(query)) &#123;</span><br><span class="line"></span><br><span class="line">            filteredModelList.add(people);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> filteredModelList;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
       
     </div>

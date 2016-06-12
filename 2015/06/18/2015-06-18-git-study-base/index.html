@@ -98,7 +98,7 @@
 
 在现有目录初始化仓库&amp;emsp;&amp;emsp;git init&amp;emsp;&amp;emsp;该命令将创建一个名为 .git 的子目录，这个子目录含有你初始化的 Git 仓库中所有的必须文件，这些文件是 Git 仓库的骨干。 但是，在这个时候，我们仅仅是做了一个初始化的操作，你的项目里的文件还没有被跟踪。
 克隆现有的仓库&amp;emsp;&amp;emsp;如果你想获得一份已经存在了的 Git 仓库的拷贝">
-<meta property="og:updated_time" content="2016-06-12T07:56:20.887Z">
+<meta property="og:updated_time" content="2016-06-12T12:30:32.747Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Git 基础 - 获取 Git 仓库">
 <meta name="twitter:description" content="给自己看的
@@ -350,95 +350,21 @@
 <h2 id="克隆现有的仓库"><a href="#克隆现有的仓库" class="headerlink" title="克隆现有的仓库"></a>克隆现有的仓库</h2><p>&emsp;&emsp;如果你想获得一份已经存在了的 Git 仓库的拷贝，，这时就要用到 git clone 命令。 Git 克隆的是该 Git 仓库服务器上的几乎所有数据，而不是仅仅复制完成你的工作所需要文件。 当你执行 git clone 命令的时候，默认配置下远程 Git 仓库中的每一个文件的每一个版本都将被拉取下来。 事实上，如果你的服务器的磁盘坏掉了，你通常可以使用任何一个克隆下来的用户端来重建服务器上的仓库（虽然可能会丢失某些服务器端的挂钩设置，但是所有版本的数据仍在，详见 在服务器上搭建 Git ）。<br><br>&emsp;&emsp;克隆仓库的命令格式是 <code>git clone [url]</code>。 比如，要克隆 Git 的可链接库 RxAndroidSamples，可以用下面的命令：<br><br>&emsp;&emsp;<code>git clone https://github.com/wangxinarhat/RxAndroidSamples.git</code><br><br>&emsp;&emsp;如果你想在克隆远程仓库的时候，自定义本地仓库的名字，你可以使用如下命令：<br><br>&emsp;&emsp;<code>git clone https://github.com/wangxinarhat/RxAndroidSamples.git define-name</code></p>
 <h2 id="Git-基础-记录每次更新到仓库"><a href="#Git-基础-记录每次更新到仓库" class="headerlink" title="Git 基础 - 记录每次更新到仓库"></a>Git 基础 - 记录每次更新到仓库</h2><p>&emsp;&emsp;工作目录下的每一个文件都不外乎这两种状态：已跟踪或未跟踪。 已跟踪的文件是指那些被纳入了版本控制的文件，在上一次快照中有它们的记录，在工作一段时间后，它们的状态可能处于未修改，已修改或已放入暂存区。<br><br>工作目录中除已跟踪文件以外的所有其它文件都属于未跟踪文件，它们既不存在于上次快照的记录中，也没有放入暂存区。 初次克隆某个仓库的时候，工作目录中的所有文件都属于已跟踪文件，并处于未修改状态。</p>
 <h2 id="检查当前文件状态"><a href="#检查当前文件状态" class="headerlink" title="检查当前文件状态"></a>检查当前文件状态</h2><p>&emsp;&emsp;<code>git status</code></p>
-<h2 id="跟踪新文件"><a href="#跟踪新文件" class="headerlink" title="跟踪新文件"></a>跟踪新文件</h2><p>&emsp;&emsp;使用命令 git add 开始跟踪一个文件,再运行 git status 命令，会看到 README 文件已被跟踪，并处于暂存状态：</p>
-<pre><code>$ git add README
-$ git status
-On branch master
-Changes to be committed:
-(use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)
-
-    new file:   README
-</code></pre><p>&emsp;&emsp;只要在 Changes to be committed 这行下面的，就说明是已暂存状态。 如果此时提交，那么该文件此时此刻的版本将被留存在历史记录中。  git add 命令使用<em>文件或目录的路径</em>作为参数；如果参数是目录的路径，该命令将递归地跟踪该目录下的所有文件。<br><a id="more"></a></p>
-<h2 id="暂存已修改文件"><a href="#暂存已修改文件" class="headerlink" title="暂存已修改文件"></a>暂存已修改文件</h2><p>&emsp;&emsp;现在我们来修改一个已被跟踪的文件。 如果你修改了一个名为 CONTRIBUTING.md 的已被跟踪的文件，然后运行 git status 命令，会看到下面内容：</p>
-<pre><code>$ git status
-On branch master
-Changes to be committed:
-  (use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)
-
-    new file:   README
-
-Changes not staged for commit:
-  (use &quot;git add &lt;file&gt;...&quot; to update what will be committed)
-  (use &quot;git checkout -- &lt;file&gt;...&quot; to discard changes in working directory)
-
-    modified:   CONTRIBUTING.md
-</code></pre><p>&emsp;&emsp;文件 CONTRIBUTING.md 出现在 Changes not staged for commit 这行下面，说明已跟踪文件的内容发生了变化，但还没有放到暂存区。 要暂存这次更新，需要运行 git add 命令。 这是个多功能命令：可以用它开始跟踪新文件，或者把已跟踪的文件放到暂存区，还能用于合并时把有冲突的文件标记为已解决状态等。 将这个命令理解为<em>“添加内容到下一次提交中”</em>而不是“将一个文件添加到项目中”要更加合适。 现在让我们运行 git add 将”CONTRIBUTING.md”放到暂存区，然后再看看 git status 的输出：</p>
-<pre><code>$ git add CONTRIBUTING.md
-$ git status
-On branch master
-Changes to be committed:
-  (use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)
-
-    new file:   README
-    modified:   CONTRIBUTING.md
-</code></pre><p>&emsp;&emsp;现在两个文件都已暂存，下次提交时就会一并记录到仓库。 假设此时，你想要在 CONTRIBUTING.md 里再加条注释， 重新编辑存盘后，准备好提交。 不过且慢，再运行 git status 看看：</p>
-<pre><code>$ vim CONTRIBUTING.md
-$ git status
-On branch master
-Changes to be committed:
-  (use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)
-
-    new file:   README
-    modified:   CONTRIBUTING.md
-
-Changes not staged for commit:
-  (use &quot;git add &lt;file&gt;...&quot; to update what will be committed)
-  (use &quot;git checkout -- &lt;file&gt;...&quot; to discard changes in working directory)
-
-    modified:   CONTRIBUTING.md
-</code></pre><p>&emsp;&emsp;怎么回事？ 现在 CONTRIBUTING.md 文件同时出现在暂存区和非暂存区。 这怎么可能呢？ 好吧，实际上 Git 只不过暂存了你运行 git add 命令时的版本， 如果你现在提交，CONTRIBUTING.md 的版本是你最后一次运行 git add 命令时的那个版本，而不是你运行 git commit 时，在工作目录中的当前版本。 所以，运行了 git add 之后又作了修订的文件，需要重新运行 git add 把最新版本重新暂存起来：</p>
-<pre><code>$ git add CONTRIBUTING.md
-$ git status
-On branch master
-Changes to be committed:
-  (use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)
-
-    new file:   README
-    modified:   CONTRIBUTING.md
-</code></pre><h2 id="状态简览"><a href="#状态简览" class="headerlink" title="状态简览"></a>状态简览</h2><p>&emsp;&emsp;git status 命令的输出十分详细，但其用语有些繁琐。 如果你使用 git status -s 命令或 git status –short 命令，你将得到一种更为紧凑的格式输出。 运行 git status -s ，状态报告输出如下：</p>
-<pre><code>$ git status -s
-M README
-MM Rakefile
-A  lib/git.rb
-M  lib/simplegit.rb
-?? LICENSE.txt
-</code></pre><h2 id="忽略文件"><a href="#忽略文件" class="headerlink" title="忽略文件"></a>忽略文件</h2><p>&emsp;&emsp;一般我们总会有些文件无需纳入 Git 的管理，也不希望它们总出现在未跟踪文件列表。 通常都是些自动生成的文件，比如日志文件，或者编译过程中创建的临时文件等。 在这种情况下，我们可以创建一个名为 .gitignore 的文件，列出要忽略的文件模式。 </p>
+<h2 id="跟踪新文件"><a href="#跟踪新文件" class="headerlink" title="跟踪新文件"></a>跟踪新文件</h2><p>&emsp;&emsp;使用命令 git add 开始跟踪一个文件,再运行 git status 命令，会看到 README 文件已被跟踪，并处于暂存状态：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">   $ git add README</span><br><span class="line">$ git status</span><br><span class="line">On branch master</span><br><span class="line">Changes to be committed:</span><br><span class="line">(use <span class="string">"git reset HEAD &lt;file&gt;..."</span> to unstage)</span><br><span class="line"></span><br><span class="line">	new file:   README</span><br></pre></td></tr></table></figure></p>
+<p>&emsp;&emsp;只要在 Changes to be committed 这行下面的，就说明是已暂存状态。 如果此时提交，那么该文件此时此刻的版本将被留存在历史记录中。  git add 命令使用<em>文件或目录的路径</em>作为参数；如果参数是目录的路径，该命令将递归地跟踪该目录下的所有文件。<br><a id="more"></a></p>
+<h2 id="暂存已修改文件"><a href="#暂存已修改文件" class="headerlink" title="暂存已修改文件"></a>暂存已修改文件</h2><p>&emsp;&emsp;现在我们来修改一个已被跟踪的文件。 如果你修改了一个名为 CONTRIBUTING.md 的已被跟踪的文件，然后运行 git status 命令，会看到下面内容：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">$ git status</span><br><span class="line">On branch master</span><br><span class="line">Changes to be committed:</span><br><span class="line">  (use <span class="string">"git reset HEAD &lt;file&gt;..."</span> to unstage)</span><br><span class="line"></span><br><span class="line">    new file:   README</span><br><span class="line"></span><br><span class="line">Changes not staged <span class="keyword">for</span> commit:</span><br><span class="line">  (use <span class="string">"git add &lt;file&gt;..."</span> to update what will be committed)</span><br><span class="line">  (use <span class="string">"git checkout -- &lt;file&gt;..."</span> to discard changes <span class="keyword">in</span> working directory)</span><br><span class="line"></span><br><span class="line">    modified:   CONTRIBUTING.md</span><br></pre></td></tr></table></figure></p>
+<p>&emsp;&emsp;文件 CONTRIBUTING.md 出现在 Changes not staged for commit 这行下面，说明已跟踪文件的内容发生了变化，但还没有放到暂存区。 要暂存这次更新，需要运行 git add 命令。 这是个多功能命令：可以用它开始跟踪新文件，或者把已跟踪的文件放到暂存区，还能用于合并时把有冲突的文件标记为已解决状态等。 将这个命令理解为<em>“添加内容到下一次提交中”</em>而不是“将一个文件添加到项目中”要更加合适。 现在让我们运行 git add 将”CONTRIBUTING.md”放到暂存区，然后再看看 git status 的输出：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ git add CONTRIBUTING.md</span><br><span class="line">$ git status</span><br><span class="line">On branch master</span><br><span class="line">Changes to be committed:</span><br><span class="line">  (use <span class="string">"git reset HEAD &lt;file&gt;..."</span> to unstage)</span><br><span class="line"></span><br><span class="line">    new file:   README</span><br><span class="line">    modified:   CONTRIBUTING.md</span><br></pre></td></tr></table></figure></p>
+<p>&emsp;&emsp;现在两个文件都已暂存，下次提交时就会一并记录到仓库。 假设此时，你想要在 CONTRIBUTING.md 里再加条注释， 重新编辑存盘后，准备好提交。 不过且慢，再运行 git status 看看：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">$ vim CONTRIBUTING.md</span><br><span class="line">$ git status</span><br><span class="line">On branch master</span><br><span class="line">Changes to be committed:</span><br><span class="line">  (use <span class="string">"git reset HEAD &lt;file&gt;..."</span> to unstage)</span><br><span class="line"></span><br><span class="line">    new file:   README</span><br><span class="line">    modified:   CONTRIBUTING.md</span><br><span class="line"></span><br><span class="line">Changes not staged <span class="keyword">for</span> commit:</span><br><span class="line">  (use <span class="string">"git add &lt;file&gt;..."</span> to update what will be committed)</span><br><span class="line">  (use <span class="string">"git checkout -- &lt;file&gt;..."</span> to discard changes <span class="keyword">in</span> working directory)</span><br><span class="line"></span><br><span class="line">    modified:   CONTRIBUTING.md</span><br></pre></td></tr></table></figure></p>
+<p>&emsp;&emsp;怎么回事？ 现在 CONTRIBUTING.md 文件同时出现在暂存区和非暂存区。 这怎么可能呢？ 好吧，实际上 Git 只不过暂存了你运行 git add 命令时的版本， 如果你现在提交，CONTRIBUTING.md 的版本是你最后一次运行 git add 命令时的那个版本，而不是你运行 git commit 时，在工作目录中的当前版本。 所以，运行了 git add 之后又作了修订的文件，需要重新运行 git add 把最新版本重新暂存起来：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ git add CONTRIBUTING.md</span><br><span class="line">$ git status</span><br><span class="line">On branch master</span><br><span class="line">Changes to be committed:</span><br><span class="line">  (use <span class="string">"git reset HEAD &lt;file&gt;..."</span> to unstage)</span><br><span class="line"></span><br><span class="line">    new file:   README</span><br><span class="line">    modified:   CONTRIBUTING.md</span><br></pre></td></tr></table></figure></p>
+<h2 id="状态简览"><a href="#状态简览" class="headerlink" title="状态简览"></a>状态简览</h2><p>&emsp;&emsp;git status 命令的输出十分详细，但其用语有些繁琐。 如果你使用 git status -s 命令或 git status –short 命令，你将得到一种更为紧凑的格式输出。 运行 git status -s ，状态报告输出如下：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ git status <span class="_">-s</span></span><br><span class="line">M README</span><br><span class="line">MM Rakefile</span><br><span class="line">A  lib/git.rb</span><br><span class="line">M  lib/simplegit.rb</span><br><span class="line">?? LICENSE.txt</span><br></pre></td></tr></table></figure></p>
+<h2 id="忽略文件"><a href="#忽略文件" class="headerlink" title="忽略文件"></a>忽略文件</h2><p>&emsp;&emsp;一般我们总会有些文件无需纳入 Git 的管理，也不希望它们总出现在未跟踪文件列表。 通常都是些自动生成的文件，比如日志文件，或者编译过程中创建的临时文件等。 在这种情况下，我们可以创建一个名为 .gitignore 的文件，列出要忽略的文件模式。 </p>
 <h2 id="查看已暂存和未暂存的修改"><a href="#查看已暂存和未暂存的修改" class="headerlink" title="查看已暂存和未暂存的修改"></a>查看已暂存和未暂存的修改</h2><p>&emsp;&emsp;如果 git status 命令的输出对于你来说过于模糊，你想知道具体修改了什么地方，可以用 git diff 命令。</p>
 <h2 id="提交更新"><a href="#提交更新" class="headerlink" title="提交更新"></a>提交更新</h2><p>&emsp;&emsp;现在的暂存区域已经准备妥当可以提交了。 在此之前，请一定要确认还有什么修改过的或新建的文件还没有 git add 过，否则提交的时候不会记录这些还没暂存起来的变化。 这些修改过的文件只保留在本地磁盘。 所以，每次准备提交前，先用 git status 看下，是不是都已暂存起来了， 然后再运行提交命令 git commit.</p>
 <h2 id="跳过使用暂存区域"><a href="#跳过使用暂存区域" class="headerlink" title="跳过使用暂存区域"></a>跳过使用暂存区域</h2><p>&emsp;&emsp;尽管使用暂存区域的方式可以精心准备要提交的细节，但有时候这么做略显繁琐。 Git 提供了一个跳过使用暂存区域的方式， 只要在提交的时候，给 git commit 加上 -a 选项，Git 就会自动把所有已经跟踪过的文件暂存起来一并提交，从而跳过 git add 步骤：<br>&emsp;&emsp;<code>$ git commit -a -m &#39;des&#39;</code></p>
 <h2 id="移除文件"><a href="#移除文件" class="headerlink" title="移除文件"></a>移除文件</h2><p>&emsp;&emsp;要从 Git 中移除某个文件，就必须要从已跟踪文件清单中移除（确切地说，是从暂存区域移除），然后提交。 可以用 git rm 命令完成此项工作，并连带从工作目录中删除指定的文件，这样以后就不会出现在未跟踪文件清单中了。</p>
-<p>&emsp;&emsp;如果只是简单地从工作目录中手工删除文件，运行 git status 时就会在 “Changes not staged for commit” 部分（也就是 未暂存清单）看到：</p>
-<pre><code>$ rm PROJECTS.md
-$ git status
-On branch master
-Your branch is up-to-date with &apos;origin/master&apos;.
-Changes not staged for commit:
-  (use &quot;git add/rm &lt;file&gt;...&quot; to update what will be committed)
-  (use &quot;git checkout -- &lt;file&gt;...&quot; to discard changes in working directory)
-
-        deleted:    PROJECTS.md
-
-no changes added to commit (use &quot;git add&quot; and/or &quot;git commit -a&quot;)
-</code></pre><p>&emsp;&emsp;然后再运行 git rm 记录此次移除文件的操作：</p>
-<pre><code>$ git rm PROJECTS.md
-rm &apos;PROJECTS.md&apos;
-$ git status
-On branch master
-Changes to be committed:
-  (use &quot;git reset HEAD &lt;file&gt;...&quot; to unstage)
-
-    deleted:    PROJECTS.md
-</code></pre><p>&emsp;&emsp;下一次提交时，该文件就不再纳入版本管理了。 如果删除之前修改过并且已经放到暂存区域的话，则必须要用强制删除选项 -f（译注：即 force 的首字母）。 这是一种安全特性，用于防止误删还没有添加到快照的数据，这样的数据不能被 Git 恢复。</p>
+<p>&emsp;&emsp;如果只是简单地从工作目录中手工删除文件，运行 git status 时就会在 “Changes not staged for commit” 部分（也就是 未暂存清单）看到：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$ rm PROJECTS.md</span><br><span class="line">$ git status</span><br><span class="line">On branch master</span><br><span class="line">Your branch is up-to-date with <span class="string">'origin/master'</span>.</span><br><span class="line">Changes not staged <span class="keyword">for</span> commit:</span><br><span class="line">  (use <span class="string">"git add/rm &lt;file&gt;..."</span> to update what will be committed)</span><br><span class="line">  (use <span class="string">"git checkout -- &lt;file&gt;..."</span> to discard changes <span class="keyword">in</span> working directory)</span><br><span class="line"></span><br><span class="line">        deleted:    PROJECTS.md</span><br><span class="line"></span><br><span class="line">no changes added to commit (use <span class="string">"git add"</span> and/or <span class="string">"git commit -a"</span>)</span><br></pre></td></tr></table></figure></p>
+<p>&emsp;&emsp;然后再运行 git rm 记录此次移除文件的操作：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ git rm PROJECTS.md</span><br><span class="line">rm <span class="string">'PROJECTS.md'</span></span><br><span class="line">$ git status</span><br><span class="line">On branch master</span><br><span class="line">Changes to be committed:</span><br><span class="line">  (use <span class="string">"git reset HEAD &lt;file&gt;..."</span> to unstage)</span><br><span class="line"></span><br><span class="line">    deleted:    PROJECTS.md</span><br></pre></td></tr></table></figure></p>
+<p>&emsp;&emsp;下一次提交时，该文件就不再纳入版本管理了。 如果删除之前修改过并且已经放到暂存区域的话，则必须要用强制删除选项 -f（译注：即 force 的首字母）。 这是一种安全特性，用于防止误删还没有添加到快照的数据，这样的数据不能被 Git 恢复。</p>
 <p>&emsp;&emsp;另外一种情况是，我们想把文件从 Git 仓库中删除（亦即从暂存区域移除），但仍然希望保留在当前工作目录中。 换句话说，你想让文件保留在磁盘，但是并不想让 Git 继续跟踪。 当你忘记添加 .gitignore 文件，不小心把一个很大的日志文件或一堆 .a 这样的编译生成文件添加到暂存区时，这一做法尤其有用。 为达到这一目的，使用 –cached 选项：</p>
 <pre><code>$ git rm --cached README
 </code></pre><p>&emsp;&emsp;git rm 命令后面可以列出文件或者目录的名字，也可以使用 glob 模式。 比方说：</p>
@@ -449,43 +375,13 @@ Changes to be committed:
 <h2 id="Git-基础-查看提交历史"><a href="#Git-基础-查看提交历史" class="headerlink" title="Git 基础 - 查看提交历史"></a>Git 基础 - 查看提交历史</h2><p>&emsp;&emsp;在提交了若干更新，又或者克隆了某个项目之后，你也许想回顾下提交历史. 完成这个任务最简单而又有效的工具是 git log 命令。</p>
 <h2 id="Git-基础-撤消操作"><a href="#Git-基础-撤消操作" class="headerlink" title="Git 基础 - 撤消操作"></a>Git 基础 - 撤消操作</h2><p>&emsp;&emsp;在任何一个阶段，你都有可能想要撤消某些操作。 这里，我们将会学习几个撤消你所做修改的基本工具。 注意，有些撤消操作是不可逆的。 这是在使用 Git 的过程中，会因为操作失误而导致之前的工作丢失的少有的几个地方之一。</p>
 <h2 id="Git-基础-远程仓库的使用"><a href="#Git-基础-远程仓库的使用" class="headerlink" title="Git 基础 - 远程仓库的使用"></a>Git 基础 - 远程仓库的使用</h2><p>&emsp;&emsp;为了能在任意 Git 项目上协作，你需要知道如何管理自己的远程仓库。 远程仓库是指托管在因特网或其他网络中的你的项目的版本库。 你可以有好几个远程仓库，通常有些仓库对你只读，有些则可以读写。 与他人协作涉及管理远程仓库以及根据需要推送或拉取数据。</p>
-<h2 id="查看远程仓库"><a href="#查看远程仓库" class="headerlink" title="查看远程仓库"></a>查看远程仓库</h2><p>&emsp;&emsp;如果想查看你已经配置的远程仓库服务器，可以运行 git remote 命令。 它会列出你指定的每一个远程服务器的简写。 如果你已经克隆了自己的仓库，那么至少应该能看到 origin - 这是 Git 给你克隆的仓库服务器的默认名字：</p>
-<pre><code>$ git remote
-origin
-</code></pre><p>&emsp;&emsp;你也可以指定选项 -v，会显示需要读写远程仓库使用的 Git 保存的简写与其对应的 URL。</p>
-<pre><code>$ git remote -v
-origin    https://github.com/schacon/ticgit (fetch)
-origin    https://github.com/schacon/ticgit (push)
-</code></pre><p>&emsp;&emsp;如果你的远程仓库不止一个，该命令会将它们全部列出。 例如，与几个协作者合作的，拥有多个远程仓库的仓库看起来像下面这样：</p>
-<pre><code>$ git remote -v
-bakkdoor  https://github.com/bakkdoor/grit (fetch)
-bakkdoor  https://github.com/bakkdoor/grit (push)
-cho45     https://github.com/cho45/grit (fetch)
-cho45     https://github.com/cho45/grit (push)
-defunkt   https://github.com/defunkt/grit (fetch)
-defunkt   https://github.com/defunkt/grit (push)
-koke      git://github.com/koke/grit.git (fetch)
-koke      git://github.com/koke/grit.git (push)
-origin    git@github.com:mojombo/grit.git (fetch)
-origin    git@github.com:mojombo/grit.git (push)
-</code></pre><p>&emsp;&emsp;这样我们可以轻松拉取其中任何一个用户的贡献。 此外，我们大概还会有某些远程仓库的推送权限，虽然我们目前还不会在此介绍。</p>
-<h2 id="添加远程仓库"><a href="#添加远程仓库" class="headerlink" title="添加远程仓库"></a>添加远程仓库</h2><p>&emsp;&emsp;运行 git remote add <shortname> <url> 添加一个新的远程 Git 仓库，同时指定一个你可以轻松引用的简写：</url></shortname></p>
-<pre><code>$ git remote add pb https://github.com/paulboone/ticgit
-$ git remote -v
-origin    https://github.com/schacon/ticgit (fetch)
-origin    https://github.com/schacon/ticgit (push)
-pb    https://github.com/paulboone/ticgit (fetch)
-pb    https://github.com/paulboone/ticgit (push)
-</code></pre><p>&emsp;&emsp;现在你可以在命令行中使用字符串 pb 来代替整个 URL。 例如，如果你想拉取 Paul 的仓库中有但你没有的信息，可以运行 git fetch pb：</p>
-<pre><code>$ git fetch pb
-remote: Counting objects: 43, done.
-remote: Compressing objects: 100% (36/36), done.
-remote: Total 43 (delta 10), reused 31 (delta 5)
-Unpacking objects: 100% (43/43), done.
-From https://github.com/paulboone/ticgit
- * [new branch]      master     -&gt; pb/master
- * [new branch]      ticgit     -&gt; pb/ticgit
-</code></pre><p>现在 Paul 的 master 分支可以在本地通过 pb/master 访问到 - 你可以将它合并到自己的某个分支中，或者如果你想要查看它的话，可以检出一个指向该点的本地分支。</p>
+<h2 id="查看远程仓库"><a href="#查看远程仓库" class="headerlink" title="查看远程仓库"></a>查看远程仓库</h2><p>&emsp;&emsp;如果想查看你已经配置的远程仓库服务器，可以运行 git remote 命令。 它会列出你指定的每一个远程服务器的简写。 如果你已经克隆了自己的仓库，那么至少应该能看到 origin - 这是 Git 给你克隆的仓库服务器的默认名字：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ git remote</span><br><span class="line">origin</span><br></pre></td></tr></table></figure></p>
+<p>&emsp;&emsp;你也可以指定选项 -v，会显示需要读写远程仓库使用的 Git 保存的简写与其对应的 URL。<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ git remote -v</span><br><span class="line">origin	https://github.com/schacon/ticgit (fetch)</span><br><span class="line">origin	https://github.com/schacon/ticgit (push)</span><br></pre></td></tr></table></figure></p>
+<p>&emsp;&emsp;如果你的远程仓库不止一个，该命令会将它们全部列出。 例如，与几个协作者合作的，拥有多个远程仓库的仓库看起来像下面这样：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$ git remote -v</span><br><span class="line">bakkdoor  https://github.com/bakkdoor/grit (fetch)</span><br><span class="line">bakkdoor  https://github.com/bakkdoor/grit (push)</span><br><span class="line">cho45     https://github.com/cho45/grit (fetch)</span><br><span class="line">cho45     https://github.com/cho45/grit (push)</span><br><span class="line">defunkt   https://github.com/defunkt/grit (fetch)</span><br><span class="line">defunkt   https://github.com/defunkt/grit (push)</span><br><span class="line">koke      git://github.com/koke/grit.git (fetch)</span><br><span class="line">koke      git://github.com/koke/grit.git (push)</span><br><span class="line">origin    git@github.com:mojombo/grit.git (fetch)</span><br><span class="line">origin    git@github.com:mojombo/grit.git (push)</span><br></pre></td></tr></table></figure></p>
+<p>&emsp;&emsp;这样我们可以轻松拉取其中任何一个用户的贡献。 此外，我们大概还会有某些远程仓库的推送权限，虽然我们目前还不会在此介绍。</p>
+<h2 id="添加远程仓库"><a href="#添加远程仓库" class="headerlink" title="添加远程仓库"></a>添加远程仓库</h2><p>&emsp;&emsp;运行 git remote add <shortname> <url> 添加一个新的远程 Git 仓库，同时指定一个你可以轻松引用的简写：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ git remote add pb https://github.com/paulboone/ticgit</span><br><span class="line">$ git remote -v</span><br><span class="line">origin	https://github.com/schacon/ticgit (fetch)</span><br><span class="line">origin	https://github.com/schacon/ticgit (push)</span><br><span class="line">pb	https://github.com/paulboone/ticgit (fetch)</span><br><span class="line">pb	https://github.com/paulboone/ticgit (push)</span><br></pre></td></tr></table></figure></url></shortname></p>
+<p>&emsp;&emsp;现在你可以在命令行中使用字符串 pb 来代替整个 URL。 例如，如果你想拉取 Paul 的仓库中有但你没有的信息，可以运行 git fetch pb：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ git fetch pb</span><br><span class="line">remote: Counting objects: 43, done.</span><br><span class="line">remote: Compressing objects: 100% (36/36), done.</span><br><span class="line">remote: Total 43 (delta 10), reused 31 (delta 5)</span><br><span class="line">Unpacking objects: 100% (43/43), done.</span><br><span class="line">From https://github.com/paulboone/ticgit</span><br><span class="line"> * [new branch]      master     -&gt; pb/master</span><br><span class="line"> * [new branch]      ticgit     -&gt; pb/ticgit</span><br></pre></td></tr></table></figure></p>
+<p>现在 Paul 的 master 分支可以在本地通过 pb/master 访问到 - 你可以将它合并到自己的某个分支中，或者如果你想要查看它的话，可以检出一个指向该点的本地分支。</p>
 <h2 id="从远程仓库中抓取与拉取"><a href="#从远程仓库中抓取与拉取" class="headerlink" title="从远程仓库中抓取与拉取"></a>从远程仓库中抓取与拉取</h2><pre><code>$ git fetch [remote-name]
 </code></pre><p>这个命令会访问远程仓库，从中拉取所有你还没有的数据。 执行完成后，你将会拥有那个远程仓库中所有分支的引用，可以随时合并或查看。</p>
 <p>&emsp;&emsp;如果你使用 clone 命令克隆了一个仓库，命令会自动将其添加为远程仓库并默认以 “origin” 为简写。 所以，git fetch origin 会抓取克隆（或上一次抓取）后新推送的所有工作。 必须注意 git fetch 命令会将数据拉取到你的本地仓库 - 它并不会自动合并或修改你当前的工作。 当准备好时你必须手动将其合并入你的工作。</p>
@@ -494,16 +390,9 @@ From https://github.com/paulboone/ticgit
 <pre><code>$ git push origin master
 </code></pre><p>&emsp;&emsp;只有当你有所克隆服务器的写入权限，并且之前没有人推送过时，这条命令才能生效。 当你和其他人在同一时间克隆，他们先推送到上游然后你再推送到上游，你的推送就会毫无疑问地被拒绝。 你必须先将他们的工作拉取下来并将其合并进你的工作后才能推送。</p>
 <h2 id="查看远程仓库-1"><a href="#查看远程仓库-1" class="headerlink" title="查看远程仓库"></a>查看远程仓库</h2><p>&emsp;&emsp;如果想要查看某一个远程仓库的更多信息，可以使用 <code>git remote show [remote-name]</code>命令。</p>
-<h2 id="远程仓库的移除与重命名"><a href="#远程仓库的移除与重命名" class="headerlink" title="远程仓库的移除与重命名"></a>远程仓库的移除与重命名</h2><p>&emsp;&emsp;如果想要重命名引用的名字可以运行 git remote rename 去修改一个远程仓库的简写名。 例如，想要将 pb 重命名为 paul，可以用 git remote rename 这样做：</p>
-<pre><code>$ git remote rename pb paul
-$ git remote
-origin
-paul
-</code></pre><p>&emsp;&emsp;值得注意的是这同样也会修改你的远程分支名字。 那些过去引用 pb/master 的现在会引用 paul/master。<br>&emsp;&emsp;如果因为一些原因想要移除一个远程仓库 - 你已经从服务器上搬走了或不再想使用某一个特定的镜像了，又或者某一个贡献者不再贡献了 - 可以使用 git remote rm ：</p>
-<pre><code>$ git remote rm paul
-$ git remote
-origin
-</code></pre>
+<h2 id="远程仓库的移除与重命名"><a href="#远程仓库的移除与重命名" class="headerlink" title="远程仓库的移除与重命名"></a>远程仓库的移除与重命名</h2><p>&emsp;&emsp;如果想要重命名引用的名字可以运行 git remote rename 去修改一个远程仓库的简写名。 例如，想要将 pb 重命名为 paul，可以用 git remote rename 这样做：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ git remote rename pb paul</span><br><span class="line">$ git remote</span><br><span class="line">origin</span><br><span class="line">paul</span><br></pre></td></tr></table></figure></p>
+<p>&emsp;&emsp;值得注意的是这同样也会修改你的远程分支名字。 那些过去引用 pb/master 的现在会引用 paul/master。<br>&emsp;&emsp;如果因为一些原因想要移除一个远程仓库 - 你已经从服务器上搬走了或不再想使用某一个特定的镜像了，又或者某一个贡献者不再贡献了 - 可以使用 git remote rm ：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ git remote rm paul</span><br><span class="line">$ git remote</span><br><span class="line">origin</span><br></pre></td></tr></table></figure></p>
+
       
     </div>
 
