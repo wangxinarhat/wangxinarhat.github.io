@@ -1664,7 +1664,7 @@ pre .javascript .function {
   width: 4px;
   height: 4px;
   border-radius: 50%;
-  background: #391ded;
+  background: #ff3cb9;
 }
 .links-of-blogroll {
   font-size: 13px;
@@ -2261,7 +2261,7 @@ body {
 .header {
   position: relative;
   margin: 0 auto;
-  width: 78%;
+  width: 72%;
 }
 @media (min-width: 768px) and (max-width: 991px) {
   .header {
@@ -2317,7 +2317,7 @@ body {
   }
 }
 .container .main-inner {
-  width: 78%;
+  width: 72%;
 }
 @media (min-width: 768px) and (max-width: 991px) {
   .container .main-inner {
@@ -2333,7 +2333,7 @@ body {
   float: right;
   box-sizing: border-box;
   padding: 40px;
-  width: calc(100% - 360px);
+  width: calc(88% - 360px);
   background: #fff;
   min-height: 700px;
 }
