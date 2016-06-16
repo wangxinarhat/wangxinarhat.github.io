@@ -208,11 +208,11 @@
       <category term="Android" scheme="http://wangxinarhat.com/categories/Rxjava/Android/"/>
     
     
+      <category term="Retrofit" scheme="http://wangxinarhat.com/tags/Retrofit/"/>
+    
       <category term="rxjava" scheme="http://wangxinarhat.com/tags/rxjava/"/>
     
       <category term="android" scheme="http://wangxinarhat.com/tags/android/"/>
-    
-      <category term="Retrofit" scheme="http://wangxinarhat.com/tags/Retrofit/"/>
     
       <category term="rxbind" scheme="http://wangxinarhat.com/tags/rxbind/"/>
     
@@ -428,13 +428,48 @@
       <category term="Android" scheme="http://wangxinarhat.com/categories/Rxjava/Android/"/>
     
     
+      <category term="Retrofit" scheme="http://wangxinarhat.com/tags/Retrofit/"/>
+    
       <category term="rxjava" scheme="http://wangxinarhat.com/tags/rxjava/"/>
     
       <category term="android" scheme="http://wangxinarhat.com/tags/android/"/>
     
-      <category term="Retrofit" scheme="http://wangxinarhat.com/tags/Retrofit/"/>
-    
       <category term="rxbind" scheme="http://wangxinarhat.com/tags/rxbind/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Rxjava &amp; Retrofit实践</title>
+    <link href="http://wangxinarhat.com/2016/04/16/2016-04-16-gee-weather/"/>
+    <id>http://wangxinarhat.com/2016/04/16/2016-04-16-gee-weather/</id>
+    <published>2016-04-16T15:00:00.000Z</published>
+    <updated>2016-06-16T03:36:50.911Z</updated>
+    
+    <content type="html">&lt;blockquote&gt;
+&lt;p&gt;最近学习了Rxjava、Retrofit，做一个小项目实践下，使用了和风天气API&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;效果图&lt;/strong&gt;&lt;br&gt;  &lt;br&gt;&lt;img src=&quot;/images/geeweather/geeweather-sketch.gif&quot; alt=&quot;img&quot;&gt;&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;实现&lt;/strong&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;最近学习了Rxjava、Retrofit，做一个小项目实践下，使用了和风天气API&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;strong&gt;效果图&lt;/strong&gt;&lt;br&gt;  &lt;br/&gt;&lt;img src=&quot;/images/geeweather/geeweather-sketch.gif&quot; alt=&quot;img&quot;&gt;
+    
+    </summary>
+    
+      <category term="Retrofit" scheme="http://wangxinarhat.com/categories/Retrofit/"/>
+    
+    
+      <category term="Rxjava" scheme="http://wangxinarhat.com/tags/Rxjava/"/>
+    
+      <category term="Retrofit" scheme="http://wangxinarhat.com/tags/Retrofit/"/>
     
   </entry>
   
