@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://wangxinarhat.com/"/>
-  <updated>2016-06-12T13:19:00.383Z</updated>
+  <updated>2016-06-17T19:25:03.043Z</updated>
   <id>http://wangxinarhat.com/</id>
   
   <author>
@@ -14,6 +14,81 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Ubuntu 16.04 下 React Native环境搭建</title>
+    <link href="http://wangxinarhat.com/2016/05/21/2016-05-21-react-native1/"/>
+    <id>http://wangxinarhat.com/2016/05/21/2016-05-21-react-native1/</id>
+    <published>2016-05-21T14:00:00.000Z</published>
+    <updated>2016-06-17T19:25:03.043Z</updated>
+    
+    <content type="html">&lt;blockquote&gt;
+&lt;p&gt;摸索React Native有一段时间了，尝试在Windows下和linux下搭建开发环境，踩过的坑还是会忘，在此记录&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&quot;安装&quot;&gt;&lt;a href=&quot;#安装&quot; class=&quot;headerlink&quot; title=&quot;安装&quot;&gt;&lt;/a&gt;安装&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;nodejs&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;sudo apt-get install -y build-essential&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;curl &lt;span class=&quot;_&quot;&gt;-s&lt;/span&gt;L https://deb.nodesource.com/setup_4.x | sudo -E bash -&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;sudo apt-get install -y nodejs&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;sudo ln &lt;span class=&quot;_&quot;&gt;-s&lt;/span&gt; /usr/bin/nodejs /usr/bin/node&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
+&lt;ul&gt;
+&lt;li&gt;React Native命令工具&lt;/li&gt;
+&lt;/ul&gt;
+&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;npm install -g react-native-cli&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;ul&gt;
+&lt;li&gt;Watchman&lt;/li&gt;
+&lt;/ul&gt;
+&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;git &lt;span class=&quot;built_in&quot;&gt;clone&lt;/span&gt; https://github.com/facebook/watchman.git&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;built_in&quot;&gt;cd&lt;/span&gt; watchman&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;git checkout v4.5.0  &lt;span class=&quot;comment&quot;&gt;# 这是本文发布时的最新版本&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;./autogen.sh&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;./configure&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;make&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;sudo make install&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;ul&gt;
+&lt;li&gt;Flow&lt;/li&gt;
+&lt;/ul&gt;
+&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;npm install -g flow-bin&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;h2 id=&quot;配置&quot;&gt;&lt;a href=&quot;#配置&quot; class=&quot;headerlink&quot; title=&quot;配置&quot;&gt;&lt;/a&gt;配置&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;android环境变量&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;将ANDROID_HOME环境变量指向Android SDK的路径,ANDROID_NDK指向NDK目录&lt;/p&gt;
+&lt;p&gt;具体的做法是把下面的命令加入到~/.bashrc、~/.bash_profile文件中&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;export ANDROID_HOME=~/Android/Sdk&lt;/code&gt;&lt;br&gt;&lt;code&gt;export ANDROID_NDK=~/Android/android-ndk-r10e&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;使用下列命令使其立即生效（否则重启后才生效）：&lt;br&gt;&lt;code&gt;source ./bash_profile&lt;/code&gt;&lt;/p&gt;
+&lt;h2 id=&quot;Hello-React&quot;&gt;&lt;a href=&quot;#Hello-React&quot; class=&quot;headerlink&quot; title=&quot;Hello React&quot;&gt;&lt;/a&gt;Hello React&lt;/h2&gt;&lt;p&gt;初始化一个React Native的Hello World项目并运行&lt;br&gt;&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;react-native init HelloReact&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;built_in&quot;&gt;cd&lt;/span&gt; HelloReact&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;react-native run-android&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;正常的话这是该有一个这样的界面&lt;br&gt;&lt;img src=&quot;/images/react/react-native-init.png&quot; alt=&quot;img&quot;&gt;&lt;/p&gt;
+&lt;p&gt;修改下&lt;strong&gt;index.android.js&lt;/strong&gt;文件，手机端reload js，体验React Native魅力&lt;br&gt;&lt;img src=&quot;/images/react/react-native-init-modify.png&quot; alt=&quot;img&quot;&gt;&lt;/p&gt;
+&lt;h2 id=&quot;坑&quot;&gt;&lt;a href=&quot;#坑&quot; class=&quot;headerlink&quot; title=&quot;坑&quot;&gt;&lt;/a&gt;坑&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;运行&lt;code&gt;react-native run-android&lt;/code&gt;后手机出现Could not connect to development server&lt;br&gt;如下图：&lt;br&gt;&lt;img src=&quot;images/react/react-native-init-error1.png&quot; alt=&quot;img&quot;&gt;&lt;br&gt;查看github找到一个issue，解决方法是：&lt;br&gt;A common issue is that the packager is not started automatically when you run react-native run-android. You can start it manually using:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;就是说运行&lt;code&gt;react-native run-android&lt;/code&gt;，Packger可能不会自动运行，需手动启动它&lt;br&gt;&lt;code&gt;react-native start&lt;/code&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;watchman issue : Poison: inotify_add_watch&lt;br&gt;出现以下错误&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;19&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;20&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;21&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt; ERROR  A non-recoverable condition has triggered.  Watchman needs your &lt;span class=&quot;built_in&quot;&gt;help&lt;/span&gt;!&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;The triggering condition was at timestamp=1466189741: inotify-add-watch(/home/wangxinarhat/ReactProjects/HelloReact/node_modules/react-native/node_modules/fbjs-scripts/node_modules/babel/node_modules/chokidar/node_modules/anymatch/node_modules/micromatch/node_modules/braces/node_modules) -&amp;gt; The user &lt;span class=&quot;built_in&quot;&gt;limit&lt;/span&gt; on the total number of inotify watches was reached; increase the fs.inotify.max_user_watches sysctl&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;All requests will &lt;span class=&quot;built_in&quot;&gt;continue&lt;/span&gt; to fail with this message until you resolve&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;the underlying problem.  You will find more information on fixing this at&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;https://facebook.github.io/watchman/docs/troubleshooting.html&lt;span class=&quot;comment&quot;&gt;#poison-inotify-add-watch&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#123;&lt;span class=&quot;string&quot;&gt;&quot;watchmanResponse&quot;&lt;/span&gt;:&amp;#123;&lt;span class=&quot;string&quot;&gt;&quot;version&quot;&lt;/span&gt;:&lt;span class=&quot;string&quot;&gt;&quot;4.1.0&quot;&lt;/span&gt;,&lt;span class=&quot;string&quot;&gt;&quot;error&quot;&lt;/span&gt;:&lt;span class=&quot;string&quot;&gt;&quot;A non-recoverable condition has triggered.  Watchman needs your help!\nThe triggering condition was at timestamp=1466189741: inotify-add-watch(/home/wangxinarhat/ReactProjects/HelloReact/node_modules/react-native/node_modules/fbjs-scripts/node_modules/babel/node_modules/chokidar/node_modules/anymatch/node_modules/micromatch/node_modules/braces/node_modules) -&amp;gt; The user limit on the total number of inotify watches was reached; increase the fs.inotify.max_user_watches sysctl\nAll requests will continue to fail with this message until you resolve\nthe underlying problem.  You will find more information on fixing this at\nhttps://facebook.github.io/watchman/docs/troubleshooting.html#poison-inotify-add-watch\n&quot;&lt;/span&gt;&amp;#125;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;Error: A non-recoverable condition has triggered.  Watchman needs your &lt;span class=&quot;built_in&quot;&gt;help&lt;/span&gt;!&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;The triggering condition was at timestamp=1466189741: inotify-add-watch(/home/wangxinarhat/ReactProjects/HelloReact/node_modules/react-native/node_modules/fbjs-scripts/node_modules/babel/node_modules/chokidar/node_modules/anymatch/node_modules/micromatch/node_modules/braces/node_modules) -&amp;gt; The user &lt;span class=&quot;built_in&quot;&gt;limit&lt;/span&gt; on the total number of inotify watches was reached; increase the fs.inotify.max_user_watches sysctl&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;All requests will &lt;span class=&quot;built_in&quot;&gt;continue&lt;/span&gt; to fail with this message until you resolve&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;the underlying problem.  You will find more information on fixing this at&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;https://facebook.github.io/watchman/docs/troubleshooting.html&lt;span class=&quot;comment&quot;&gt;#poison-inotify-add-watch&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    at ChildProcess.&amp;lt;anonymous&amp;gt; (/home/wangxinarhat/ReactProjects/HelloReact/node_modules/react-native/node_modules/sane/node_modules/fb-watchman/index.js:206:21)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    at emitTwo (events.js:87:13)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    at ChildProcess.emit (events.js:172:7)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    at maybeClose (internal/child_process.js:827:16)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    at Socket.&amp;lt;anonymous&amp;gt; (internal/child_process.js:319:11)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    at emitOne (events.js:77:13)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    at Socket.emit (events.js:169:7)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    at Pipe._onclose (net.js:477:12)&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;因为inotify默认内核参数值太小，修改之：&lt;br&gt;&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;built_in&quot;&gt;echo&lt;/span&gt; 256 | sudo tee &lt;span class=&quot;_&quot;&gt;-a&lt;/span&gt; /proc/sys/fs/inotify/max_user_instances&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;built_in&quot;&gt;echo&lt;/span&gt; 32768 | sudo tee &lt;span class=&quot;_&quot;&gt;-a&lt;/span&gt; /proc/sys/fs/inotify/max_queued_events&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;built_in&quot;&gt;echo&lt;/span&gt; 65536 | sudo tee &lt;span class=&quot;_&quot;&gt;-a&lt;/span&gt; /proc/sys/fs/inotify/max_user_watches&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;watchman shutdown-server&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;摸索React Native有一段时间了，尝试在Windows下和linux下搭建开发环境，踩过的坑还是会忘，在此记录&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&quot;安装&quot;&gt;&lt;a href=&quot;#安装&quot; class=&quot;headerlink&quot; title=&quot;安装&quot;&gt;&lt;/a&gt;安装&lt;/h2&gt;&lt;ul&gt;
+&lt;li&gt;nodejs&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;sudo apt-get install -y build-essential&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;curl &lt;span class=&quot;_&quot;&gt;-s&lt;/span&gt;L https://deb.nodesource.com/setup_4.x | sudo -E bash -&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;sudo apt-get install -y nodejs&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;sudo ln &lt;span class=&quot;_&quot;&gt;-s&lt;/span&gt; /usr/bin/nodejs /usr/bin/node&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+    
+    </summary>
+    
+      <category term="React Native" scheme="http://wangxinarhat.com/categories/React-Native/"/>
+    
+      <category term="Android" scheme="http://wangxinarhat.com/categories/React-Native/Android/"/>
+    
+    
+      <category term="React Native" scheme="http://wangxinarhat.com/tags/React-Native/"/>
+    
+      <category term="Ubuntu" scheme="http://wangxinarhat.com/tags/Ubuntu/"/>
+    
+      <category term="Watchman" scheme="http://wangxinarhat.com/tags/Watchman/"/>
+    
+      <category term="Nodejs" scheme="http://wangxinarhat.com/tags/Nodejs/"/>
+    
+  </entry>
   
   <entry>
     <title>莱斯特城，书写足球世界最美童话</title>
