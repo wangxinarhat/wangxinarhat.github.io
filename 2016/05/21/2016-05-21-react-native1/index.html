@@ -101,7 +101,7 @@ nodejs1234sudo apt-get install -y build-essentialcurl -sL https://deb.nodesource
 <meta property="og:image" content="http://wangxinarhat.com/images/react/react-native-init.png">
 <meta property="og:image" content="http://wangxinarhat.com/images/react/react-native-init-modify.png">
 <meta property="og:image" content="http://wangxinarhat.com/images/react/react-native-init-error1.png">
-<meta property="og:updated_time" content="2016-06-17T19:35:56.031Z">
+<meta property="og:updated_time" content="2016-06-17T19:37:46.943Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Ubuntu 16.04 下 React Native环境搭建">
 <meta name="twitter:description" content="摸索React Native有一段时间了，尝试在Windows下和linux下搭建开发环境，踩过的坑还是会忘，在此记录
@@ -374,7 +374,7 @@ nodejs1234sudo apt-get install -y build-essentialcurl -sL https://deb.nodesource
 <ul>
 <li><strong>Watchman</strong><br>Watchman是由Facebook提供的监视文件系统变更的工具。安装此工具可以提高开发时的性能（packager可以快速捕捉文件的变化从而实现实时刷新）</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/facebook/watchman.git</span><br><span class="line">cd watchman</span><br><span class="line">git checkout v4.5.0  # 这是本文发布时的最新版本</span><br><span class="line">./autogen.sh</span><br><span class="line">./configure</span><br><span class="line">make</span><br><span class="line">sudo make install</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/facebook/watchman.git</span><br><span class="line">cd watchman</span><br><span class="line">git checkout v4.5.0</span><br><span class="line">./autogen.sh</span><br><span class="line">./configure</span><br><span class="line">make</span><br><span class="line">sudo make install</span><br></pre></td></tr></table></figure>
 <ul>
 <li><strong>Flow</strong><br>Flow是一个静态的JS类型检查工具，这一语法并不属于ES标准，只是Facebook自家的代码规范。<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g flow-bin</span><br></pre></td></tr></table></figure>
 </li>

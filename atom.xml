@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://wangxinarhat.com/"/>
-  <updated>2016-06-17T19:35:56.031Z</updated>
+  <updated>2016-06-17T19:37:46.943Z</updated>
   <id>http://wangxinarhat.com/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://wangxinarhat.com/2016/05/21/2016-05-21-react-native1/"/>
     <id>http://wangxinarhat.com/2016/05/21/2016-05-21-react-native1/</id>
     <published>2016-05-21T14:00:00.000Z</published>
-    <updated>2016-06-17T19:35:56.031Z</updated>
+    <updated>2016-06-17T19:37:46.943Z</updated>
     
     <content type="html">&lt;blockquote&gt;
 &lt;p&gt;摸索React Native有一段时间了，尝试在Windows下和linux下搭建开发环境，踩过的坑还是会忘，在此记录&lt;/p&gt;
@@ -37,7 +37,7 @@
 &lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;Watchman&lt;/strong&gt;&lt;br&gt;Watchman是由Facebook提供的监视文件系统变更的工具。安装此工具可以提高开发时的性能（packager可以快速捕捉文件的变化从而实现实时刷新）&lt;/li&gt;
 &lt;/ul&gt;
-&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;git clone https://github.com/facebook/watchman.git&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;cd watchman&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;git checkout v4.5.0  # 这是本文发布时的最新版本&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;./autogen.sh&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;./configure&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;make&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;sudo make install&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;git clone https://github.com/facebook/watchman.git&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;cd watchman&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;git checkout v4.5.0&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;./autogen.sh&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;./configure&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;make&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;sudo make install&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
 &lt;ul&gt;
 &lt;li&gt;&lt;strong&gt;Flow&lt;/strong&gt;&lt;br&gt;Flow是一个静态的JS类型检查工具，这一语法并不属于ES标准，只是Facebook自家的代码规范。&lt;figure class=&quot;highlight bash&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;npm install -g flow-bin&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
 &lt;/li&gt;
