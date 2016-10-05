@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://wangxinarhat.com/"/>
-  <updated>2016-06-17T19:37:46.943Z</updated>
+  <updated>2016-10-05T15:58:49.540Z</updated>
   <id>http://wangxinarhat.com/</id>
   
   <author>
@@ -14,6 +14,115 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title></title>
+    <link href="http://wangxinarhat.com/2016/10/05/haha123/"/>
+    <id>http://wangxinarhat.com/2016/10/05/haha123/</id>
+    <published>2016-10-05T15:58:49.544Z</published>
+    <updated>2016-10-05T15:58:49.540Z</updated>
+    
+    <content type="html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;Title&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;header style=&quot;position: relative;
+    display: table;
+    width: 220px;
+    height: 160px;
+    margin-bottom: 5rem;
+    text-align: center;
+    color: #fff;
+    background: #303538 no-repeat center center;
+    background-size: cover;&quot;&gt;
+    &lt;div style=&quot; display: table-cell; vertical-align: middle;&quot;&gt;
+        &lt;h1 style=&quot;font-size: 36px;line-height: 40px;&quot;&gt;Xin Wang&lt;/h1&gt;
+        &lt;p style=&quot;font-size: 24px; &quot;&gt;Android Developer&lt;/p&gt;
+    &lt;/div&gt;
+&lt;/header&gt;
+&lt;table border=&quot;0&quot;&gt;
+    &lt;tr&gt;
+        &lt;td align=&quot;center&quot;&gt;&amp;emsp;Education&lt;/td&gt;
+        &lt;td align=&quot;left&quot;&gt;East China University of Science and Technology&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td&gt;&amp;emsp;Website&lt;/td&gt;
+        &lt;td&gt;&lt;a href=&quot;http://www.wangxinarhat.com&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;http://www.wangxinarhat.com&lt;/a&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td&gt;&amp;emsp;GitHub&lt;/td&gt;
+        &lt;td&gt;&lt;a href=&quot;http://github.com/wangxinarhat&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;http://github.com/wangxinarhat&lt;/a&gt;&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td&gt;&amp;emsp;Mobile&lt;/td&gt;
+        &lt;td&gt;+86 13764245202&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;td&gt;&amp;emsp;Email&lt;/td&gt;
+        &lt;td&gt;modric14@163.com&lt;/td&gt;
+    &lt;/tr&gt;
+&lt;/table&gt;
+
+
+&lt;/body&gt;
+&lt;/html&gt;</content>
+    
+    <summary type="html">
+    
+      &lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;Title&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;header style=&quot;position: relativ
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title></title>
+    <link href="http://wangxinarhat.com/2016/10/05/haha/"/>
+    <id>http://wangxinarhat.com/2016/10/05/haha/</id>
+    <published>2016-10-05T15:47:51.044Z</published>
+    <updated>2016-10-05T15:47:51.036Z</updated>
+    
+    <content type="html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;</content>
+    
+    <summary type="html">
+    
+      &lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+&lt;/body&gt;
+&lt;/html&gt;
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>Ubuntu 16.04 下 React Native环境搭建</title>
