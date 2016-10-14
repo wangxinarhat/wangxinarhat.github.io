@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://wangxinarhat.com/"/>
-  <updated>2016-10-14T16:39:43.134Z</updated>
+  <updated>2016-06-17T19:37:46.943Z</updated>
   <id>http://wangxinarhat.com/</id>
   
   <author>
@@ -14,64 +14,6 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
-  
-  <entry>
-    <title>Handler源码阅读笔记</title>
-    <link href="http://wangxinarhat.com/2016/09/28/2013-12-18-handler-read/"/>
-    <id>http://wangxinarhat.com/2016/09/28/2013-12-18-handler-read/</id>
-    <published>2016-09-28T12:00:00.000Z</published>
-    <updated>2016-10-14T16:39:43.134Z</updated>
-    
-    <content type="html">&lt;blockquote&gt;
-&lt;p&gt;&amp;emsp;处于性能优化考虑,Android的UI操作并不是线程安全的,这意味着如果有多个线程并发操作UI组件,可能会导致线程安全问题.为了解决这个问题,Android制定了一条规则,只允许UI线程修改Activity的UI组件.&lt;br&gt;&amp;emsp;当一个程序第一次启动时,Android会同时启动一条主线程,主线程主要负责UI相关的事件,并把相关的事件分发到对应的组件进行处理,所以主线程又叫UI线程.&lt;br&gt;&amp;emsp;Android的消息传递机制是另一种形式的”事件处理”,这种机制主要是为了解决Android应用的多线程问题—Android平台只允许UI线程修改Activity里的UI组件这样就会导致新启动的线程无法动态改变界面组件的属性值.&lt;br&gt;但在实际应用开发中,需要让新启动的线程周期性的改变界面组件的属性值,这就需要借助于Handler的消息传递机制来实现.&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h2 id=&quot;Handler类简介&quot;&gt;&lt;a href=&quot;#Handler类简介&quot; class=&quot;headerlink&quot; title=&quot;Handler类简介&quot;&gt;&lt;/a&gt;Handler类简介&lt;/h2&gt;&lt;p&gt;Handler类的主要作用有两个&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;在新启动的线程中发送消息&lt;/li&gt;
-&lt;li&gt;在主线程中获取、处理消息&lt;/li&gt;
-&lt;/ul&gt;
-&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;
-&lt;p&gt;Handler类包含如下方法用于发送、处理消息&lt;/p&gt;
-&lt;ol&gt;
-&lt;li&gt;void handleMessage(Message msg) // 处理消息的方法，常被重写&lt;/li&gt;
-&lt;li&gt;final boolean hasMessages(int what) // 检查消息队列中是否包含what属性为指定值的方法&lt;/li&gt;
-&lt;li&gt;final boolean hasMessages(int what, Object object) // 检查消息队列中是否包含what属性为指定值且object属性为指定对象的方法&lt;/li&gt;
-&lt;li&gt;final Message obtainMessage() // 获取消息&lt;/li&gt;
-&lt;li&gt;final boolean sendEmptyMessageDelayed(int what, long delayMillis)  // 发送空消息&lt;/li&gt;
-&lt;li&gt;final boolean sendMessageDelayed(Message msg, long delayMillis) // 发送消息&lt;br&gt;&amp;emsp;&lt;/li&gt;
-&lt;/ol&gt;
-&lt;h2 id=&quot;Handler、Looper、MessageQueue工作原理&quot;&gt;&lt;a href=&quot;#Handler、Looper、MessageQueue工作原理&quot; class=&quot;headerlink&quot; title=&quot;Handler、Looper、MessageQueue工作原理&quot;&gt;&lt;/a&gt;Handler、Looper、MessageQueue工作原理&lt;/h2&gt;&lt;p&gt;与Handler一起工作的几个组件&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;Message&lt;br&gt;  Handler接受和处理的消息对象&lt;/li&gt;
-&lt;li&gt;Looper&lt;br&gt;  每个线程只能有一个Looper，他的loop方法负责读取MessageQueue中的消息，读到消息之后就交给发送该消息的Handler处理&lt;/li&gt;
-&lt;li&gt;MessageQueue&lt;br&gt;  消息队列，ta采用先进先出的方式管理Message，创建Looper对象时会在他的构造方法中创建MessageQueue对象，代码如下：&lt;/li&gt;
-&lt;/ul&gt;
-&lt;figure class=&quot;highlight java&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;Looper&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(&lt;span class=&quot;keyword&quot;&gt;boolean&lt;/span&gt; quitAllowed)&lt;/span&gt; &lt;/span&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;     mQueue = &lt;span class=&quot;keyword&quot;&gt;new&lt;/span&gt; MessageQueue(quitAllowed);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;     mThread = Thread.currentThread();&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt; &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-</content>
-    
-    <summary type="html">
-    
-      &lt;blockquote&gt;
-&lt;p&gt;&amp;emsp;处于性能优化考虑,Android的UI操作并不是线程安全的,这意味着如果有多个线程并发操作UI组件,可能会导致线程安全问题.为了解决这个问题,Android制定了一条规则,只允许UI线程修改Activity的UI组件.&lt;br&gt;&amp;emsp;当一个程序第一次启动时,Android会同时启动一条主线程,主线程主要负责UI相关的事件,并把相关的事件分发到对应的组件进行处理,所以主线程又叫UI线程.&lt;br&gt;&amp;emsp;Android的消息传递机制是另一种形式的”事件处理”,这种机制主要是为了解决Android应用的多线程问题—Android平台只允许UI线程修改Activity里的UI组件这样就会导致新启动的线程无法动态改变界面组件的属性值.&lt;br&gt;但在实际应用开发中,需要让新启动的线程周期性的改变界面组件的属性值,这就需要借助于Handler的消息传递机制来实现.&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;h2 id=&quot;Handler类简介&quot;&gt;&lt;a href=&quot;#Handler类简介&quot; class=&quot;headerlink&quot; title=&quot;Handler类简介&quot;&gt;&lt;/a&gt;Handler类简介&lt;/h2&gt;&lt;p&gt;Handler类的主要作用有两个&lt;/p&gt;
-&lt;ul&gt;
-&lt;li&gt;在新启动的线程中发送消息&lt;/li&gt;
-&lt;li&gt;在主线程中获取、处理消息&lt;/li&gt;
-&lt;/ul&gt;
-    
-    </summary>
-    
-      <category term="source" scheme="http://wangxinarhat.com/categories/source/"/>
-    
-    
-      <category term="Hanlder" scheme="http://wangxinarhat.com/tags/Hanlder/"/>
-    
-      <category term="source" scheme="http://wangxinarhat.com/tags/source/"/>
-    
-      <category term="note" scheme="http://wangxinarhat.com/tags/note/"/>
-    
-  </entry>
   
   <entry>
     <title>Ubuntu 16.04 下 React Native环境搭建</title>
@@ -864,6 +806,67 @@ Switched to a new branch &amp;apos;serverfix&amp;apos;
       <category term="Git" scheme="http://wangxinarhat.com/tags/Git/"/>
     
       <category term="Base" scheme="http://wangxinarhat.com/tags/Base/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Handler源码阅读笔记</title>
+    <link href="http://wangxinarhat.com/2013/12/18/2013-12-18-handler-read/"/>
+    <id>http://wangxinarhat.com/2013/12/18/2013-12-18-handler-read/</id>
+    <published>2013-12-18T12:00:00.000Z</published>
+    <updated>2016-10-14T17:27:22.184Z</updated>
+    
+    <content type="html">&lt;blockquote&gt;
+&lt;p&gt;&amp;emsp;&amp;emsp;处于性能优化考虑,Android的UI操作并不是线程安全的,这意味着如果有多个线程并发操作UI组件,可能会导致线程安全问题.为了解决这个问题,Android制定了一条规则,只允许UI线程修改Activity的UI组件.&lt;br&gt;&amp;emsp;&amp;emsp;当一个程序第一次启动时,Android会同时启动一条主线程,主线程主要负责UI相关的事件,并把相关的事件分发到对应的组件进行处理,所以主线程又叫UI线程.&lt;br&gt;&lt;a id=&quot;more&quot;&gt;&lt;/a&gt;&lt;br&gt;&amp;emsp;&amp;emsp;Android的消息传递机制是另一种形式的”事件处理”,这种机制主要是为了解决Android应用的多线程问题—Android平台只允许UI线程修改Activity里的UI组件这样就会导致新启动的线程无法动态改变界面组件的属性值.&lt;br&gt;&amp;emsp;&amp;emsp;但在实际应用开发中,需要让新启动的线程周期性的改变界面组件的属性值,这就需要借助于Handler的消息传递机制来实现.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;h2 id=&quot;Handler类简介&quot;&gt;&lt;a href=&quot;#Handler类简介&quot; class=&quot;headerlink&quot; title=&quot;Handler类简介&quot;&gt;&lt;/a&gt;Handler类简介&lt;/h2&gt;&lt;p&gt;Handler类的主要作用有两个&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;在新启动的线程中发送消息&lt;/li&gt;
+&lt;li&gt;在主线程中获取、处理消息&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Handler类包含如下方法用于发送、处理消息&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;void handleMessage(Message msg) // 处理消息的方法，常被重写&lt;/li&gt;
+&lt;li&gt;final boolean hasMessages(int what) // 检查消息队列中是否包含what属性为指定值的方法&lt;/li&gt;
+&lt;li&gt;final boolean hasMessages(int what, Object object) // 检查消息队列中是否包含what属性为指定值且object属性为指定对象的方法&lt;/li&gt;
+&lt;li&gt;final Message obtainMessage() // 获取消息&lt;/li&gt;
+&lt;li&gt;final boolean sendEmptyMessageDelayed(int what, long delayMillis)  // 发送空消息&lt;/li&gt;
+&lt;li&gt;final boolean sendMessageDelayed(Message msg, long delayMillis) // 发送消息&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id=&quot;Handler、Looper、MessageQueue工作原理&quot;&gt;&lt;a href=&quot;#Handler、Looper、MessageQueue工作原理&quot; class=&quot;headerlink&quot; title=&quot;Handler、Looper、MessageQueue工作原理&quot;&gt;&lt;/a&gt;Handler、Looper、MessageQueue工作原理&lt;/h2&gt;&lt;p&gt;与Handler一起工作的几个组件&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Message&lt;br&gt;  Handler接受和处理的消息对象&lt;/li&gt;
+&lt;li&gt;Looper&lt;br&gt;  每个线程只能有一个Looper，他的loop方法负责读取MessageQueue中的消息，读到消息之后就交给发送该消息的Handler处理&lt;/li&gt;
+&lt;li&gt;MessageQueue&lt;br&gt;  消息队列，ta采用先进先出的方式管理Message，创建Looper对象时会在他的构造方法中创建MessageQueue对象，代码如下：&lt;/li&gt;
+&lt;/ul&gt;
+&lt;figure class=&quot;highlight java&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;Looper&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(&lt;span class=&quot;keyword&quot;&gt;boolean&lt;/span&gt; quitAllowed)&lt;/span&gt; &lt;/span&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;     mQueue = &lt;span class=&quot;keyword&quot;&gt;new&lt;/span&gt; MessageQueue(quitAllowed);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;     mThread = Thread.currentThread();&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt; &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
+&lt;p&gt;&amp;emsp;&amp;emsp;由Handler发送的消息必须被送到指定的MessageQueue，也就是说当前线程必须有一个MessageQueue，但是由上可知MessageQueue是Looper负责管理的，也就是说，&lt;br&gt;如果要Handler正常工作，必须在当前线程有一个Looper对象。&lt;br&gt;&amp;emsp;&amp;emsp;对于主线程，系统已经初始化了一个Looper对象，因此可以直接创建Handler，发送、处理消息。&lt;br&gt;&amp;emsp;&amp;emsp;对于自己启动的子线程，必须自己创建Looper，并启动他。&lt;br&gt;创建Looper对象，调用他的prepare方法即可:&lt;br&gt;&lt;figure class=&quot;highlight java&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;private&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;prepare&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;(&lt;span class=&quot;keyword&quot;&gt;boolean&lt;/span&gt; quitAllowed)&lt;/span&gt; &lt;/span&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; (sThreadLocal.get() != &lt;span class=&quot;keyword&quot;&gt;null&lt;/span&gt;) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &lt;span class=&quot;keyword&quot;&gt;throw&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;new&lt;/span&gt; RuntimeException(&lt;span class=&quot;string&quot;&gt;&quot;Only one Looper may be created per thread&quot;&lt;/span&gt;);&lt;span class=&quot;comment&quot;&gt;// 保证每个线程只有一个Looper对象&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    sThreadLocal.set(&lt;span class=&quot;keyword&quot;&gt;new&lt;/span&gt; Looper(quitAllowed));&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+&lt;p&gt;启动Looper：&lt;br&gt;&lt;figure class=&quot;highlight java&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;19&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;20&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;21&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;22&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;23&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;24&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;25&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;26&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;27&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;28&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;29&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;30&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;31&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;32&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;33&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;34&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;35&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;36&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;37&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;38&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;39&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;40&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;41&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;42&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;43&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;44&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;45&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;&lt;span class=&quot;function&quot;&gt;&lt;span class=&quot;keyword&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;static&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;title&quot;&gt;loop&lt;/span&gt;&lt;span class=&quot;params&quot;&gt;()&lt;/span&gt; &lt;/span&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;       &lt;span class=&quot;keyword&quot;&gt;final&lt;/span&gt; Looper me = myLooper();&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;       &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; (me == &lt;span class=&quot;keyword&quot;&gt;null&lt;/span&gt;) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;           &lt;span class=&quot;keyword&quot;&gt;throw&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;new&lt;/span&gt; RuntimeException(&lt;span class=&quot;string&quot;&gt;&quot;No Looper; Looper.prepare() wasn&#39;t called on this thread.&quot;&lt;/span&gt;);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;       &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;       &lt;span class=&quot;keyword&quot;&gt;final&lt;/span&gt; MessageQueue queue = me.mQueue;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;       &lt;span class=&quot;comment&quot;&gt;// Make sure the identity of this thread is that of the local process,&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;       &lt;span class=&quot;comment&quot;&gt;// and keep track of what that identity token actually is.&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;       Binder.clearCallingIdentity();&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;       &lt;span class=&quot;keyword&quot;&gt;final&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;long&lt;/span&gt; ident = Binder.clearCallingIdentity();&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;       &lt;span class=&quot;keyword&quot;&gt;for&lt;/span&gt; (;;) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;           Message msg = queue.next(); &lt;span class=&quot;comment&quot;&gt;// 获取消息队列中的下一个消息，如果没有会阻塞&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;           &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; (msg == &lt;span class=&quot;keyword&quot;&gt;null&lt;/span&gt;) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;               &lt;span class=&quot;comment&quot;&gt;// 消息队列正在退出&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;               &lt;span class=&quot;keyword&quot;&gt;return&lt;/span&gt;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;           &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;           &lt;span class=&quot;comment&quot;&gt;// This must be in a local variable, in case a UI event sets the logger&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;           Printer logging = me.mLogging;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;           &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; (logging != &lt;span class=&quot;keyword&quot;&gt;null&lt;/span&gt;) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;               logging.println(&lt;span class=&quot;string&quot;&gt;&quot;&amp;gt;&amp;gt;&amp;gt;&amp;gt;&amp;gt; Dispatching to &quot;&lt;/span&gt; + msg.target + &lt;span class=&quot;string&quot;&gt;&quot; &quot;&lt;/span&gt; +&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                       msg.callback + &lt;span class=&quot;string&quot;&gt;&quot;: &quot;&lt;/span&gt; + msg.what);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;           &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;           msg.target.dispatchMessage(msg);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;           &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; (logging != &lt;span class=&quot;keyword&quot;&gt;null&lt;/span&gt;) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;               logging.println(&lt;span class=&quot;string&quot;&gt;&quot;&amp;lt;&amp;lt;&amp;lt;&amp;lt;&amp;lt; Finished to &quot;&lt;/span&gt; + msg.target + &lt;span class=&quot;string&quot;&gt;&quot; &quot;&lt;/span&gt; + msg.callback);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;           &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;           &lt;span class=&quot;comment&quot;&gt;// 使用final修饰，保证在分发消息的过程中线程标识符不会被修改&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;           &lt;span class=&quot;keyword&quot;&gt;final&lt;/span&gt; &lt;span class=&quot;keyword&quot;&gt;long&lt;/span&gt; newIdent = Binder.clearCallingIdentity();&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;           &lt;span class=&quot;keyword&quot;&gt;if&lt;/span&gt; (ident != newIdent) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;               Log.wtf(TAG, &lt;span class=&quot;string&quot;&gt;&quot;Thread identity changed from 0x&quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                       + Long.toHexString(ident) + &lt;span class=&quot;string&quot;&gt;&quot; to 0x&quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                       + Long.toHexString(newIdent) + &lt;span class=&quot;string&quot;&gt;&quot; while dispatching to &quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                       + msg.target.getClass().getName() + &lt;span class=&quot;string&quot;&gt;&quot; &quot;&lt;/span&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                       + msg.callback + &lt;span class=&quot;string&quot;&gt;&quot; what=&quot;&lt;/span&gt; + msg.what);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;           &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;           msg.recycleUnchecked();&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;       &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;   &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
+&lt;h2 id=&quot;总结&quot;&gt;&lt;a href=&quot;#总结&quot; class=&quot;headerlink&quot; title=&quot;总结&quot;&gt;&lt;/a&gt;总结&lt;/h2&gt;&lt;ol&gt;
+&lt;li&gt;Looper&lt;br&gt; 每个线程只有一个Looper，他负责管理MessageQueue，会不断的从MessageQueue中取出消息，并将消息分发给对应的Handler处理。&lt;/li&gt;
+&lt;li&gt;MessageQueue&lt;br&gt; 由Looper负责管理，采用先进先出的方式管理Message。&lt;/li&gt;
+&lt;li&gt;Handler&lt;br&gt; 把消息发送给Looper管理的MessageQueue，并负责处理Looper分发给他的消息&lt;/li&gt;
+&lt;/ol&gt;
+&lt;blockquote&gt;
+&lt;p&gt;在非UI线程使用Handler的步骤：&lt;br&gt;&amp;emsp;&amp;emsp;创建Looper，Looper.prepare()&lt;br&gt;&amp;emsp;&amp;emsp;-&amp;gt; 创建Handler实例，重写handleMessage()方法，该方法负责处理来自其他线程的消息&lt;br&gt;&amp;emsp;&amp;emsp;-&amp;gt; 调用Looper的loop()方法启动Looper&lt;/p&gt;
+&lt;/blockquote&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;&amp;emsp;&amp;emsp;处于性能优化考虑,Android的UI操作并不是线程安全的,这意味着如果有多个线程并发操作UI组件,可能会导致线程安全问题.为了解决这个问题,Android制定了一条规则,只允许UI线程修改Activity的UI组件.&lt;br&gt;&amp;emsp;&amp;emsp;当一个程序第一次启动时,Android会同时启动一条主线程,主线程主要负责UI相关的事件,并把相关的事件分发到对应的组件进行处理,所以主线程又叫UI线程.&lt;br&gt;
+    
+    </summary>
+    
+      <category term="source" scheme="http://wangxinarhat.com/categories/source/"/>
+    
+    
+      <category term="Hanlder" scheme="http://wangxinarhat.com/tags/Hanlder/"/>
+    
+      <category term="source" scheme="http://wangxinarhat.com/tags/source/"/>
+    
+      <category term="note" scheme="http://wangxinarhat.com/tags/note/"/>
     
   </entry>
   

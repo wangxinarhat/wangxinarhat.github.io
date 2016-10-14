@@ -86,16 +86,16 @@
 
 
 
-<meta name="description" content="&amp;emsp;处于性能优化考虑,Android的UI操作并不是线程安全的,这意味着如果有多个线程并发操作UI组件,可能会导致线程安全问题.为了解决这个问题,Android制定了一条规则,只允许UI线程修改Activity的UI组件.&amp;emsp;当一个程序第一次启动时,Android会同时启动一条主线程,主线程主要负责UI相关的事件,并把相关的事件分发到对应的组件进行处理,所以主线程又叫UI线程.&amp;">
+<meta name="description" content="&amp;emsp;&amp;emsp;处于性能优化考虑,Android的UI操作并不是线程安全的,这意味着如果有多个线程并发操作UI组件,可能会导致线程安全问题.为了解决这个问题,Android制定了一条规则,只允许UI线程修改Activity的UI组件.&amp;emsp;&amp;emsp;当一个程序第一次启动时,Android会同时启动一条主线程,主线程主要负责UI相关的事件,并把相关的事件分发到对应的组件进行处理,所">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Handler源码阅读笔记">
-<meta property="og:url" content="http://wangxinarhat.com/2016/09/28/2013-12-18-handler-read/index.html">
+<meta property="og:url" content="http://wangxinarhat.com/2013/12/18/2013-12-18-handler-read/index.html">
 <meta property="og:site_name" content="wangxinarhat's blog">
-<meta property="og:description" content="&amp;emsp;处于性能优化考虑,Android的UI操作并不是线程安全的,这意味着如果有多个线程并发操作UI组件,可能会导致线程安全问题.为了解决这个问题,Android制定了一条规则,只允许UI线程修改Activity的UI组件.&amp;emsp;当一个程序第一次启动时,Android会同时启动一条主线程,主线程主要负责UI相关的事件,并把相关的事件分发到对应的组件进行处理,所以主线程又叫UI线程.&amp;">
-<meta property="og:updated_time" content="2016-10-14T16:39:43.134Z">
+<meta property="og:description" content="&amp;emsp;&amp;emsp;处于性能优化考虑,Android的UI操作并不是线程安全的,这意味着如果有多个线程并发操作UI组件,可能会导致线程安全问题.为了解决这个问题,Android制定了一条规则,只允许UI线程修改Activity的UI组件.&amp;emsp;&amp;emsp;当一个程序第一次启动时,Android会同时启动一条主线程,主线程主要负责UI相关的事件,并把相关的事件分发到对应的组件进行处理,所">
+<meta property="og:updated_time" content="2016-10-14T17:27:22.184Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Handler源码阅读笔记">
-<meta name="twitter:description" content="&amp;emsp;处于性能优化考虑,Android的UI操作并不是线程安全的,这意味着如果有多个线程并发操作UI组件,可能会导致线程安全问题.为了解决这个问题,Android制定了一条规则,只允许UI线程修改Activity的UI组件.&amp;emsp;当一个程序第一次启动时,Android会同时启动一条主线程,主线程主要负责UI相关的事件,并把相关的事件分发到对应的组件进行处理,所以主线程又叫UI线程.&amp;">
+<meta name="twitter:description" content="&amp;emsp;&amp;emsp;处于性能优化考虑,Android的UI操作并不是线程安全的,这意味着如果有多个线程并发操作UI组件,可能会导致线程安全问题.为了解决这个问题,Android制定了一条规则,只允许UI线程修改Activity的UI组件.&amp;emsp;&amp;emsp;当一个程序第一次启动时,Android会同时启动一条主线程,主线程主要负责UI相关的事件,并把相关的事件分发到对应的组件进行处理,所">
 
 
 
@@ -116,7 +116,7 @@
 
 
 
-  <link rel="canonical" href="http://wangxinarhat.com/2016/09/28/2013-12-18-handler-read/"/>
+  <link rel="canonical" href="http://wangxinarhat.com/2013/12/18/2013-12-18-handler-read/"/>
 
   <title> Handler源码阅读笔记 | wangxinarhat's blog </title>
 </head>
@@ -280,8 +280,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2016-09-28T20:00:00+08:00" content="2016-09-28">
-              2016-09-28
+            <time itemprop="dateCreated" datetime="2013-12-18T20:00:00+08:00" content="2013-12-18">
+              2013-12-18
             </time>
           </span>
 
@@ -310,8 +310,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/09/28/2013-12-18-handler-read/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/09/28/2013-12-18-handler-read/" itemprop="commentsCount"></span>
+                <a href="/2013/12/18/2013-12-18-handler-read/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2013/12/18/2013-12-18-handler-read/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -335,14 +335,13 @@
 
       
         <blockquote>
-<p>&emsp;处于性能优化考虑,Android的UI操作并不是线程安全的,这意味着如果有多个线程并发操作UI组件,可能会导致线程安全问题.为了解决这个问题,Android制定了一条规则,只允许UI线程修改Activity的UI组件.<br>&emsp;当一个程序第一次启动时,Android会同时启动一条主线程,主线程主要负责UI相关的事件,并把相关的事件分发到对应的组件进行处理,所以主线程又叫UI线程.<br>&emsp;Android的消息传递机制是另一种形式的”事件处理”,这种机制主要是为了解决Android应用的多线程问题—Android平台只允许UI线程修改Activity里的UI组件这样就会导致新启动的线程无法动态改变界面组件的属性值.<br>但在实际应用开发中,需要让新启动的线程周期性的改变界面组件的属性值,这就需要借助于Handler的消息传递机制来实现.</p>
+<p>&emsp;&emsp;处于性能优化考虑,Android的UI操作并不是线程安全的,这意味着如果有多个线程并发操作UI组件,可能会导致线程安全问题.为了解决这个问题,Android制定了一条规则,只允许UI线程修改Activity的UI组件.<br>&emsp;&emsp;当一个程序第一次启动时,Android会同时启动一条主线程,主线程主要负责UI相关的事件,并把相关的事件分发到对应的组件进行处理,所以主线程又叫UI线程.<br><a id="more"></a><br>&emsp;&emsp;Android的消息传递机制是另一种形式的”事件处理”,这种机制主要是为了解决Android应用的多线程问题—Android平台只允许UI线程修改Activity里的UI组件这样就会导致新启动的线程无法动态改变界面组件的属性值.<br>&emsp;&emsp;但在实际应用开发中,需要让新启动的线程周期性的改变界面组件的属性值,这就需要借助于Handler的消息传递机制来实现.</p>
 </blockquote>
 <h2 id="Handler类简介"><a href="#Handler类简介" class="headerlink" title="Handler类简介"></a>Handler类简介</h2><p>Handler类的主要作用有两个</p>
 <ul>
 <li>在新启动的线程中发送消息</li>
 <li>在主线程中获取、处理消息</li>
 </ul>
-<a id="more"></a>
 <p>Handler类包含如下方法用于发送、处理消息</p>
 <ol>
 <li>void handleMessage(Message msg) // 处理消息的方法，常被重写</li>
@@ -350,7 +349,7 @@
 <li>final boolean hasMessages(int what, Object object) // 检查消息队列中是否包含what属性为指定值且object属性为指定对象的方法</li>
 <li>final Message obtainMessage() // 获取消息</li>
 <li>final boolean sendEmptyMessageDelayed(int what, long delayMillis)  // 发送空消息</li>
-<li>final boolean sendMessageDelayed(Message msg, long delayMillis) // 发送消息<br>&emsp;</li>
+<li>final boolean sendMessageDelayed(Message msg, long delayMillis) // 发送消息</li>
 </ol>
 <h2 id="Handler、Looper、MessageQueue工作原理"><a href="#Handler、Looper、MessageQueue工作原理" class="headerlink" title="Handler、Looper、MessageQueue工作原理"></a>Handler、Looper、MessageQueue工作原理</h2><p>与Handler一起工作的几个组件</p>
 <ul>
@@ -359,6 +358,16 @@
 <li>MessageQueue<br>  消息队列，ta采用先进先出的方式管理Message，创建Looper对象时会在他的构造方法中创建MessageQueue对象，代码如下：</li>
 </ul>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="title">Looper</span><span class="params">(<span class="keyword">boolean</span> quitAllowed)</span> </span>&#123;</span><br><span class="line">     mQueue = <span class="keyword">new</span> MessageQueue(quitAllowed);</span><br><span class="line">     mThread = Thread.currentThread();</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<p>&emsp;&emsp;由Handler发送的消息必须被送到指定的MessageQueue，也就是说当前线程必须有一个MessageQueue，但是由上可知MessageQueue是Looper负责管理的，也就是说，<br>如果要Handler正常工作，必须在当前线程有一个Looper对象。<br>&emsp;&emsp;对于主线程，系统已经初始化了一个Looper对象，因此可以直接创建Handler，发送、处理消息。<br>&emsp;&emsp;对于自己启动的子线程，必须自己创建Looper，并启动他。<br>创建Looper对象，调用他的prepare方法即可:<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">prepare</span><span class="params">(<span class="keyword">boolean</span> quitAllowed)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (sThreadLocal.get() != <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">"Only one Looper may be created per thread"</span>);<span class="comment">// 保证每个线程只有一个Looper对象</span></span><br><span class="line">    &#125;</span><br><span class="line">    sThreadLocal.set(<span class="keyword">new</span> Looper(quitAllowed));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>启动Looper：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">loop</span><span class="params">()</span> </span>&#123;</span><br><span class="line">       <span class="keyword">final</span> Looper me = myLooper();</span><br><span class="line">       <span class="keyword">if</span> (me == <span class="keyword">null</span>) &#123;</span><br><span class="line">           <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">"No Looper; Looper.prepare() wasn't called on this thread."</span>);</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">final</span> MessageQueue queue = me.mQueue;</span><br><span class="line"></span><br><span class="line">       <span class="comment">// Make sure the identity of this thread is that of the local process,</span></span><br><span class="line">       <span class="comment">// and keep track of what that identity token actually is.</span></span><br><span class="line">       Binder.clearCallingIdentity();</span><br><span class="line">       <span class="keyword">final</span> <span class="keyword">long</span> ident = Binder.clearCallingIdentity();</span><br><span class="line"></span><br><span class="line">       <span class="keyword">for</span> (;;) &#123;</span><br><span class="line">           Message msg = queue.next(); <span class="comment">// 获取消息队列中的下一个消息，如果没有会阻塞</span></span><br><span class="line">           <span class="keyword">if</span> (msg == <span class="keyword">null</span>) &#123;</span><br><span class="line">               <span class="comment">// 消息队列正在退出</span></span><br><span class="line">               <span class="keyword">return</span>;</span><br><span class="line">           &#125;</span><br><span class="line"></span><br><span class="line">           <span class="comment">// This must be in a local variable, in case a UI event sets the logger</span></span><br><span class="line">           Printer logging = me.mLogging;</span><br><span class="line">           <span class="keyword">if</span> (logging != <span class="keyword">null</span>) &#123;</span><br><span class="line">               logging.println(<span class="string">"&gt;&gt;&gt;&gt;&gt; Dispatching to "</span> + msg.target + <span class="string">" "</span> +</span><br><span class="line">                       msg.callback + <span class="string">": "</span> + msg.what);</span><br><span class="line">           &#125;</span><br><span class="line"></span><br><span class="line">           msg.target.dispatchMessage(msg);</span><br><span class="line"></span><br><span class="line">           <span class="keyword">if</span> (logging != <span class="keyword">null</span>) &#123;</span><br><span class="line">               logging.println(<span class="string">"&lt;&lt;&lt;&lt;&lt; Finished to "</span> + msg.target + <span class="string">" "</span> + msg.callback);</span><br><span class="line">           &#125;</span><br><span class="line"></span><br><span class="line">           <span class="comment">// 使用final修饰，保证在分发消息的过程中线程标识符不会被修改</span></span><br><span class="line">           <span class="keyword">final</span> <span class="keyword">long</span> newIdent = Binder.clearCallingIdentity();</span><br><span class="line">           <span class="keyword">if</span> (ident != newIdent) &#123;</span><br><span class="line">               Log.wtf(TAG, <span class="string">"Thread identity changed from 0x"</span></span><br><span class="line">                       + Long.toHexString(ident) + <span class="string">" to 0x"</span></span><br><span class="line">                       + Long.toHexString(newIdent) + <span class="string">" while dispatching to "</span></span><br><span class="line">                       + msg.target.getClass().getName() + <span class="string">" "</span></span><br><span class="line">                       + msg.callback + <span class="string">" what="</span> + msg.what);</span><br><span class="line">           &#125;</span><br><span class="line"></span><br><span class="line">           msg.recycleUnchecked();</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ol>
+<li>Looper<br> 每个线程只有一个Looper，他负责管理MessageQueue，会不断的从MessageQueue中取出消息，并将消息分发给对应的Handler处理。</li>
+<li>MessageQueue<br> 由Looper负责管理，采用先进先出的方式管理Message。</li>
+<li>Handler<br> 把消息发送给Looper管理的MessageQueue，并负责处理Looper分发给他的消息</li>
+</ol>
+<blockquote>
+<p>在非UI线程使用Handler的步骤：<br>&emsp;&emsp;创建Looper，Looper.prepare()<br>&emsp;&emsp;-&gt; 创建Handler实例，重写handleMessage()方法，该方法负责处理来自其他线程的消息<br>&emsp;&emsp;-&gt; 调用Looper的loop()方法启动Looper</p>
+</blockquote>
 
       
     </div>
@@ -419,13 +428,17 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/05/21/2016-05-21-react-native1/" rel="next" title="Ubuntu 16.04 下 React Native环境搭建">
-                <i class="fa fa-chevron-left"></i> Ubuntu 16.04 下 React Native环境搭建
+              <a href="/2013/09/16/2013-09-16-linkedlist-reverse/" rel="next" title="单链表反转">
+                <i class="fa fa-chevron-left"></i> 单链表反转
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/06/18/2015-06-18-git-study-base/" rel="prev" title="Git 基础 - 获取 Git 仓库">
+                Git 基础 - 获取 Git 仓库 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -454,8 +467,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2016/09/28/2013-12-18-handler-read/"
-           data-title="Handler源码阅读笔记" data-url="http://wangxinarhat.com/2016/09/28/2013-12-18-handler-read/">
+      <div class="ds-thread" data-thread-key="2013/12/18/2013-12-18-handler-read/"
+           data-title="Handler源码阅读笔记" data-url="http://wangxinarhat.com/2013/12/18/2013-12-18-handler-read/">
       </div>
     
   </div>
@@ -623,7 +636,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Handler类简介"><span class="nav-number">1.</span> <span class="nav-text">Handler类简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Handler、Looper、MessageQueue工作原理"><span class="nav-number">2.</span> <span class="nav-text">Handler、Looper、MessageQueue工作原理</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Handler类简介"><span class="nav-number">1.</span> <span class="nav-text">Handler类简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Handler、Looper、MessageQueue工作原理"><span class="nav-number">2.</span> <span class="nav-text">Handler、Looper、MessageQueue工作原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">3.</span> <span class="nav-text">总结</span></a></li></ol></div>
             
           </div>
         </section>
