@@ -924,10 +924,10 @@ Switched to a new branch &amp;apos;serverfix&amp;apos;
     <link href="http://wangxinarhat.com/2013/09/16/2013-09-16-string-spilt-sort/"/>
     <id>http://wangxinarhat.com/2013/09/16/2013-09-16-string-spilt-sort/</id>
     <published>2013-09-16T14:00:00.000Z</published>
-    <updated>2016-10-14T16:44:21.900Z</updated>
+    <updated>2016-10-15T04:27:16.964Z</updated>
     
     <content type="html">&lt;blockquote&gt;
-&lt;p&gt;最近面试，感觉大厂面试的重点都是java基础，见到的面试题回顾下吧～&lt;br&gt;一个“kkk&amp;amp;&amp;amp;&amp;amp;&amp;amp;&amp;amp;&amp;amp;dddddd@@ssammm”这样的字符串，相同部分分割开，并按照长度排序&lt;/p&gt;
+&lt;p&gt;一个“kkk&amp;amp;&amp;amp;&amp;amp;&amp;amp;&amp;amp;&amp;amp;dddddd@@ssammm”这样的字符串，相同部分分割开，并按照长度排序&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;h2 id=&quot;分析&quot;&gt;&lt;a href=&quot;#分析&quot; class=&quot;headerlink&quot; title=&quot;分析&quot;&gt;&lt;/a&gt;分析&lt;/h2&gt;&lt;p&gt;分两步实现，第一步截取相同字符串，第二部排序&lt;/p&gt;
 &lt;h2 id=&quot;截取&quot;&gt;&lt;a href=&quot;#截取&quot; class=&quot;headerlink&quot; title=&quot;截取&quot;&gt;&lt;/a&gt;截取&lt;/h2&gt;&lt;p&gt;主要在于截取，有两种实现方式&lt;/p&gt;
@@ -948,7 +948,7 @@ Switched to a new branch &amp;apos;serverfix&amp;apos;
     <summary type="html">
     
       &lt;blockquote&gt;
-&lt;p&gt;最近面试，感觉大厂面试的重点都是java基础，见到的面试题回顾下吧～&lt;br&gt;一个“kkk&amp;amp;&amp;amp;&amp;amp;&amp;amp;&amp;amp;&amp;amp;dddddd@@ssammm”这样的字符串，相同部分分割开，并按照长度排序&lt;/p&gt;
+&lt;p&gt;一个“kkk&amp;amp;&amp;amp;&amp;amp;&amp;amp;&amp;amp;&amp;amp;dddddd@@ssammm”这样的字符串，相同部分分割开，并按照长度排序&lt;/p&gt;
 &lt;/blockquote&gt;
 &lt;h2 id=&quot;分析&quot;&gt;&lt;a href=&quot;#分析&quot; class=&quot;headerlink&quot; title=&quot;分析&quot;&gt;&lt;/a&gt;分析&lt;/h2&gt;&lt;p&gt;分两步实现，第一步截取相同字符串，第二部排序&lt;/p&gt;
 &lt;h2 id=&quot;截取&quot;&gt;&lt;a href=&quot;#截取&quot; class=&quot;headerlink&quot; title=&quot;截取&quot;&gt;&lt;/a&gt;截取&lt;/h2&gt;&lt;p&gt;主要在于截取，有两种实现方式&lt;/p&gt;
