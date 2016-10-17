@@ -590,47 +590,140 @@
 
       
         
-          
-            <blockquote>
+          <blockquote>
 <p>&emsp;&emsp;LRU，全称Least Rencetly Used，即最近最少使用，一种常用的置换算法，也即淘汰最长时间未使用的对象。内存或缓存空间是有限的，当新加入一个对象时，造成我们的缓存空间不足了，此时就需要根据某种算法对缓存中原有数据进行淘汰删除，而LRU选择的是将最长时间未使用的对象进行淘汰。</p>
 </blockquote>
-<h2 id="数据结构选择-LinkedHashMap"><a href="#数据结构选择-LinkedHashMap" class="headerlink" title="数据结构选择-LinkedHashMap"></a>数据结构选择-LinkedHashMap</h2><p>&emsp;&emsp;根据LRU算法的思想，要实现LRU最核心的是要有一种数据结构能够基于访问顺序来保存缓存中的对象，这样我们就能够很方便的知道哪些对象是最近访问的，哪个对象是最长时间未访问的。<br>&emsp;&emsp;LruCache选择的是LinkedHashMap这个数据结构，LinkedHashMap是一个双向循环链表，可以基于访问顺序对映射表条目进行迭代，在每次调用get或put，受影响的条目将从当前位置删除，并放到链表的尾部。<br>在构造LinkedHashMap时，可以通过一个boolean值来指定LinkedHashMap中保存数据的方式，LinkedHashMap的一个构造方法如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line">   *</span><br><span class="line">   * <span class="doctag">@param</span> initialCapacity 初始容量</span><br><span class="line">   * <span class="doctag">@param</span> loadFactor 装载因子</span><br><span class="line">   * <span class="doctag">@param</span> accessOrder accessOrder = true -&gt; 基于访问顺序，accessOrder = false -&gt; 基于插入顺序</span><br><span class="line">   */</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">LinkedHashMap</span><span class="params">(<span class="keyword">int</span> initialCapacity, <span class="keyword">float</span> loadFactor, <span class="keyword">boolean</span> accessOrder)</span> </span>&#123;</span><br><span class="line">      <span class="keyword">super</span>(initialCapacity, loadFactor);</span><br><span class="line">      init();</span><br><span class="line">      <span class="keyword">this</span>.accessOrder = accessOrder;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></p>
-<p>&emsp;&emsp;显然，在LruCache中选择accessOrder = true；此时，每当更新（即调用put方法）或访问（即调用get方法）map中的结点时，LinkedHashMap内部都会将这个结点移动到链表的尾部，因此，在链表的尾部是最近刚刚使用的结点，在链表的头部是是最近最少使用的结点，当缓存空间不足时，持续把链表头部结点移除掉，直到有剩余空间放置新结点。<br>&emsp;&emsp;可以看到，LinkedHashMap完成了LruCache中的核心功能，剩下要做的就是定义缓存空间总容量，当前保存数据已使用的容量，对外提供put、get方法。</p>
-<h2 id="Lrucache关键字段"><a href="#Lrucache关键字段" class="headerlink" title="Lrucache关键字段"></a>Lrucache关键字段</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">int</span> size; <span class="comment">//已经存储的大小</span></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">int</span> maxSize; <span class="comment">//规定的最大存储空间</span></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">int</span> putCount;  <span class="comment">//put的次数</span></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">int</span> createCount;  <span class="comment">//create的次数</span></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">int</span> evictionCount;  <span class="comment">//回收的次数</span></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">int</span> hitCount;  <span class="comment">//命中的次数</span></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">int</span> missCount;  <span class="comment">//丢失的次数</span></span><br></pre></td></tr></table></figure>
-<p><strong>size</strong><br>因为map中可以存放各种类型的数据，这些数据的大小测量方式也是不一样的，因此，LruCache中在计算放入数据大小的方法sizeOf中，只是简单的返回了1，需要我们重写这个方法，自己去定义数据的测量方式: </p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> cacheSize = <span class="number">4</span> * <span class="number">1024</span> * <span class="number">1024</span>; <span class="comment">// 缓存大小4MiB</span></span><br><span class="line">  LruCache&lt;String, Bitmap&gt; bitmapCache = <span class="keyword">new</span> LruCache&lt;String, Bitmap&gt;(cacheSize) &#123;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line">      <span class="function"><span class="keyword">protected</span> <span class="keyword">int</span> <span class="title">sizeOf</span><span class="params">(String key, Bitmap value)</span> </span>&#123;</span><br><span class="line">          <span class="keyword">return</span> value.getByteCount();<span class="comment">// map中数据大小测量方式</span></span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">  &#125;;</span><br></pre></td></tr></table></figure>
-<p><strong>对sizeOf()的安全处理</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line">    * 对sizeOf的一层封装，如果size不合理，抛出异常</span><br><span class="line">    * <span class="doctag">@param</span> key</span><br><span class="line">    * <span class="doctag">@param</span> value</span><br><span class="line">    * <span class="doctag">@return</span></span><br><span class="line">    */</span></span><br><span class="line">   <span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">safeSizeOf</span><span class="params">(K key, V value)</span> </span>&#123;</span><br><span class="line">       <span class="keyword">int</span> result = sizeOf(key, value);</span><br><span class="line">       <span class="keyword">if</span> (result &lt; <span class="number">0</span>) &#123;</span><br><span class="line">           <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(<span class="string">"Negative size: "</span> + key + <span class="string">"="</span> + value);</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">return</span> result;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="comment">/**</span><br><span class="line">    * 默认返回1,开发者需要自己实现，定义测量方式</span><br><span class="line">    * <span class="doctag">@param</span> key</span><br><span class="line">    * <span class="doctag">@param</span> value</span><br><span class="line">    * <span class="doctag">@return</span></span><br><span class="line">    */</span></span><br><span class="line">   <span class="function"><span class="keyword">protected</span> <span class="keyword">int</span> <span class="title">sizeOf</span><span class="params">(K key, V value)</span> </span>&#123;</span><br><span class="line">       <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure></p>
-<h2 id="Lrucache构造方法"><a href="#Lrucache构造方法" class="headerlink" title="Lrucache构造方法"></a>Lrucache构造方法</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line">    * <span class="doctag">@param</span> maxSize 缓存大小</span><br><span class="line">    */</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="title">LruCache</span><span class="params">(<span class="keyword">int</span> maxSize)</span> </span>&#123;</span><br><span class="line">       <span class="keyword">if</span> (maxSize &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">           <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"maxSize &lt;= 0"</span>);</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">this</span>.maxSize = maxSize;</span><br><span class="line">       <span class="keyword">this</span>.map = <span class="keyword">new</span> LinkedHashMap&lt;K, V&gt;(<span class="number">0</span>, <span class="number">0.75f</span>, <span class="keyword">true</span>);<span class="comment">// 基于访问顺序</span></span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
-<h2 id="清理缓存"><a href="#清理缓存" class="headerlink" title="清理缓存"></a>清理缓存</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line">   * 从最旧的数据开始移除，直到size 小于等于请求的大小     *</span><br><span class="line">   *</span><br><span class="line">   * <span class="doctag">@param</span> maxSize</span><br><span class="line">   */</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">trimToSize</span><span class="params">(<span class="keyword">int</span> maxSize)</span> </span>&#123;</span><br><span class="line">      <span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">          K key;</span><br><span class="line">          V value;</span><br><span class="line">          <span class="keyword">synchronized</span> (<span class="keyword">this</span>) &#123;</span><br><span class="line">              <span class="keyword">if</span> (size &lt; <span class="number">0</span> || (map.isEmpty() &amp;&amp; size != <span class="number">0</span>)) &#123;</span><br><span class="line">                  <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(getClass().getName()</span><br><span class="line">                          + <span class="string">".sizeOf() is reporting inconsistent results!"</span>);</span><br><span class="line">              &#125;</span><br><span class="line"></span><br><span class="line">              <span class="keyword">if</span> (size &lt;= maxSize || map.isEmpty()) &#123;</span><br><span class="line">                  <span class="keyword">break</span>;</span><br><span class="line">              &#125;</span><br><span class="line"></span><br><span class="line">              Map.Entry&lt;K, V&gt; toEvict = map.entrySet().iterator().next();</span><br><span class="line">              key = toEvict.getKey();</span><br><span class="line">              value = toEvict.getValue();</span><br><span class="line">              map.remove(key);</span><br><span class="line">              size -= safeSizeOf(key, value);</span><br><span class="line">              evictionCount++;</span><br><span class="line">          &#125;</span><br><span class="line"></span><br><span class="line">          entryRemoved(<span class="keyword">true</span>, key, value, <span class="keyword">null</span>);</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
-<h2 id="put方法"><a href="#put方法" class="headerlink" title="put方法"></a>put方法</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> V <span class="title">put</span><span class="params">(K key, V value)</span> </span>&#123;</span><br><span class="line">       <span class="keyword">if</span> (key == <span class="keyword">null</span> || value == <span class="keyword">null</span>) &#123;</span><br><span class="line">           <span class="keyword">throw</span> <span class="keyword">new</span> NullPointerException(<span class="string">"key == null || value == null"</span>);</span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line">       V previous;</span><br><span class="line">       <span class="keyword">synchronized</span> (<span class="keyword">this</span>) &#123;</span><br><span class="line">           putCount++; <span class="comment">// 记录put次数</span></span><br><span class="line">           size += safeSizeOf(key, value);<span class="comment">// 计算要保存的数据大小，更新已保存的数据大小</span></span><br><span class="line">           previous = map.put(key, value);<span class="comment">// 如果key已经存在，用新的value覆盖其值，取出之前的value</span></span><br><span class="line">           <span class="keyword">if</span> (previous != <span class="keyword">null</span>) &#123;</span><br><span class="line">               size -= safeSizeOf(key, previous);<span class="comment">// 如果之前的value不为不null，计算并减去之前value的大小</span></span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line">       <span class="keyword">if</span> (previous != <span class="keyword">null</span>) &#123;</span><br><span class="line">           <span class="comment">// 如果将之前已有的值覆盖了，告知自定义的方法</span></span><br><span class="line">           entryRemoved(<span class="keyword">false</span>, key, previous, value);</span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line">       trimToSize(maxSize);<span class="comment">//整理缓存</span></span><br><span class="line">       <span class="keyword">return</span> previous;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
-<p>总结，put方法主要有以下几步：</p>
-<ol>
-<li>key和value判空，LruCache中不允许key和value为null；</li>
-<li>通过safeSizeOf()获取要加入对象数据的大小，并更新当前缓存数据的大小；</li>
-<li>调用LinkedHashMap的put方法，将新的对象数据放入到缓存中，如果原来存在该key时，直接替换掉原来的value值，并返回之前的value值，得到之前value的大小， 更新当前缓存数据的size大小；如果原来不存在该key，则直接加入缓存即可；</li>
-<li>清理缓存</li>
-</ol>
-<h2 id="get方法"><a href="#get方法" class="headerlink" title="get方法"></a>get方法</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line">    * 根据键获取值，如果命中直接返回值；</span><br><span class="line">    * 如果没有命中，返回create(key),默认为null，由开发者自己实现</span><br><span class="line">    */</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> V <span class="title">get</span><span class="params">(K key)</span> </span>&#123;</span><br><span class="line">       <span class="keyword">if</span> (key == <span class="keyword">null</span>) &#123;</span><br><span class="line">           <span class="keyword">throw</span> <span class="keyword">new</span> NullPointerException(<span class="string">"key == null"</span>);</span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line">       V mapValue;</span><br><span class="line">       <span class="keyword">synchronized</span> (<span class="keyword">this</span>) &#123;</span><br><span class="line">           mapValue = map.get(key);<span class="comment">// 根据键获取值</span></span><br><span class="line">           <span class="keyword">if</span> (mapValue != <span class="keyword">null</span>) &#123;</span><br><span class="line">               hitCount++; <span class="comment">// 更新命中记录，并返回</span></span><br><span class="line">               <span class="keyword">return</span> mapValue;</span><br><span class="line">           &#125;</span><br><span class="line">           missCount++; <span class="comment">// 跟新未命中记录</span></span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line">       <span class="comment">/*</span><br><span class="line">        * 以下是没有命中的情况----------------------------------------</span><br><span class="line">        */</span></span><br><span class="line"></span><br><span class="line">       V createdValue = create(key);</span><br><span class="line">       <span class="keyword">if</span> (createdValue == <span class="keyword">null</span>) &#123;<span class="comment">// 如果为null，返回null</span></span><br><span class="line">           <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line">       <span class="comment">// 如果开发者实现了create方法，并返回不为null</span></span><br><span class="line">       <span class="keyword">synchronized</span> (<span class="keyword">this</span>) &#123;</span><br><span class="line">           createCount++;</span><br><span class="line">           mapValue = map.put(key, createdValue);<span class="comment">// 将cerate返回的值存储，并返回原来已有的值</span></span><br><span class="line"></span><br><span class="line">           <span class="keyword">if</span> (mapValue != <span class="keyword">null</span>) &#123;</span><br><span class="line">               <span class="comment">// 如果原来已有的值不为null，说明没有命中的情况是错误的，再将其由create方法创建的值覆盖</span></span><br><span class="line">               map.put(key, mapValue);</span><br><span class="line">           &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">               <span class="comment">// 如果原来已有的值为null，更新缓存大小</span></span><br><span class="line">               size += safeSizeOf(key, createdValue);</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line">       <span class="keyword">if</span> (mapValue != <span class="keyword">null</span>) &#123;</span><br><span class="line">           <span class="comment">// 如果原来已有的值不为null，通知自定义的entryRemoved方法</span></span><br><span class="line">           entryRemoved(<span class="keyword">false</span>, key, createdValue, mapValue);</span><br><span class="line">           <span class="keyword">return</span> mapValue;</span><br><span class="line">       &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">           <span class="comment">// 如果原来已有的值为null，清理缓存</span></span><br><span class="line">           trimToSize(maxSize);</span><br><span class="line">           <span class="keyword">return</span> createdValue;</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
-<p>get方法总结：</p>
-<ol>
-<li>命中，直接返回；</li>
-<li>没命中，根据我们重写的create方法返回；</li>
-</ol>
-<h2 id="remove方法"><a href="#remove方法" class="headerlink" title="remove方法"></a>remove方法</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> V <span class="title">remove</span><span class="params">(K key)</span> </span>&#123;</span><br><span class="line">      <span class="keyword">if</span> (key == <span class="keyword">null</span>) &#123;</span><br><span class="line">          <span class="keyword">throw</span> <span class="keyword">new</span> NullPointerException(<span class="string">"key == null"</span>);</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      V previous;</span><br><span class="line">      <span class="keyword">synchronized</span> (<span class="keyword">this</span>) &#123;</span><br><span class="line">          previous = map.remove(key);<span class="comment">// 移除，并返回移除的值</span></span><br><span class="line">          <span class="keyword">if</span> (previous != <span class="keyword">null</span>) &#123;</span><br><span class="line">              size -= safeSizeOf(key, previous);<span class="comment">// 确实移除了，重新计算size</span></span><br><span class="line">          &#125;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      <span class="keyword">if</span> (previous != <span class="keyword">null</span>) &#123;</span><br><span class="line">          entryRemoved(<span class="keyword">false</span>, key, previous, <span class="keyword">null</span>);<span class="comment">// 通知自己实现的方法</span></span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      <span class="keyword">return</span> previous;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
-<h2 id="entryRemoved方法"><a href="#entryRemoved方法" class="headerlink" title="entryRemoved方法"></a>entryRemoved方法</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line">   * 被回收或删除时调用</span><br><span class="line">   * <span class="doctag">@param</span> evicted</span><br><span class="line">   * <span class="doctag">@param</span> key</span><br><span class="line">   * <span class="doctag">@param</span> oldValue</span><br><span class="line">   * <span class="doctag">@param</span> newValue</span><br><span class="line">   */</span></span><br><span class="line">  <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">entryRemoved</span><span class="params">(<span class="keyword">boolean</span> evicted, K key, V oldValue, V newValue)</span> </span>&#123;&#125;</span><br></pre></td></tr></table></figure>
-<p>entryRemoved方法是一个空方法，是让开发者自己根据需求去重写的。entryRemoved()主要作用就是在结点数据value需要被删除或回收的时候，给开发者的回调，可以在这个方法里面实现一些自己的逻辑，资源释放，二级缓存设置等。</p>
-<h2 id="Lrucache使用"><a href="#Lrucache使用" class="headerlink" title="Lrucache使用"></a>Lrucache使用</h2><ol>
-<li>在构造LruCache时提供一个总的缓存大小；</li>
-<li>重写sizeOf方法，对存入map的数据大小进行自定义测量；</li>
-<li>根据需要，决定是否要重写entryRemoved()方法；</li>
-<li>使用LruCache提供的put和get方法进行数据的缓存；</li>
-</ol>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
-<li>LruCache 自身并没有释放内存，只是 LinkedHashMap中将数据移除了，如果数据还在别的地方被引用了，还是有泄漏问题，还需要手动释放内存；</li>
-<li>覆写 entryRemoved 方法能知道 LruCache 数据移除是是否发生了冲突（冲突是指在map.put()的时候，对应的key中是否存在原来的值），也可以去手动释放资源；</li>
-</ul>
+<h2 id="数据结构选择-LinkedHashMap"><a href="#数据结构选择-LinkedHashMap" class="headerlink" title="数据结构选择-LinkedHashMap"></a>数据结构选择-LinkedHashMap</h2><p>&emsp;&emsp;根据LRU算法的思想，要实现LRU最核心的是要有一种数据结构能够基于访问顺序来保存缓存中的对象，这样我们就能够很方便的知道哪些对象是最近访问的，哪个对象是最长时间未访问的。<br>&emsp;&emsp;LruCache选择的是LinkedHashMap这个数据结构，LinkedHashMap是一个双向循环链表，可以基于访问顺序对映射表条目进行迭代，在每次调用get或put，受影响的条目将从当前位置删除，并放到链表的尾部。<br>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2014/12/22/2014-12-22-read-lrucache-source/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                
+                <a class="post-title-link" href="/2014/06/06/2014-06-06-view-draw/" itemprop="url">
+                  Android View绘制流程
+                </a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2014-06-06T20:00:00+08:00" content="2014-06-06">
+              2014-06-06
+            </time>
+          </span>
 
           
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/View/" itemprop="url" rel="index">
+                    <span itemprop="name">View</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2014/06/06/2014-06-06-view-draw/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2014/06/06/2014-06-06-view-draw/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <blockquote>
+<p>Android的View绘制是从根节点（Activity是DecorView）开始，他是一个自上而下的过程。整个View树的绘图流程是在ViewRootImpl类的performTraversals()方法开始的，该函数做的执行过程主要是根据之前设置的状态，判断是否重新计算视图大小(measure)、是否重新放置视图的位置(layout)、以及是否重绘 (draw)，其核心也就是通过判断来选择顺序执行这三个方法中的哪个，如下：</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">performTraversals</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">final</span> View host = mView;</span><br><span class="line">    ...</span><br><span class="line">    host.measure(childWidthMeasureSpec, childHeightMeasureSpec);</span><br><span class="line">    ...</span><br><span class="line">    host.layout(<span class="number">0</span>, <span class="number">0</span>, host.getMeasuredWidth(), host.getMeasuredHeight());</span><br><span class="line">    ...</span><br><span class="line">    draw(fullRedrawNeeded);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+          <div class="post-more-link text-center">
+            <a class="btn" href="/2014/06/06/2014-06-06-view-draw/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
         
       
     </div>
@@ -922,146 +1015,11 @@
 
 
     
-      
-
-  
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-            
-            
-              
-                
-                <a class="post-title-link" href="/2013/09/16/2013-09-16-linkedlist-reverse/" itemprop="url">
-                  单链表反转
-                </a>
-              
-            
-          </h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            <span class="post-meta-item-icon">
-              <i class="fa fa-calendar-o"></i>
-            </span>
-            <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2013-09-16T22:00:00+08:00" content="2013-09-16">
-              2013-09-16
-            </time>
-          </span>
-
-          
-            <span class="post-category" >
-              &nbsp; | &nbsp;
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Data-Structures/" itemprop="url" rel="index">
-                    <span itemprop="name">Data Structures</span>
-                  </a>
-                </span>
-
-                
-                
-                  , 
-                
-
-              
-                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/Data-Structures/Algorithm/" itemprop="url" rel="index">
-                    <span itemprop="name">Algorithm</span>
-                  </a>
-                </span>
-
-                
-                
-
-              
-            </span>
-          
-
-          
-            
-              <span class="post-comments-count">
-                &nbsp; | &nbsp;
-                <a href="/2013/09/16/2013-09-16-linkedlist-reverse/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2013/09/16/2013-09-16-linkedlist-reverse/" itemprop="commentsCount"></span>
-                </a>
-              </span>
-            
-          
-
-          
-
-          
-          
-
-          
-        </div>
-      </header>
-    
-
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="链表"><a href="#链表" class="headerlink" title="链表"></a>链表</h2><p>链表将每个对象存放在独立的结点中，每个结点还存放着下个结点的引用，所以不同于数组，在链表中添加或者删除元素是一个轻松的操作，只需要对所操作的元素附近的结点更新即可。</p>
-<h2 id="数据结构定义"><a href="#数据结构定义" class="headerlink" title="数据结构定义"></a>数据结构定义</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Node</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> value;<span class="comment">// 数据域</span></span><br><span class="line">    Node nextNode;<span class="comment">// 指针域</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Node</span><span class="params">(<span class="keyword">int</span> value,Node nextNode)</span></span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.value = value;</span><br><span class="line">        <span class="keyword">this</span>.nextNode = nextNode;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-          <div class="post-more-link text-center">
-            <a class="btn" href="/2013/09/16/2013-09-16-linkedlist-reverse/#more" rel="contents">
-              Read more &raquo;
-            </a>
-          </div>
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1102,7 +1060,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">12</span>
+              <span class="site-state-item-count">13</span>
               <span class="site-state-item-name">posts</span>
             </a>
           </div>
@@ -1110,7 +1068,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-count">15</span>
                 <span class="site-state-item-name">categories</span>
               </a>
             </div>
@@ -1119,7 +1077,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">29</span>
+                <span class="site-state-item-count">31</span>
                 <span class="site-state-item-name">tags</span>
               </a>
             </div>

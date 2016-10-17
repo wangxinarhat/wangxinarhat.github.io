@@ -68,7 +68,7 @@
 <link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="source,Lrucache," />
+  <meta name="keywords" content="Lrucache,source," />
 
 
 
@@ -96,7 +96,7 @@
 <meta property="og:description" content="&amp;emsp;&amp;emsp;LRU，全称Least Rencetly Used，即最近最少使用，一种常用的置换算法，也即淘汰最长时间未使用的对象。内存或缓存空间是有限的，当新加入一个对象时，造成我们的缓存空间不足了，此时就需要根据某种算法对缓存中原有数据进行淘汰删除，而LRU选择的是将最长时间未使用的对象进行淘汰。
 
 数据结构选择-LinkedHashMap&amp;emsp;&amp;emsp;根据LRU算法的思">
-<meta property="og:updated_time" content="2016-10-17T12:08:36.460Z">
+<meta property="og:updated_time" content="2016-10-17T17:53:49.327Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Lrucache源码分析">
 <meta name="twitter:description" content="&amp;emsp;&amp;emsp;LRU，全称Least Rencetly Used，即最近最少使用，一种常用的置换算法，也即淘汰最长时间未使用的对象。内存或缓存空间是有限的，当新加入一个对象时，造成我们的缓存空间不足了，此时就需要根据某种算法对缓存中原有数据进行淘汰删除，而LRU选择的是将最长时间未使用的对象进行淘汰。
@@ -343,7 +343,7 @@
         <blockquote>
 <p>&emsp;&emsp;LRU，全称Least Rencetly Used，即最近最少使用，一种常用的置换算法，也即淘汰最长时间未使用的对象。内存或缓存空间是有限的，当新加入一个对象时，造成我们的缓存空间不足了，此时就需要根据某种算法对缓存中原有数据进行淘汰删除，而LRU选择的是将最长时间未使用的对象进行淘汰。</p>
 </blockquote>
-<h2 id="数据结构选择-LinkedHashMap"><a href="#数据结构选择-LinkedHashMap" class="headerlink" title="数据结构选择-LinkedHashMap"></a>数据结构选择-LinkedHashMap</h2><p>&emsp;&emsp;根据LRU算法的思想，要实现LRU最核心的是要有一种数据结构能够基于访问顺序来保存缓存中的对象，这样我们就能够很方便的知道哪些对象是最近访问的，哪个对象是最长时间未访问的。<br>&emsp;&emsp;LruCache选择的是LinkedHashMap这个数据结构，LinkedHashMap是一个双向循环链表，可以基于访问顺序对映射表条目进行迭代，在每次调用get或put，受影响的条目将从当前位置删除，并放到链表的尾部。<br>在构造LinkedHashMap时，可以通过一个boolean值来指定LinkedHashMap中保存数据的方式，LinkedHashMap的一个构造方法如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line">   *</span><br><span class="line">   * <span class="doctag">@param</span> initialCapacity 初始容量</span><br><span class="line">   * <span class="doctag">@param</span> loadFactor 装载因子</span><br><span class="line">   * <span class="doctag">@param</span> accessOrder accessOrder = true -&gt; 基于访问顺序，accessOrder = false -&gt; 基于插入顺序</span><br><span class="line">   */</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">LinkedHashMap</span><span class="params">(<span class="keyword">int</span> initialCapacity, <span class="keyword">float</span> loadFactor, <span class="keyword">boolean</span> accessOrder)</span> </span>&#123;</span><br><span class="line">      <span class="keyword">super</span>(initialCapacity, loadFactor);</span><br><span class="line">      init();</span><br><span class="line">      <span class="keyword">this</span>.accessOrder = accessOrder;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="数据结构选择-LinkedHashMap"><a href="#数据结构选择-LinkedHashMap" class="headerlink" title="数据结构选择-LinkedHashMap"></a>数据结构选择-LinkedHashMap</h2><p>&emsp;&emsp;根据LRU算法的思想，要实现LRU最核心的是要有一种数据结构能够基于访问顺序来保存缓存中的对象，这样我们就能够很方便的知道哪些对象是最近访问的，哪个对象是最长时间未访问的。<br>&emsp;&emsp;LruCache选择的是LinkedHashMap这个数据结构，LinkedHashMap是一个双向循环链表，可以基于访问顺序对映射表条目进行迭代，在每次调用get或put，受影响的条目将从当前位置删除，并放到链表的尾部。<br><a id="more"></a><br>在构造LinkedHashMap时，可以通过一个boolean值来指定LinkedHashMap中保存数据的方式，LinkedHashMap的一个构造方法如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line">   *</span><br><span class="line">   * <span class="doctag">@param</span> initialCapacity 初始容量</span><br><span class="line">   * <span class="doctag">@param</span> loadFactor 装载因子</span><br><span class="line">   * <span class="doctag">@param</span> accessOrder accessOrder = true -&gt; 基于访问顺序，accessOrder = false -&gt; 基于插入顺序</span><br><span class="line">   */</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">LinkedHashMap</span><span class="params">(<span class="keyword">int</span> initialCapacity, <span class="keyword">float</span> loadFactor, <span class="keyword">boolean</span> accessOrder)</span> </span>&#123;</span><br><span class="line">      <span class="keyword">super</span>(initialCapacity, loadFactor);</span><br><span class="line">      init();</span><br><span class="line">      <span class="keyword">this</span>.accessOrder = accessOrder;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></p>
 <p>&emsp;&emsp;显然，在LruCache中选择accessOrder = true；此时，每当更新（即调用put方法）或访问（即调用get方法）map中的结点时，LinkedHashMap内部都会将这个结点移动到链表的尾部，因此，在链表的尾部是最近刚刚使用的结点，在链表的头部是是最近最少使用的结点，当缓存空间不足时，持续把链表头部结点移除掉，直到有剩余空间放置新结点。<br>&emsp;&emsp;可以看到，LinkedHashMap完成了LruCache中的核心功能，剩下要做的就是定义缓存空间总容量，当前保存数据已使用的容量，对外提供put、get方法。</p>
 <h2 id="Lrucache关键字段"><a href="#Lrucache关键字段" class="headerlink" title="Lrucache关键字段"></a>Lrucache关键字段</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">int</span> size; <span class="comment">//已经存储的大小</span></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">int</span> maxSize; <span class="comment">//规定的最大存储空间</span></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">int</span> putCount;  <span class="comment">//put的次数</span></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">int</span> createCount;  <span class="comment">//create的次数</span></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">int</span> evictionCount;  <span class="comment">//回收的次数</span></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">int</span> hitCount;  <span class="comment">//命中的次数</span></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">int</span> missCount;  <span class="comment">//丢失的次数</span></span><br></pre></td></tr></table></figure>
 <p><strong>size</strong><br>因为map中可以存放各种类型的数据，这些数据的大小测量方式也是不一样的，因此，LruCache中在计算放入数据大小的方法sizeOf中，只是简单的返回了1，需要我们重写这个方法，自己去定义数据的测量方式: </p>
@@ -425,9 +425,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/source/" rel="tag">#source</a>
-          
             <a href="/tags/Lrucache/" rel="tag">#Lrucache</a>
+          
+            <a href="/tags/source/" rel="tag">#source</a>
           
         </div>
       
@@ -436,8 +436,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2013/12/18/2013-12-18-handler-read/" rel="next" title="Handler源码阅读笔记">
-                <i class="fa fa-chevron-left"></i> Handler源码阅读笔记
+              <a href="/2014/06/06/2014-06-06-view-draw/" rel="next" title="Android View绘制流程">
+                <i class="fa fa-chevron-left"></i> Android View绘制流程
               </a>
             
           </div>
@@ -521,7 +521,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">12</span>
+              <span class="site-state-item-count">13</span>
               <span class="site-state-item-name">posts</span>
             </a>
           </div>
@@ -529,7 +529,7 @@
           
             <div class="site-state-item site-state-categories">
               <a href="/categories">
-                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-count">15</span>
                 <span class="site-state-item-name">categories</span>
               </a>
             </div>
@@ -538,7 +538,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">29</span>
+                <span class="site-state-item-count">31</span>
                 <span class="site-state-item-name">tags</span>
               </a>
             </div>
