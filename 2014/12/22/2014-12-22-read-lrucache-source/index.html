@@ -1,0 +1,807 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="source,Lrucache," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="wangxinarhat's blog" type="application/atom+xml" />
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="&amp;emsp;&amp;emsp;LRU，全称Least Rencetly Used，即最近最少使用，一种常用的置换算法，也即淘汰最长时间未使用的对象。内存或缓存空间是有限的，当新加入一个对象时，造成我们的缓存空间不足了，此时就需要根据某种算法对缓存中原有数据进行淘汰删除，而LRU选择的是将最长时间未使用的对象进行淘汰。
+
+数据结构选择-LinkedHashMap&amp;emsp;&amp;emsp;根据LRU算法的思">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Lrucache源码分析">
+<meta property="og:url" content="http://wangxinarhat.com/2014/12/22/2014-12-22-read-lrucache-source/index.html">
+<meta property="og:site_name" content="wangxinarhat's blog">
+<meta property="og:description" content="&amp;emsp;&amp;emsp;LRU，全称Least Rencetly Used，即最近最少使用，一种常用的置换算法，也即淘汰最长时间未使用的对象。内存或缓存空间是有限的，当新加入一个对象时，造成我们的缓存空间不足了，此时就需要根据某种算法对缓存中原有数据进行淘汰删除，而LRU选择的是将最长时间未使用的对象进行淘汰。
+
+数据结构选择-LinkedHashMap&amp;emsp;&amp;emsp;根据LRU算法的思">
+<meta property="og:updated_time" content="2016-10-17T12:08:36.460Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Lrucache源码分析">
+<meta name="twitter:description" content="&amp;emsp;&amp;emsp;LRU，全称Least Rencetly Used，即最近最少使用，一种常用的置换算法，也即淘汰最长时间未使用的对象。内存或缓存空间是有限的，当新加入一个对象时，造成我们的缓存空间不足了，此时就需要根据某种算法对缓存中原有数据进行淘汰删除，而LRU选择的是将最长时间未使用的对象进行淘汰。
+
+数据结构选择-LinkedHashMap&amp;emsp;&amp;emsp;根据LRU算法的思">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"right","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: 'wangxinarhat'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://wangxinarhat.com/2014/12/22/2014-12-22-read-lrucache-source/"/>
+
+  <title> Lrucache源码分析 | wangxinarhat's blog </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-right page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">wangxinarhat's blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">王鑫</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404.html" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            Commonweal
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Lrucache源码分析
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2014-12-22T20:00:00+08:00" content="2014-12-22">
+              2014-12-22
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Lrucache/" itemprop="url" rel="index">
+                    <span itemprop="name">Lrucache</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2014/12/22/2014-12-22-read-lrucache-source/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2014/12/22/2014-12-22-read-lrucache-source/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>&emsp;&emsp;LRU，全称Least Rencetly Used，即最近最少使用，一种常用的置换算法，也即淘汰最长时间未使用的对象。内存或缓存空间是有限的，当新加入一个对象时，造成我们的缓存空间不足了，此时就需要根据某种算法对缓存中原有数据进行淘汰删除，而LRU选择的是将最长时间未使用的对象进行淘汰。</p>
+</blockquote>
+<h2 id="数据结构选择-LinkedHashMap"><a href="#数据结构选择-LinkedHashMap" class="headerlink" title="数据结构选择-LinkedHashMap"></a>数据结构选择-LinkedHashMap</h2><p>&emsp;&emsp;根据LRU算法的思想，要实现LRU最核心的是要有一种数据结构能够基于访问顺序来保存缓存中的对象，这样我们就能够很方便的知道哪些对象是最近访问的，哪个对象是最长时间未访问的。<br>&emsp;&emsp;LruCache选择的是LinkedHashMap这个数据结构，LinkedHashMap是一个双向循环链表，可以基于访问顺序对映射表条目进行迭代，在每次调用get或put，受影响的条目将从当前位置删除，并放到链表的尾部。<br>在构造LinkedHashMap时，可以通过一个boolean值来指定LinkedHashMap中保存数据的方式，LinkedHashMap的一个构造方法如下：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line">   *</span><br><span class="line">   * <span class="doctag">@param</span> initialCapacity 初始容量</span><br><span class="line">   * <span class="doctag">@param</span> loadFactor 装载因子</span><br><span class="line">   * <span class="doctag">@param</span> accessOrder accessOrder = true -&gt; 基于访问顺序，accessOrder = false -&gt; 基于插入顺序</span><br><span class="line">   */</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="title">LinkedHashMap</span><span class="params">(<span class="keyword">int</span> initialCapacity, <span class="keyword">float</span> loadFactor, <span class="keyword">boolean</span> accessOrder)</span> </span>&#123;</span><br><span class="line">      <span class="keyword">super</span>(initialCapacity, loadFactor);</span><br><span class="line">      init();</span><br><span class="line">      <span class="keyword">this</span>.accessOrder = accessOrder;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure></p>
+<p>&emsp;&emsp;显然，在LruCache中选择accessOrder = true；此时，每当更新（即调用put方法）或访问（即调用get方法）map中的结点时，LinkedHashMap内部都会将这个结点移动到链表的尾部，因此，在链表的尾部是最近刚刚使用的结点，在链表的头部是是最近最少使用的结点，当缓存空间不足时，持续把链表头部结点移除掉，直到有剩余空间放置新结点。<br>&emsp;&emsp;可以看到，LinkedHashMap完成了LruCache中的核心功能，剩下要做的就是定义缓存空间总容量，当前保存数据已使用的容量，对外提供put、get方法。</p>
+<h2 id="Lrucache关键字段"><a href="#Lrucache关键字段" class="headerlink" title="Lrucache关键字段"></a>Lrucache关键字段</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">int</span> size; <span class="comment">//已经存储的大小</span></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">int</span> maxSize; <span class="comment">//规定的最大存储空间</span></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">int</span> putCount;  <span class="comment">//put的次数</span></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">int</span> createCount;  <span class="comment">//create的次数</span></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">int</span> evictionCount;  <span class="comment">//回收的次数</span></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">int</span> hitCount;  <span class="comment">//命中的次数</span></span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">int</span> missCount;  <span class="comment">//丢失的次数</span></span><br></pre></td></tr></table></figure>
+<p><strong>size</strong><br>因为map中可以存放各种类型的数据，这些数据的大小测量方式也是不一样的，因此，LruCache中在计算放入数据大小的方法sizeOf中，只是简单的返回了1，需要我们重写这个方法，自己去定义数据的测量方式: </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> cacheSize = <span class="number">4</span> * <span class="number">1024</span> * <span class="number">1024</span>; <span class="comment">// 缓存大小4MiB</span></span><br><span class="line">  LruCache&lt;String, Bitmap&gt; bitmapCache = <span class="keyword">new</span> LruCache&lt;String, Bitmap&gt;(cacheSize) &#123;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line">      <span class="function"><span class="keyword">protected</span> <span class="keyword">int</span> <span class="title">sizeOf</span><span class="params">(String key, Bitmap value)</span> </span>&#123;</span><br><span class="line">          <span class="keyword">return</span> value.getByteCount();<span class="comment">// map中数据大小测量方式</span></span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">  &#125;;</span><br></pre></td></tr></table></figure>
+<p><strong>对sizeOf()的安全处理</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line">    * 对sizeOf的一层封装，如果size不合理，抛出异常</span><br><span class="line">    * <span class="doctag">@param</span> key</span><br><span class="line">    * <span class="doctag">@param</span> value</span><br><span class="line">    * <span class="doctag">@return</span></span><br><span class="line">    */</span></span><br><span class="line">   <span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">safeSizeOf</span><span class="params">(K key, V value)</span> </span>&#123;</span><br><span class="line">       <span class="keyword">int</span> result = sizeOf(key, value);</span><br><span class="line">       <span class="keyword">if</span> (result &lt; <span class="number">0</span>) &#123;</span><br><span class="line">           <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(<span class="string">"Negative size: "</span> + key + <span class="string">"="</span> + value);</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">return</span> result;</span><br><span class="line">   &#125;</span><br><span class="line"></span><br><span class="line">   <span class="comment">/**</span><br><span class="line">    * 默认返回1,开发者需要自己实现，定义测量方式</span><br><span class="line">    * <span class="doctag">@param</span> key</span><br><span class="line">    * <span class="doctag">@param</span> value</span><br><span class="line">    * <span class="doctag">@return</span></span><br><span class="line">    */</span></span><br><span class="line">   <span class="function"><span class="keyword">protected</span> <span class="keyword">int</span> <span class="title">sizeOf</span><span class="params">(K key, V value)</span> </span>&#123;</span><br><span class="line">       <span class="keyword">return</span> <span class="number">1</span>;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="Lrucache构造方法"><a href="#Lrucache构造方法" class="headerlink" title="Lrucache构造方法"></a>Lrucache构造方法</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line">    * <span class="doctag">@param</span> maxSize 缓存大小</span><br><span class="line">    */</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="title">LruCache</span><span class="params">(<span class="keyword">int</span> maxSize)</span> </span>&#123;</span><br><span class="line">       <span class="keyword">if</span> (maxSize &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">           <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"maxSize &lt;= 0"</span>);</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="keyword">this</span>.maxSize = maxSize;</span><br><span class="line">       <span class="keyword">this</span>.map = <span class="keyword">new</span> LinkedHashMap&lt;K, V&gt;(<span class="number">0</span>, <span class="number">0.75f</span>, <span class="keyword">true</span>);<span class="comment">// 基于访问顺序</span></span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<h2 id="清理缓存"><a href="#清理缓存" class="headerlink" title="清理缓存"></a>清理缓存</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line">   * 从最旧的数据开始移除，直到size 小于等于请求的大小     *</span><br><span class="line">   *</span><br><span class="line">   * <span class="doctag">@param</span> maxSize</span><br><span class="line">   */</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">trimToSize</span><span class="params">(<span class="keyword">int</span> maxSize)</span> </span>&#123;</span><br><span class="line">      <span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">          K key;</span><br><span class="line">          V value;</span><br><span class="line">          <span class="keyword">synchronized</span> (<span class="keyword">this</span>) &#123;</span><br><span class="line">              <span class="keyword">if</span> (size &lt; <span class="number">0</span> || (map.isEmpty() &amp;&amp; size != <span class="number">0</span>)) &#123;</span><br><span class="line">                  <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(getClass().getName()</span><br><span class="line">                          + <span class="string">".sizeOf() is reporting inconsistent results!"</span>);</span><br><span class="line">              &#125;</span><br><span class="line"></span><br><span class="line">              <span class="keyword">if</span> (size &lt;= maxSize || map.isEmpty()) &#123;</span><br><span class="line">                  <span class="keyword">break</span>;</span><br><span class="line">              &#125;</span><br><span class="line"></span><br><span class="line">              Map.Entry&lt;K, V&gt; toEvict = map.entrySet().iterator().next();</span><br><span class="line">              key = toEvict.getKey();</span><br><span class="line">              value = toEvict.getValue();</span><br><span class="line">              map.remove(key);</span><br><span class="line">              size -= safeSizeOf(key, value);</span><br><span class="line">              evictionCount++;</span><br><span class="line">          &#125;</span><br><span class="line"></span><br><span class="line">          entryRemoved(<span class="keyword">true</span>, key, value, <span class="keyword">null</span>);</span><br><span class="line">      &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<h2 id="put方法"><a href="#put方法" class="headerlink" title="put方法"></a>put方法</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> V <span class="title">put</span><span class="params">(K key, V value)</span> </span>&#123;</span><br><span class="line">       <span class="keyword">if</span> (key == <span class="keyword">null</span> || value == <span class="keyword">null</span>) &#123;</span><br><span class="line">           <span class="keyword">throw</span> <span class="keyword">new</span> NullPointerException(<span class="string">"key == null || value == null"</span>);</span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line">       V previous;</span><br><span class="line">       <span class="keyword">synchronized</span> (<span class="keyword">this</span>) &#123;</span><br><span class="line">           putCount++; <span class="comment">// 记录put次数</span></span><br><span class="line">           size += safeSizeOf(key, value);<span class="comment">// 计算要保存的数据大小，更新已保存的数据大小</span></span><br><span class="line">           previous = map.put(key, value);<span class="comment">// 如果key已经存在，用新的value覆盖其值，取出之前的value</span></span><br><span class="line">           <span class="keyword">if</span> (previous != <span class="keyword">null</span>) &#123;</span><br><span class="line">               size -= safeSizeOf(key, previous);<span class="comment">// 如果之前的value不为不null，计算并减去之前value的大小</span></span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line">       <span class="keyword">if</span> (previous != <span class="keyword">null</span>) &#123;</span><br><span class="line">           <span class="comment">// 如果将之前已有的值覆盖了，告知自定义的方法</span></span><br><span class="line">           entryRemoved(<span class="keyword">false</span>, key, previous, value);</span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line">       trimToSize(maxSize);<span class="comment">//整理缓存</span></span><br><span class="line">       <span class="keyword">return</span> previous;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<p>总结，put方法主要有以下几步：</p>
+<ol>
+<li>key和value判空，LruCache中不允许key和value为null；</li>
+<li>通过safeSizeOf()获取要加入对象数据的大小，并更新当前缓存数据的大小；</li>
+<li>调用LinkedHashMap的put方法，将新的对象数据放入到缓存中，如果原来存在该key时，直接替换掉原来的value值，并返回之前的value值，得到之前value的大小， 更新当前缓存数据的size大小；如果原来不存在该key，则直接加入缓存即可；</li>
+<li>清理缓存</li>
+</ol>
+<h2 id="get方法"><a href="#get方法" class="headerlink" title="get方法"></a>get方法</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line">    * 根据键获取值，如果命中直接返回值；</span><br><span class="line">    * 如果没有命中，返回create(key),默认为null，由开发者自己实现</span><br><span class="line">    */</span></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> V <span class="title">get</span><span class="params">(K key)</span> </span>&#123;</span><br><span class="line">       <span class="keyword">if</span> (key == <span class="keyword">null</span>) &#123;</span><br><span class="line">           <span class="keyword">throw</span> <span class="keyword">new</span> NullPointerException(<span class="string">"key == null"</span>);</span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line">       V mapValue;</span><br><span class="line">       <span class="keyword">synchronized</span> (<span class="keyword">this</span>) &#123;</span><br><span class="line">           mapValue = map.get(key);<span class="comment">// 根据键获取值</span></span><br><span class="line">           <span class="keyword">if</span> (mapValue != <span class="keyword">null</span>) &#123;</span><br><span class="line">               hitCount++; <span class="comment">// 更新命中记录，并返回</span></span><br><span class="line">               <span class="keyword">return</span> mapValue;</span><br><span class="line">           &#125;</span><br><span class="line">           missCount++; <span class="comment">// 跟新未命中记录</span></span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line">       <span class="comment">/*</span><br><span class="line">        * 以下是没有命中的情况----------------------------------------</span><br><span class="line">        */</span></span><br><span class="line"></span><br><span class="line">       V createdValue = create(key);</span><br><span class="line">       <span class="keyword">if</span> (createdValue == <span class="keyword">null</span>) &#123;<span class="comment">// 如果为null，返回null</span></span><br><span class="line">           <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line">       <span class="comment">// 如果开发者实现了create方法，并返回不为null</span></span><br><span class="line">       <span class="keyword">synchronized</span> (<span class="keyword">this</span>) &#123;</span><br><span class="line">           createCount++;</span><br><span class="line">           mapValue = map.put(key, createdValue);<span class="comment">// 将cerate返回的值存储，并返回原来已有的值</span></span><br><span class="line"></span><br><span class="line">           <span class="keyword">if</span> (mapValue != <span class="keyword">null</span>) &#123;</span><br><span class="line">               <span class="comment">// 如果原来已有的值不为null，说明没有命中的情况是错误的，再将其由create方法创建的值覆盖</span></span><br><span class="line">               map.put(key, mapValue);</span><br><span class="line">           &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">               <span class="comment">// 如果原来已有的值为null，更新缓存大小</span></span><br><span class="line">               size += safeSizeOf(key, createdValue);</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line">       <span class="keyword">if</span> (mapValue != <span class="keyword">null</span>) &#123;</span><br><span class="line">           <span class="comment">// 如果原来已有的值不为null，通知自定义的entryRemoved方法</span></span><br><span class="line">           entryRemoved(<span class="keyword">false</span>, key, createdValue, mapValue);</span><br><span class="line">           <span class="keyword">return</span> mapValue;</span><br><span class="line">       &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">           <span class="comment">// 如果原来已有的值为null，清理缓存</span></span><br><span class="line">           trimToSize(maxSize);</span><br><span class="line">           <span class="keyword">return</span> createdValue;</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<p>get方法总结：</p>
+<ol>
+<li>命中，直接返回；</li>
+<li>没命中，根据我们重写的create方法返回；</li>
+</ol>
+<h2 id="remove方法"><a href="#remove方法" class="headerlink" title="remove方法"></a>remove方法</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> V <span class="title">remove</span><span class="params">(K key)</span> </span>&#123;</span><br><span class="line">      <span class="keyword">if</span> (key == <span class="keyword">null</span>) &#123;</span><br><span class="line">          <span class="keyword">throw</span> <span class="keyword">new</span> NullPointerException(<span class="string">"key == null"</span>);</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      V previous;</span><br><span class="line">      <span class="keyword">synchronized</span> (<span class="keyword">this</span>) &#123;</span><br><span class="line">          previous = map.remove(key);<span class="comment">// 移除，并返回移除的值</span></span><br><span class="line">          <span class="keyword">if</span> (previous != <span class="keyword">null</span>) &#123;</span><br><span class="line">              size -= safeSizeOf(key, previous);<span class="comment">// 确实移除了，重新计算size</span></span><br><span class="line">          &#125;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      <span class="keyword">if</span> (previous != <span class="keyword">null</span>) &#123;</span><br><span class="line">          entryRemoved(<span class="keyword">false</span>, key, previous, <span class="keyword">null</span>);<span class="comment">// 通知自己实现的方法</span></span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      <span class="keyword">return</span> previous;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<h2 id="entryRemoved方法"><a href="#entryRemoved方法" class="headerlink" title="entryRemoved方法"></a>entryRemoved方法</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span><br><span class="line">   * 被回收或删除时调用</span><br><span class="line">   * <span class="doctag">@param</span> evicted</span><br><span class="line">   * <span class="doctag">@param</span> key</span><br><span class="line">   * <span class="doctag">@param</span> oldValue</span><br><span class="line">   * <span class="doctag">@param</span> newValue</span><br><span class="line">   */</span></span><br><span class="line">  <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">entryRemoved</span><span class="params">(<span class="keyword">boolean</span> evicted, K key, V oldValue, V newValue)</span> </span>&#123;&#125;</span><br></pre></td></tr></table></figure>
+<p>entryRemoved方法是一个空方法，是让开发者自己根据需求去重写的。entryRemoved()主要作用就是在结点数据value需要被删除或回收的时候，给开发者的回调，可以在这个方法里面实现一些自己的逻辑，资源释放，二级缓存设置等。</p>
+<h2 id="Lrucache使用"><a href="#Lrucache使用" class="headerlink" title="Lrucache使用"></a>Lrucache使用</h2><ol>
+<li>在构造LruCache时提供一个总的缓存大小；</li>
+<li>重写sizeOf方法，对存入map的数据大小进行自定义测量；</li>
+<li>根据需要，决定是否要重写entryRemoved()方法；</li>
+<li>使用LruCache提供的put和get方法进行数据的缓存；</li>
+</ol>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
+<li>LruCache 自身并没有释放内存，只是 LinkedHashMap中将数据移除了，如果数据还在别的地方被引用了，还是有泄漏问题，还需要手动释放内存；</li>
+<li>覆写 entryRemoved 方法能知道 LruCache 数据移除是是否发生了冲突（冲突是指在map.put()的时候，对应的key中是否存在原来的值），也可以去手动释放资源；</li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+<div id="wechat_subscriber" style="display: block； padding: 10px 0; margin: 20px auto; width: 100%; text-align: center">
+    <img id="wechat_subscriber_qcode" src="/images/weixin-public.jpg" alt="wangxinarhat wechat" style="width: 200px; max-width: 100%;"/>
+    <div>扫一扫上面的微信公众号，订阅我的博客</div>
+</div>
+
+      
+    </div>
+
+    <div>
+      
+        
+  <div style="padding: 10px 0; margin: 20px auto; width: 90%; text-align: center;">
+    <div>坚持原创技术分享，您的支持将鼓励我继续创作！</div>
+    <button id="rewardButton" disable="enable" onclick="var qr = document.getElementById('QR'); if (qr.style.display === 'none') {qr.style.display='block';} else {qr.style.display='none'}">
+      <span>赏</span>
+    </button>
+    <div id="QR" style="display: none;">
+      
+        <div id="wechat" style="display: inline-block">
+          <img id="wechat_qr" src="/images/reward/weixinpay.png" alt="wangxinarhat WeChat Pay"/>
+          <p>微信打赏</p>
+        </div>
+      
+      
+        <div id="alipay" style="display: inline-block">
+          <img id="alipay_qr" src="/images/reward/alipay.jpg" alt="wangxinarhat Alipay"/>
+          <p>支付宝打赏</p>
+        </div>
+      
+    </div>
+  </div>
+
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/source/" rel="tag">#source</a>
+          
+            <a href="/tags/Lrucache/" rel="tag">#Lrucache</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2013/12/18/2013-12-18-handler-read/" rel="next" title="Handler源码阅读笔记">
+                <i class="fa fa-chevron-left"></i> Handler源码阅读笔记
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2015/06/18/2015-06-18-git-study-base/" rel="prev" title="Git 基础 - 获取 Git 仓库">
+                Git 基础 - 获取 Git 仓库 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+  <p>热评文章</p>
+  <div class="ds-top-threads" data-range="weekly" data-num-items="4"></div>
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2014/12/22/2014-12-22-read-lrucache-source/"
+           data-title="Lrucache源码分析" data-url="http://wangxinarhat.com/2014/12/22/2014-12-22-read-lrucache-source/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.jpg"
+               alt="wangxinarhat" />
+          <p class="site-author-name" itemprop="name">wangxinarhat</p>
+          <p class="site-description motion-element" itemprop="description">The World As I See It</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">12</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">29</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+          <div class="feed-link motion-element">
+            <a href="/atom.xml" rel="alternate">
+              <i class="fa fa-rss"></i>
+              RSS
+            </a>
+          </div>
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/wangxinarhat" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/wangxinarhat" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                  Twitter
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/2474606542" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.zhihu.com/people/wangxinarhat" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+          <div class="cc-license motion-element" itemprop="license">
+            <a href="http://creativecommons.org/licenses/by/4.0" class="cc-opacity" target="_blank">
+              <img src="/images/cc-by.svg" alt="Creative Commons" />
+            </a>
+          </div>
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-block">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://www.lcode.org/" title="江清清的技术专栏" target="_blank">江清清的技术专栏</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://blog.csdn.net/luoshengyang/" title="老罗的Android之旅" target="_blank">老罗的Android之旅</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://kymjs.com/" title="张涛-开源实验室" target="_blank">张涛-开源实验室</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://yifeiyuan.me/" title="程序亦非猿" target="_blank">程序亦非猿</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#数据结构选择-LinkedHashMap"><span class="nav-number">1.</span> <span class="nav-text">数据结构选择-LinkedHashMap</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Lrucache关键字段"><span class="nav-number">2.</span> <span class="nav-text">Lrucache关键字段</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Lrucache构造方法"><span class="nav-number">3.</span> <span class="nav-text">Lrucache构造方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#清理缓存"><span class="nav-number">4.</span> <span class="nav-text">清理缓存</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#put方法"><span class="nav-number">5.</span> <span class="nav-text">put方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#get方法"><span class="nav-number">6.</span> <span class="nav-text">get方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#remove方法"><span class="nav-number">7.</span> <span class="nav-text">remove方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#entryRemoved方法"><span class="nav-number">8.</span> <span class="nav-text">entryRemoved方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Lrucache使用"><span class="nav-number">9.</span> <span class="nav-text">Lrucache使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">10.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2015 - 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">wangxinarhat</span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="http://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"wangxinarhat"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+      
+      <script src="/vendors/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+      <script src="/js/src/hook-duoshuo.js"></script>
+    
+  
+
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+
+</body>
+</html>
